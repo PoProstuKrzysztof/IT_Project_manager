@@ -1,0 +1,26 @@
+﻿@model IT_Project_manager.Models.Contact
+
+@{
+    ViewData["Title"] = "Formularz";
+}
+<form asp-action="ContactForm" method="get">
+    <div asp-validation-summary="All"></div>
+    <div>
+        <label asp-for="Name">Your name </label><br />
+        <input type="text" asp-for="Name" /><br />
+    </div>
+    <div>
+        <label asp-for="Email">Your email </label><br />
+        <input type="text" asp-for="Email" /><br />
+    </div>
+    <div>
+        <label asp-for="Subject">Subject</label><br />
+        <input type="text" asp-for="Subject" /><br />
+    </div>
+    <div>
+        <label asp-for="Message">Your message</label><br />
+        <div><span asp-validation-for="Message" class="text-danger"></span></div>
+        <textarea asp-for="Message" rows="10"></textarea><br />
+    </div>
+    <button type="submit">Send</button><br /> 
+</form>

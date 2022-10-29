@@ -17,21 +17,37 @@ namespace IT_Project_manager.Controllers
         {
             return View();
         }
-        public IActionResult Hello()
-        {
-            ViewBag.MonthDay = DateTime.Now.Day;
-            ViewBag.Name = "Krzysztof";
-            return View();
-        }
+
         public IActionResult Privacy()
         {
             return View();
         }
 
-        public IActionResult UserForm()
+        //[HttpPost]
+        //public IActionResult ContactForm(Contact contact)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        return View("ConiformContact", contact);
+        //    }               
+        //    else
+        //    {
+        //        return View();
+        //    }               
+
+        //}
+
+        [HttpGet]
+        public IActionResult ContactForm(Contact contact)
         {
+            if(ModelState.IsValid)
+            {
+                return View("ConiformContact", contact);
+            }
+            else
             return View();
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
