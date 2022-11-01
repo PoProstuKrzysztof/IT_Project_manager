@@ -1,11 +1,11 @@
 ﻿@model IT_Project_manager.Models.Contact
 @{
-    ViewData["Title"] = "Po zrobieniu formularza";
+    ViewData["Title"] = "Sending message";
 }
 <body>
     <h1>Confirmation of sending a message</h1>
     <div>
-        <p> You send message @Model.Name from @Model.Email to with subject @Model.Subject with message</p>
+        <p> You send message @Model.Name from @Model.Email to with subject <b>@Model.Subject</b> with message</p>
 
         <p>@Model.Message</p>
     </div>

@@ -1,0 +1,28 @@
+﻿@model IT_Project_manager.Models.Member;
+
+
+@{
+    ViewData["Title"] = "Member form";
+}
+
+
+<form asp-action="MemberForm" method="post"> 
+    <div asp-validation-summary="All">
+    <div>
+        <span asp-validation-for="Name" class="text-danger"></span><br />
+        <label asp-for="Name">Enter your name</label><br />
+        <input type="text" asp-for="Name" /><br />
+    </div>
+    <div>
+        <span asp-validation-for="Surname" class="text-danger"></span><br />
+        <label asp-for="Surname">Enter your surname</label><br />
+        <input type="text" asp-for="Surname" /><br />
+    </div>
+    <div>
+        <span asp-validation-for="Email" class="text-danger"></span><br />
+        <label asp-for="Name">Enter your email</label><br />
+        <input type="text" asp-for="Email" /><br />
+    </div>
+    <br /><button type="submit">Create</button><br />
+    </div>
+</form>

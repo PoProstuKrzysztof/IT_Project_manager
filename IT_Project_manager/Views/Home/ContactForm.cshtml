@@ -3,7 +3,67 @@
 @{
     ViewData["Title"] = "Formularz";
 }
+
+<h1><b>Creating new member</b></h1>
+
 <form asp-action="ContactForm" method="get">
+    <div asp-validation-summary="All"></div>
+    <div>
+        <label asp-for="Name">Enter your name</label><br />
+        <input type="text" asp-for="Name" /><br />
+    </div>
+    <div>
+        <label asp-for="Email">Enter your email</label><br />
+        <input type="text" asp-for="Email" /><br />
+    </div>
+    <div>
+        <label asp-for="Subject">Enter your subject</label><br />
+        <input type="text" asp-for="Subject" /><br />
+    </div>
+    <div>
+        <label asp-for="Message">Enter your message</label><br />
+        <span asp-validation-for="Message" class="text-danger"></span><br />
+        <textarea rows="10" asp-for="Message" ></textarea><br />
+    </div>
+    <button type="submit"> Send</button><br />
+   
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<form asp-action="ContactForm" method="get">
     <div asp-validation-summary="All"></div>
     <div>
         <label asp-for="Name">Your name </label><br />
@@ -24,3 +84,4 @@
     </div>
     <button type="submit">Send</button><br /> 
 </form>
+*@
