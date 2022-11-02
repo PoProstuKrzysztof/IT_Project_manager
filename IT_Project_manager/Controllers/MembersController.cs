@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using IT_Project_manager.Models;
 using System.Reflection.Metadata.Ecma335;
+using System.Diagnostics.Metrics;
 
 namespace IT_Project_manager.Controllers
 {
@@ -40,7 +41,28 @@ namespace IT_Project_manager.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            return View();
+        }
 
+        //[HttpPost]
+        //public IActionResult Edit([FromBody] int id)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        foreach (var m in memberList)
+        //        {
+        //            if (m.Id == id)
+        //            {                        
+                        
+        //            }
+        //        }
+        //        return View("MemberList");
+        //    }
+        //    return View();
+        //}
 
     }
 }

@@ -1,0 +1,20 @@
+﻿@model IT_Project_manager.Models.Member;
+
+<h1>Edit member</h1>
+
+<form asp-action="Edit" method="post">
+
+    <div>
+        <label asp-for="Id">ID of editing member</label><br />
+        <input type="number" asp-for="Id" /><br />
+    </div>
+    <div>
+        <label asp-for="Name">Edit your name</label><br />
+        <input type="text" asp-for="Name" /><br />
+    </div>
+    <div>
+        <label asp-for="Surname">Edit your surname</label><br />
+        <input type="text" asp-for="Surname" /><br />
+    </div>
+   <br /> <button type="submit">Submit</button><br />
+</form>
