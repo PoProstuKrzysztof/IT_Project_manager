@@ -1,0 +1,17 @@
+﻿@using IT_Project_manager.Controllers;
+
+@model IT_Project_manager.Models.Member;
+
+
+@{
+    ViewData["Title"] = "Delete form";
+}
+
+<form asp-action="DeleteMember" method="get">
+        <div>
+            <span asp-validation-for="Id" class="text-danger"></span><br />
+            <label asp-for="Id">Enter ID to delete</label><br />
+            <input type="number" asp-for="Id" /><br />
+        </div>
+        <br /><button type="submit">Delete</button><br />
+</form>

@@ -20,7 +20,7 @@ namespace IT_Project_manager.Controllers
         public IActionResult Member(List<Member> list)
         {
             list = memberList;
-            return View("MemberList", list);
+            return View( "MemberList", list );
         }
 
         [HttpPost]
@@ -29,8 +29,8 @@ namespace IT_Project_manager.Controllers
 
             if (ModelState.IsValid)
             {
-                memberList.Add(member);
-                return View("MemberConfirmation", member);
+                memberList.Add( member );
+                return View( "MemberConfirmation", member );
             }
             return View();
         }
@@ -41,28 +41,54 @@ namespace IT_Project_manager.Controllers
             return View();
         }
 
+        
         [HttpGet]
-        public IActionResult Edit()
+        public IActionResult Edit() 
         {
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult Edit([FromBody] int id)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        foreach (var m in memberList)
-        //        {
-        //            if (m.Id == id)
-        //            {                        
-                        
-        //            }
-        //        }
-        //        return View("MemberList");
-        //    }
-        //    return View();
-        //}
+        [HttpPost]
+        public IActionResult Edit([FromQuery] int id)
+        {
+            Member member = memberList[id];
+            if (ModelState.IsValid)
+            {
+                
+                return View( "DeleteConfirmation", member );
+            }
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult DeleteMember([FromQuery] int id)
+        {
+            if (memberList.Count != 0 )
+            {
+                Member member = memberList[id];
+                if (ModelState.IsValid)
+                {
+                    memberList.Remove( memberList[id] );
+                    foreach (Member m in memberList)
+                    {
+                        m.Id--;
+                    }
+                    return View( "DeleteConfirmation", member );
+                }
+            }           
+                                
+            return View();
+        }
+
+
+        [HttpGet]
+        public IActionResult DeleteMember()
+        {
+            return View();
+        }
+
 
     }
 }
