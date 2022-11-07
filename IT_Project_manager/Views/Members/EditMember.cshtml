@@ -4,15 +4,17 @@
 
 
 <form asp-action="EditMember" method="post">
-
+@*
     <div>
         <label asp-for="Id">ID of editing member</label><br />
         <input type="number" asp-for="Id" /><br />
-    </div>
+    </div>*@
+    <h3>@Model.Name</h3>
     <div>
         <label asp-for="Name">Edit name  </label><br />
         <input type="text" asp-for="Name" /><br />
     </div>
+    <h3>@Model.Surname</h3>
     <div>
         <label asp-for="Surname">Edit surname </label><br />
         <input type="text" asp-for="Surname" /><br />

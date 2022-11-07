@@ -10,9 +10,7 @@ namespace IT_Project_manager.Models
     {
         public static int m_counter = 0;
         [HiddenInput]
-        
-        
-        public int Id { get; set; }
+        public int Id { get; set; } 
 
 
         [Display( Name = "Name" )]
@@ -35,6 +33,16 @@ namespace IT_Project_manager.Models
         public Member()
         {
             Id = Interlocked.Increment(ref m_counter);
+            
+        }
+
+        public void Delete()
+        {
+            Id--;
+            if (Id < 0)
+            {
+                Id = 0;
+            }
         }
     }
 }

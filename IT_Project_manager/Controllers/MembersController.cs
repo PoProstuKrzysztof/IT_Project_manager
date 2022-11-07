@@ -11,9 +11,9 @@ namespace IT_Project_manager.Controllers
         private static List<Member> memberList = new List<Member>()
         {
             new Member() {  Name = "Krzysztof", Surname="Palonek", Email="krzysiek.palonek@gmail.com"},
-            new Member() {  Name = "Marzena", Surname="Kołodziej", Email="marz.koł@gmail.com" },
-            new Member() {  Name = "Jan", Surname="Kowalski", Email="jan.kow@gmail.com" },
-            new Member() {  Name = "Natalia", Surname="Urodek", Email="Nat.uro@gmail.com" },
+            //new Member() {  Name = "Marzena", Surname="Kołodziej", Email="marz.koł@gmail.com" },
+            //new Member() {  Name = "Jan", Surname="Kowalski", Email="jan.kow@gmail.com" },
+            //new Member() {  Name = "Natalia", Surname="Urodek", Email="Nat.uro@gmail.com" },
         };
 
 
@@ -41,21 +41,21 @@ namespace IT_Project_manager.Controllers
             return View();
         }
 
-        
+
         [HttpGet]
-        public IActionResult Edit() 
+        public IActionResult Edit()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Edit([FromQuery] int id)
+        public IActionResult Edit([FromBody] int id)
         {
+
             Member member = memberList[id];
             if (ModelState.IsValid)
             {
-                
-                return View( "DeleteConfirmation", member );
+                return View( "EditMember", member );
             }
 
             return View();
@@ -65,20 +65,21 @@ namespace IT_Project_manager.Controllers
         [HttpPost]
         public IActionResult DeleteMember([FromQuery] int id)
         {
-            if (memberList.Count != 0 )
+            if (memberList.Count == 0)
+                return View( "MemberForm" );
+
+            Member member = memberList[id];
+            if (ModelState.IsValid)
             {
-                Member member = memberList[id];
-                if (ModelState.IsValid)
+                memberList.Remove( memberList[id] );
+                foreach (Member m in memberList)
                 {
-                    memberList.Remove( memberList[id] );
-                    foreach (Member m in memberList)
-                    {
-                        m.Id--;
-                    }
-                    return View( "DeleteConfirmation", member );
+                    m.Delete();
                 }
-            }           
-                                
+                return View( "DeleteConfirmation", member );
+            }
+
+
             return View();
         }
 
