@@ -42,7 +42,11 @@ namespace IT_Project_manager.Controllers
         }
 
 
-
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            return View();
+        }
 
         [HttpPost]
         public IActionResult Edit([FromBody] int id)
@@ -54,12 +58,6 @@ namespace IT_Project_manager.Controllers
                 return View( "EditMember", member );
             }
 
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult Edit()
-        {
             return View();
         }
 
