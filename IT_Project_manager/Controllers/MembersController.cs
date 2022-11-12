@@ -53,7 +53,7 @@ namespace IT_Project_manager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit([FromBody] int id)
+        public IActionResult Edit( int id)
         {
 
             Member member = context.Members.Find( id );

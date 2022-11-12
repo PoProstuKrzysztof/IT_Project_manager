@@ -40,28 +40,28 @@ namespace ITProjectmanager.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 5,
+                            Id = 1,
                             Email = "krzysiek.palonek@gmail.com",
                             Name = "Krzysztof",
                             Surname = "Palonek"
                         },
                         new
                         {
-                            Id = 6,
+                            Id = 2,
                             Email = "marz.koł@gmail.com",
                             Name = "Marzena",
                             Surname = "Kołodziej"
                         },
                         new
                         {
-                            Id = 7,
+                            Id = 3,
                             Email = "jan.kow@gmail.com",
                             Name = "Jan",
                             Surname = "Kowalski"
                         },
                         new
                         {
-                            Id = 8,
+                            Id = 4,
                             Email = "Nat.uro@gmail.com",
                             Name = "Natalia",
                             Surname = "Urodek"

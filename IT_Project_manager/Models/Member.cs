@@ -27,8 +27,13 @@ namespace IT_Project_manager.Models
         [Display(Name = "Email adress")]
         [EmailAddress(ErrorMessage ="Enter your email")]                
         public string? Email { get; set; }
-        
-        
+
+
+        [Display(Name = "Date of birth")]
+        [DataType(DataType.Date)]       
+        public DateTime DateOfBirth { get; set; }
+
+
 
         public Member()
         {
