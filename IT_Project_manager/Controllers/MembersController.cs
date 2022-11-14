@@ -2,6 +2,8 @@
 using IT_Project_manager.Models;
 using System.Reflection.Metadata.Ecma335;
 using System.Diagnostics.Metrics;
+using System.Data;
+using System.Net;
 
 namespace IT_Project_manager.Controllers
 {
@@ -9,6 +11,8 @@ namespace IT_Project_manager.Controllers
     {
         private static AppDbContext context = new AppDbContext();
 
+
+        // Local data
         private static List<Member> memberList = new List<Member>()
         {
             new Member() {  Name = "Krzysztof", Surname="Palonek", Email="krzysiek.palonek@gmail.com"},
@@ -17,24 +21,45 @@ namespace IT_Project_manager.Controllers
             new Member() {  Name = "Natalia", Surname="Urodek", Email="Nat.uro@gmail.com" }
         };
        
-
-        public IActionResult Member(List<Member> list)
-        {
+        // List of members
+        //public IActionResult Member(List<Member> list)
+        //{
             
-            list = context.Members.ToList();
-            return View( "MemberList", list );
+        //    list = context.Members.ToList();
+        //    return View( "MemberList", list );
+        //}
+
+        public IActionResult Index()
+        {
+
+            
+            return View(context.Members.ToList() );
         }
 
+
+
+
+
+
+
+        // Adding 
         [HttpPost]
         public IActionResult MemberForm(Member member)
         {
-
-            if (ModelState.IsValid)
+            try
             {
-                context.Members.Add(member);
-                context.SaveChanges();
-                return View( "MemberConfirmation", member );
+                if (ModelState.IsValid)
+                {
+                    context.Members.Add( member );
+                    context.SaveChanges();
+                    return View( "MemberConfirmation", member );
+                }
             }
+            catch (DataException ex)
+            {
+                ModelState.AddModelError( "", "Unable to save changes. Try again, and if the problem persists see your system administrator." );
+            }
+
             return View();
         }
 
@@ -45,7 +70,7 @@ namespace IT_Project_manager.Controllers
         }
 
 
-
+        //Editing 
 
         [HttpGet]
         public IActionResult Edit()
@@ -53,11 +78,18 @@ namespace IT_Project_manager.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Edit( int id)
+        [HttpPost, ActionName("Edit")]
+        public IActionResult Edit( int? id)
         {
 
-            Member member = context.Members.Find( id );
+            if(id == null)
+            {
+                return BadRequest();
+            }
+
+
+            int? memberId = id;
+            Member? member = context.Members.Find( memberId );
             if (ModelState.IsValid)
             {
                 return View( "EditMember", member );
@@ -71,17 +103,20 @@ namespace IT_Project_manager.Controllers
 
 
 
-
+        //Deleting
 
         [HttpPost]
-        public IActionResult DeleteMember(int id)
+        public IActionResult Delete(int? id)
         {
             if (memberList.Count == 0)
                 return View( "MemberForm" );
             
+            if (id == null)
+            {
+                return NotFound();
+            }
             
-            
-            Member member = context.Members.Find(id);
+            Member? member = context.Members.Find(id);
             if (ModelState.IsValid)
             {
                 context.Members.Remove( context.Members.Find(id));

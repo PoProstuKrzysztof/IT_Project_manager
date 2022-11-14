@@ -26,8 +26,13 @@
             <td>@member.Surname</td>
             <td>@member.Email</td>
             <td>@member.DateOfBirth</td>
-            <td><button class="btn-primary" asp-route-id="@member.Id">Edit</button></td>
-            <td><button class="btn-danger" asp-route-id="@member.Id">Delete</button></td>
+            <td>
+                @Html.ActionLink("Edit","EditMember", new {id = member.Id}) |
+                @Html.ActionLink("Delete","Deletemember", new {id = member.Id}) |
+            </td>
+@*            <td><button class="btn-primary" asp-route-id="@member.Id">Edit</button></td>
+            <td><button class="btn-danger" asp-route-id="@member.Id">Delete</button></td>*@
+            
         </tr>
 
     }
