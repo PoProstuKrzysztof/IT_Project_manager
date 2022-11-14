@@ -13,6 +13,7 @@
         <th><b>Email</b></th>
         <th><b>Name</b></th>
         <th><b>Surname</b></th>
+        <th><b>Date of birth</b></th>
 
     </tr>
     @foreach (var member in @Model)
@@ -24,6 +25,7 @@
             <td>@member.Name</td>
             <td>@member.Surname</td>
             <td>@member.Email</td>
+            <td>@member.DateOfBirth</td>
             <td><button class="btn-primary" asp-route-id="@member.Id">Edit</button></td>
             <td><button class="btn-danger" asp-route-id="@member.Id">Delete</button></td>
         </tr>

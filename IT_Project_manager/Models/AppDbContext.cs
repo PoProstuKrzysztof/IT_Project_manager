@@ -18,7 +18,7 @@ public class AppDbContext : DbContext
     {
         var folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath( folder );
-        DbPath = System.IO.Path.Join( path, "members.db" );
+        DbPath = System.IO.Path.Join(path, "members.db");
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
@@ -30,7 +30,7 @@ public class AppDbContext : DbContext
              new Member() { Name = "Krzysztof", Surname = "Palonek", Email = "krzysiek.palonek@gmail.com" },
             new Member() { Name = "Marzena", Surname = "Kołodziej", Email = "marz.koł@gmail.com" },
             new Member() { Name = "Jan", Surname = "Kowalski", Email = "jan.kow@gmail.com" },
-            new Member() { Name = "Natalia", Surname = "Urodek", Email = "Nat.uro@gmail.com" }
+            new Member() { Name = "Natalia", Surname = "Urodek", Email = "Nat.uro@gmail.com"}
             );
     }
 }

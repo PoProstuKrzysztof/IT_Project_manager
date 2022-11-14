@@ -19,7 +19,8 @@ namespace IT_Project_manager.Controllers
        
 
         public IActionResult Member(List<Member> list)
-        {           
+        {
+            
             list = context.Members.ToList();
             return View( "MemberList", list );
         }
