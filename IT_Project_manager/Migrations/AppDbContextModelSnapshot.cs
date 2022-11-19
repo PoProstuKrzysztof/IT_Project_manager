@@ -44,7 +44,7 @@ namespace ITProjectmanager.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 5,
+                            Id = 1,
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "krzysiek.palonek@gmail.com",
                             Name = "Krzysztof",
@@ -52,7 +52,7 @@ namespace ITProjectmanager.Migrations
                         },
                         new
                         {
-                            Id = 6,
+                            Id = 2,
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "marz.koł@gmail.com",
                             Name = "Marzena",
@@ -60,7 +60,7 @@ namespace ITProjectmanager.Migrations
                         },
                         new
                         {
-                            Id = 7,
+                            Id = 3,
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "jan.kow@gmail.com",
                             Name = "Jan",
@@ -68,7 +68,7 @@ namespace ITProjectmanager.Migrations
                         },
                         new
                         {
-                            Id = 8,
+                            Id = 4,
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Nat.uro@gmail.com",
                             Name = "Natalia",

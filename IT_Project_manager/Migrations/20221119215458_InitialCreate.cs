@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ITProjectmanager.Migrations
 {
     /// <inheritdoc />
-    public partial class Creation : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,7 +22,7 @@ namespace ITProjectmanager.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Surname = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: true),
-                    DateOfBirth = table.Column<DateOnly>(type: "TEXT", nullable: false)
+                    DateOfBirth = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -34,10 +34,10 @@ namespace ITProjectmanager.Migrations
                 columns: new[] { "Id", "DateOfBirth", "Email", "Name", "Surname" },
                 values: new object[,]
                 {
-                    { 5, new DateTime(1, 1, 1), "krzysiek.palonek@gmail.com", "Krzysztof", "Palonek" },
-                    { 6, new DateTime(1, 1, 1), "marz.koł@gmail.com", "Marzena", "Kołodziej" },
-                    { 7, new DateTime(1, 1, 1), "jan.kow@gmail.com", "Jan", "Kowalski" },
-                    { 8, new DateTime(1, 1, 1), "Nat.uro@gmail.com", "Natalia", "Urodek" }
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "krzysiek.palonek@gmail.com", "Krzysztof", "Palonek" },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "marz.koł@gmail.com", "Marzena", "Kołodziej" },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "jan.kow@gmail.com", "Jan", "Kowalski" },
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Nat.uro@gmail.com", "Natalia", "Urodek" }
                 });
         }
 

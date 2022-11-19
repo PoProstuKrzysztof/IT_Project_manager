@@ -9,35 +9,24 @@ namespace IT_Project_manager.Controllers
 {
     public class MembersController : Controller
     {
-        private static AppDbContext context = new AppDbContext();
+        private static AppDbContext _context = new AppDbContext();
 
 
         // Local data
-        private static List<Member> memberList = new List<Member>()
-        {
-            new Member() {  Name = "Krzysztof", Surname="Palonek", Email="krzysiek.palonek@gmail.com"},
-            new Member() {  Name = "Marzena", Surname="Kołodziej", Email="marz.koł@gmail.com" },
-            new Member() {  Name = "Jan", Surname="Kowalski", Email="jan.kow@gmail.com" },
-            new Member() {  Name = "Natalia", Surname="Urodek", Email="Nat.uro@gmail.com" }
-        };
-       
-        // List of members
-        //public IActionResult Member(List<Member> list)
+        //private static List<Member> memberList = new List<Member>()
         //{
-            
-        //    list = context.Members.ToList();
-        //    return View( "MemberList", list );
-        //}
+        //    new Member() {  Name = "Krzysztof", Surname="Palonek", Email="krzysiek.palonek@gmail.com"},
+        //    new Member() {  Name = "Marzena", Surname="Kołodziej", Email="marz.koł@gmail.com" },
+        //    new Member() {  Name = "Jan", Surname="Kowalski", Email="jan.kow@gmail.com" },
+        //    new Member() {  Name = "Natalia", Surname="Urodek", Email="Nat.uro@gmail.com" }
+        //};
+
 
         public IActionResult Index()
         {
 
-            
-            return View(context.Members.ToList() );
+            return View( _context.Members.ToList() );
         }
-
-
-
 
 
 
@@ -50,8 +39,8 @@ namespace IT_Project_manager.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    context.Members.Add( member );
-                    context.SaveChanges();
+                    _context.Members.Add( member );
+                    _context.SaveChanges();
                     return View( "MemberConfirmation", member );
                 }
             }
@@ -72,30 +61,39 @@ namespace IT_Project_manager.Controllers
 
         //Editing 
 
-        [HttpGet]
-        public IActionResult Edit()
+
+        public IActionResult Edit([FromRoute] int id)
         {
-            return View();
+            Member? foundMember = _context.Members.Find( id );
+            if (foundMember is not null)
+            {
+                return View( foundMember );
+            }
+
+            return RedirectToAction( "Index" );
+
         }
 
-        [HttpPost, ActionName("Edit")]
-        public IActionResult Edit( int? id)
+
+
+        [HttpPost]
+        public IActionResult Edit([FromForm] Member member)
         {
 
-            if(id == null)
-            {
-                return BadRequest();
-            }
-
-
-            int? memberId = id;
-            Member? member = context.Members.Find( memberId );
             if (ModelState.IsValid)
             {
-                return View( "EditMember", member );
+                Member? foundMember = _context.Members.Find( member.Id );
+                if (foundMember is not null)
+                {
+                    foundMember.Name = member.Name;
+                    foundMember.Surname = member.Surname;
+                    foundMember.Email = member.Email;
+                    _context.SaveChanges();
+                    return RedirectToAction( "Index" );
+                }
             }
-
             return View();
+
         }
 
 
@@ -105,39 +103,20 @@ namespace IT_Project_manager.Controllers
 
         //Deleting
 
-        [HttpPost]
-        public IActionResult Delete(int? id)
+
+        public IActionResult Delete([FromRoute] int id)
         {
-            if (memberList.Count == 0)
-                return View( "MemberForm" );
+            Member? foundMember = _context.Members.Find( id );
+            foundMember.Delete();
+            _context.Members.Remove( foundMember );
+            _context.SaveChanges();
             
-            if (id == null)
-            {
-                return NotFound();
-            }
             
-            Member? member = context.Members.Find(id);
-            if (ModelState.IsValid)
-            {
-                context.Members.Remove( context.Members.Find(id));
-                context.SaveChanges();
-                foreach (Member m in context.Members)
-                {
-                    m.Delete();
-                }
+            return View( "DeleteConfirmation", foundMember );
 
-                return View( "DeleteConfirmation", member );
-            }
-
-            return View();
         }
 
 
-        [HttpGet]
-        public IActionResult DeleteMember()
-        {
-            return View();
-        }
 
 
     }

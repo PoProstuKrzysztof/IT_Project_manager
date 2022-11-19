@@ -10,11 +10,11 @@ namespace IT_Project_manager.Models
     {
         public static int m_counter = 0;
         [HiddenInput]
-        public int Id { get; set; } 
+        public int Id { get; set; }
 
 
         [Display( Name = "Name" )]
-        [Required(ErrorMessage ="Name is required")]                
+        [Required(ErrorMessage = "Name is required")]                
         public string? Name { get; set; }
 
 
@@ -28,7 +28,7 @@ namespace IT_Project_manager.Models
         [EmailAddress(ErrorMessage ="Enter your email")]                
         public string? Email { get; set; }
 
-
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yy}", ApplyFormatInEditMode =true)]
         [Display(Name = "Date of birth")]
         [DataType(DataType.Date)]       
         public DateTime DateOfBirth { get; set; }
@@ -37,17 +37,16 @@ namespace IT_Project_manager.Models
 
         public Member()
         {
-            Id = Interlocked.Increment(ref m_counter);
-            
+            m_counter++;
+            Id = m_counter;
+            //Id = Interlocked.Increment( ref m_counter );
         }
 
         public void Delete()
         {
-            Id--;
-            if (Id < 0)
-            {
-                Id = 0;
-            }
+            m_counter--;
+            if (m_counter < 0) m_counter = 0;
+
         }
     }
 }

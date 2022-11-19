@@ -4,15 +4,16 @@
 @{
     ViewData["Title"] = "Members list";
 }
-<h1> Members</h1><br />
+<h1> Members</h1>
+<br />
 
 <table class="table">
 
     <tr>
         <th><b>ID</b></th>
-        <th><b>Email</b></th>
         <th><b>Name</b></th>
-        <th><b>Surname</b></th>
+        <th><b>Name</b></th>
+        <th><b>Email</b></th>
         <th><b>Date of birth</b></th>
 
     </tr>
@@ -20,19 +21,22 @@
     {
 
         <tr>
-            
-            <td>@member.Id</td>            
+
+            <td>@member.Id</td>
             <td>@member.Name</td>
             <td>@member.Surname</td>
             <td>@member.Email</td>
             <td>@member.DateOfBirth</td>
             <td>
-                @Html.ActionLink("Edit","EditMember", new {id = member.Id}) |
-                @Html.ActionLink("Delete","Deletemember", new {id = member.Id}) |
+
+            <td class="text-end">
+                <a class="btn btn-primary" asp-controller="Members" asp-action="Edit" asp-route-id="@member.Id">Edit</a>
             </td>
-@*            <td><button class="btn-primary" asp-route-id="@member.Id">Edit</button></td>
-            <td><button class="btn-danger" asp-route-id="@member.Id">Delete</button></td>*@
-            
+            <td class="text-end">
+                <a class="btn btn-danger" asp-controller="Members" asp-action="Delete" asp-route-id="@member.Id">Delete</a>
+            </td>
+                
+           
         </tr>
 
     }

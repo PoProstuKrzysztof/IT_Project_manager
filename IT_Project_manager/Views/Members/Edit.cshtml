@@ -1,0 +1,29 @@
+﻿@model IT_Project_manager.Models.Member;
+@{
+    ViewBag.Name = "name";
+    Layout = "_Layout";
+}
+<h1>Edit member </h1>
+
+<div>
+    <form asp-action="Edit" method="post">
+        <div class="mb-3">
+            <label asp-for="Name">Edit name</label><br />
+            <input class="form-control " type="text" asp-for="Name" /><br />
+            <span asp-validation-for="Name" class="text-danger" ></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Surname">Edit surname</label><br />
+            <input class="form-control"type="text" asp-for="Surname" /><br />
+            <span asp-validation-for="Surname" class="text-danger" ></span>
+        </div>
+        <div class="mb-1">
+            <label asp-for="Email">Edit email</label><br />
+            <input class="form-control" type="email" asp-for="Email"/><br />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Save Changes</button>
+        </div>        
+    </form>
+</div>
