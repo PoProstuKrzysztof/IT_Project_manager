@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ITProjectmanager.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221121002131_ManagersAdd")]
-    partial class ManagersAdd
+    [Migration("20221121205532_Creating")]
+    partial class Creating
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
