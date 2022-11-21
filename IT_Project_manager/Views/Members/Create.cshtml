@@ -1,0 +1,37 @@
+﻿@model IT_Project_manager.Models.MembersViewModel;
+
+
+@{
+    ViewData["Title"] = "Member form";
+}
+
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="All">
+        <div>
+            <span asp-validation-for="Name" class="text-danger"></span><br />
+            <label asp-for="Name">Enter your name</label><br />
+            <input type="text" asp-for="Name" /><br />
+        </div>
+        <div>
+            <span asp-validation-for="Surname" class="text-danger"></span><br />
+            <label asp-for="Surname">Enter your surname</label><br />
+            <input type="text" asp-for="Surname" /><br />
+        </div>
+        <div>
+            <span asp-validation-for="Email" class="text-danger"></span><br />
+            <label asp-for="Email">Enter your email</label><br />
+            <input type="email"  value="example@gmail.com" asp-for="Email" /><br />
+        </div>
+        <div>
+            <span asp-validation-for="DateOfBirth" class="text-danger"></span><br />
+            <label asp-for="DateOfBirth">Enter your birth day</label><br />
+            <input type="date" max="2022-12-31" asp-for="DateOfBirth" /><br />
+        </div>
+        <div class="m-3">
+            <select asp-for="ManagersId" class="form-control" asp-items="@Model.Managers"></select>
+        </div>
+
+        <br /><button type="submit">Create</button><br />
+    </div>
+</form>

@@ -27,13 +27,12 @@ namespace IT_Project_manager.Models
         [Display(Name = "Email adress")]
         [EmailAddress(ErrorMessage ="Enter your email")]                
         public string? Email { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yy}", ApplyFormatInEditMode =true)]
+        
         [Display(Name = "Date of birth")]
         [DataType(DataType.Date)]       
         public DateTime DateOfBirth { get; set; }
 
-
+        public ISet<Manager>? Managers { get; set; }
 
         public Member()
         {

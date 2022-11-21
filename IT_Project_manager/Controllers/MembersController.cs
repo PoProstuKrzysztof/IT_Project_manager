@@ -4,6 +4,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Diagnostics.Metrics;
 using System.Data;
 using System.Net;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace IT_Project_manager.Controllers
 {
@@ -33,29 +34,41 @@ namespace IT_Project_manager.Controllers
 
         // Adding 
         [HttpPost]
-        public IActionResult MemberForm(Member member)
+        public IActionResult Create([FromForm] MembersViewModel member)
         {
-            try
+
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                Member newMember = new Member()
                 {
-                    _context.Members.Add( member );
-                    _context.SaveChanges();
-                    return View( "MemberConfirmation", member );
+                    Name = member.Name,
+                    Surname = member.Surname,
+                    Email = member.Email,
+                    DateOfBirth = member.DateOfBirth
+                };
+                foreach (var strId in member.ManagersId)
+                {
+                    if (int.TryParse( strId, out int id ))
+                    {
+                        newMember.Managers.Add( _context.Managers.Find( id ) );
+                    }
                 }
-            }
-            catch (DataException ex)
-            {
-                ModelState.AddModelError( "", "Unable to save changes. Try again, and if the problem persists see your system administrator." );
+                _context.Members.Add( newMember );
+                _context.SaveChanges();
+                return View( "MemberConfirmation", member );
             }
 
-            return View();
+            member.Managers = GetManagers();
+
+            return View(member);
         }
 
         [HttpGet]
-        public IActionResult MemberForm()
+        public IActionResult Create()
         {
-            return View();
+            MembersViewModel model = new MembersViewModel();
+            model.Managers = GetManagers();
+            return View( model );
         }
 
 
@@ -110,14 +123,28 @@ namespace IT_Project_manager.Controllers
             foundMember.Delete();
             _context.Members.Remove( foundMember );
             _context.SaveChanges();
-            
-            
+
+
             return View( "DeleteConfirmation", foundMember );
 
         }
 
 
-
+        private List<SelectListItem> GetManagers()
+        {
+            return _context
+                .Managers
+                .Select( m => new SelectListItem()
+                {
+                    Value = m.Id.ToString(),
+                    Text = $"{m.Name} {m.Surname} {m.Telephone}"
+                } )
+                .ToList();
+        }
 
     }
 }
+
+
+
+
