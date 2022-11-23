@@ -5,6 +5,7 @@ using System.Diagnostics.Metrics;
 using System.Data;
 using System.Net;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace IT_Project_manager.Controllers
 {
@@ -13,20 +14,11 @@ namespace IT_Project_manager.Controllers
         private static AppDbContext _context = new AppDbContext();
 
 
-        // Local data
-        //private static List<Member> memberList = new List<Member>()
-        //{
-        //    new Member() {  Name = "Krzysztof", Surname="Palonek", Email="krzysiek.palonek@gmail.com"},
-        //    new Member() {  Name = "Marzena", Surname="Kołodziej", Email="marz.koł@gmail.com" },
-        //    new Member() {  Name = "Jan", Surname="Kowalski", Email="jan.kow@gmail.com" },
-        //    new Member() {  Name = "Natalia", Surname="Urodek", Email="Nat.uro@gmail.com" }
-        //};
 
-
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
 
-            return View( _context.Members.ToList() );
+            return View( await _context.Members.ToListAsync() );
         }
 
 

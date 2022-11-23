@@ -25,21 +25,6 @@ namespace IT_Project_manager.Controllers
         }
 
 
-
-        [HttpGet]
-        public IActionResult ContactForm(Contact contact)
-        {
-            if(ModelState.IsValid)
-            {
-                return View("ConiformContact", contact);
-            }
-            else
-            {
-                return View();
-            }
-            
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
