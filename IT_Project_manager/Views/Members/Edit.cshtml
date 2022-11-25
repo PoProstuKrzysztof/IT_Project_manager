@@ -17,13 +17,22 @@
             <input class="form-control"type="text" asp-for="Surname" /><br />
             <span asp-validation-for="Surname" class="text-danger" ></span>
         </div>
-        <div class="mb-1">
+        <div class="mb-3">
             <label asp-for="Email">Edit email</label><br />
             <input class="form-control" type="email" asp-for="Email"/><br />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <button class="btn btn-primary" type="submit">Save Changes</button>
-        </div>        
+            <label asp-for="DateOfBirth">Edit birth day</label><br />
+            <input class="form-control" type="date" asp-for="DateOfBirth" /><br />
+            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
     </form>
+</div>
+
+<div>
+    <br /><a class="btn btn-primary" asp-action="Index">Back to List</a>
 </div>

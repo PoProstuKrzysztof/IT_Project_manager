@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ITProjectmanager.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221123200410_InitialCreate")]
+    [Migration("20221125190222_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -92,7 +92,7 @@ namespace ITProjectmanager.Migrations
                         new
                         {
                             Id = 1,
-                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateOfBirth = new DateTime(2000, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "krzysiek.palonek@gmail.com",
                             Name = "Krzysztof",
                             Surname = "Palonek"
@@ -100,7 +100,7 @@ namespace ITProjectmanager.Migrations
                         new
                         {
                             Id = 2,
-                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateOfBirth = new DateTime(2001, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "marz.koł@gmail.com",
                             Name = "Marzena",
                             Surname = "Kołodziej"
@@ -108,7 +108,7 @@ namespace ITProjectmanager.Migrations
                         new
                         {
                             Id = 3,
-                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateOfBirth = new DateTime(1989, 7, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "jan.kow@gmail.com",
                             Name = "Jan",
                             Surname = "Kowalski"
@@ -116,7 +116,7 @@ namespace ITProjectmanager.Migrations
                         new
                         {
                             Id = 4,
-                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateOfBirth = new DateTime(1999, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Nat.uro@gmail.com",
                             Name = "Natalia",
                             Surname = "Urodek"

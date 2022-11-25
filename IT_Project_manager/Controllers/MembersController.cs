@@ -58,6 +58,9 @@ namespace IT_Project_manager.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+
+
+
             MembersViewModel model = new MembersViewModel();
             model.Managers = GetManagers();
             return View( model );
@@ -66,10 +69,16 @@ namespace IT_Project_manager.Controllers
 
         //Editing 
 
-
-        public IActionResult Edit([FromRoute] int id)
+        [HttpGet]
+        public IActionResult Edit([FromRoute] int? id)
         {
+            if (id == null || _context.Members == null)
+            {
+                return NotFound();
+            }
+
             Member? foundMember = _context.Members.Find( id );
+
             if (foundMember is not null)
             {
                 return View( foundMember );
@@ -82,24 +91,28 @@ namespace IT_Project_manager.Controllers
 
 
         [HttpPost]
-        public IActionResult Edit([FromForm] Member member)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([FromForm] Member member)
         {
 
             if (ModelState.IsValid)
             {
-                Member? foundMember = _context.Members.Find( member.Id );
+                Member? foundMember = member;
                 if (foundMember is not null)
                 {
-                    foundMember.Name = member.Name;
-                    foundMember.Surname = member.Surname;
-                    foundMember.Email = member.Email;
-                    _context.SaveChanges();
-                    return RedirectToAction( "Index" );
+                    member.Name = foundMember.Name;
+                    member.Surname = foundMember.Surname;
+                    member.Email = foundMember.Email;
+                    member.DateOfBirth = foundMember.DateOfBirth;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction( "Index");
                 }
             }
             return View();
 
         }
+
+
 
 
 
@@ -132,6 +145,11 @@ namespace IT_Project_manager.Controllers
                     Text = $"{m.Name} {m.Surname} {m.Telephone}"
                 } )
                 .ToList();
+        }
+
+        private bool MemberExists(int id)
+        {
+            return _context.Members.Any( e => e.Id == id );
         }
 
     }
