@@ -100,10 +100,10 @@ namespace IT_Project_manager.Controllers
                 Member? foundMember = member;
                 if (foundMember is not null)
                 {
-                    member.Name = foundMember.Name;
-                    member.Surname = foundMember.Surname;
-                    member.Email = foundMember.Email;
-                    member.DateOfBirth = foundMember.DateOfBirth;
+                    foundMember.Name = member.Name;
+                    foundMember.Surname = member.Surname;
+                    foundMember.Email = member.Email;
+                    foundMember.DateOfBirth = member.DateOfBirth;
                     await _context.SaveChangesAsync();
                     return RedirectToAction( "Index");
                 }
