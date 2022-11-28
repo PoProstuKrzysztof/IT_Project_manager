@@ -29,7 +29,7 @@ namespace IT_Project_manager.Controllers
         public IActionResult Create([FromForm] MembersViewModel member)
         {
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid || member is not null)
             {
                 Member newMember = new Member()
                 {
@@ -38,6 +38,7 @@ namespace IT_Project_manager.Controllers
                     Email = member.Email,
                     DateOfBirth = member.DateOfBirth
                 };
+                
                 foreach (var strId in member.ManagersId)
                 {
                     if (int.TryParse( strId, out int id ))
@@ -59,8 +60,6 @@ namespace IT_Project_manager.Controllers
         public IActionResult Create()
         {
 
-
-
             MembersViewModel model = new MembersViewModel();
             model.Managers = GetManagers();
             return View( model );
@@ -74,7 +73,7 @@ namespace IT_Project_manager.Controllers
         {
             if (id == null || _context.Members == null)
             {
-                return NotFound();
+                return  NotFound();
             }
 
             Member? foundMember = _context.Members.Find( id );
@@ -92,12 +91,12 @@ namespace IT_Project_manager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromForm] Member member)
+        public async Task<IActionResult> Edit(Member member)
         {
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid || member != null)
             {
-                Member? foundMember = member;
+                Member? foundMember = await _context.Members.FindAsync( member.Id );
                 if (foundMember is not null)
                 {
                     foundMember.Name = member.Name;
@@ -108,7 +107,7 @@ namespace IT_Project_manager.Controllers
                     return RedirectToAction( "Index");
                 }
             }
-            return View();
+            return RedirectToAction( "Index" );
 
         }
 
@@ -122,15 +121,22 @@ namespace IT_Project_manager.Controllers
         //Deleting
 
 
-        public IActionResult Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int? id)
         {
-            Member? foundMember = _context.Members.Find( id );
-            foundMember.Delete();
-            _context.Members.Remove( foundMember );
-            _context.SaveChanges();
+
+            Member? foundMember = await _context.Members.FindAsync( id );
+            if (foundMember is not null)
+            {
+                foundMember.Delete();
+                _context.Members.Remove( foundMember );
+                await _context.SaveChangesAsync();
 
 
-            return View( "DeleteConfirmation", foundMember );
+                return View( "DeleteConfirmation", foundMember );
+            }
+
+            return RedirectToAction( "Index" );
+
 
         }
 
