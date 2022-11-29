@@ -11,17 +11,14 @@ namespace IT_Project_manager.Controllers
 {
     public class MembersController : Controller
     {
-        private static AppDbContext _context = new AppDbContext();
+        private readonly AppDbContext _context = new AppDbContext();
 
 
 
         public async Task<IActionResult> Index()
         {
-
-            return View( await _context.Members.ToListAsync() );
+            return View( await _context.Members.Include(m => m.Managers).ToListAsync());
         }
-
-
 
 
         // Adding 
@@ -151,11 +148,6 @@ namespace IT_Project_manager.Controllers
                     Text = $"{m.Name} {m.Surname} {m.Telephone}"
                 } )
                 .ToList();
-        }
-
-        private bool MemberExists(int id)
-        {
-            return _context.Members.Any( e => e.Id == id );
         }
 
     }

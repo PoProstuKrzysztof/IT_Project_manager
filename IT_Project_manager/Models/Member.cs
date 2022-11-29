@@ -38,7 +38,7 @@ namespace IT_Project_manager.Models
         {
             m_counter++;
             Id = m_counter;
-            //Id = Interlocked.Increment( ref m_counter );
+            
         }
 
         public void Delete()

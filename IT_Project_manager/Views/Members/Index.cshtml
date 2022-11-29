@@ -15,6 +15,7 @@
         <th><b>Surname</b></th>
         <th><b>Email</b></th>
         <th><b>Date of birth</b></th>
+        <th><b>Managers</b></th>
 
     </tr>
     @foreach (var member in @Model)
@@ -27,6 +28,7 @@
             <td>@member.Surname</td>
             <td>@member.Email</td>
             <td>@member.DateOfBirth.ToString("yyyy-MM-dd")</td>
+            <td>@member.Managers</td>
             <td>
 
             <td class="text-end">
