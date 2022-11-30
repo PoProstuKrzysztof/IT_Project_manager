@@ -1,8 +1,12 @@
+using IT_Project_manager.Controllers;
+using IT_Project_manager.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddScoped<IMemberService, MembersServiceEF>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

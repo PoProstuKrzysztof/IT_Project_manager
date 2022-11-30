@@ -13,11 +13,6 @@ namespace IT_Project_manager.Controllers
     {
         private readonly AppDbContext _context = new AppDbContext();
 
-        //public ManagersTestController(AppDbContext context)
-        //{
-        //    _context = context;
-        //}
-
         // GET: ManagersTest
         public async Task<IActionResult> Index()
         {

@@ -2,7 +2,7 @@
 @model List<Member>
 
 @{
-    ViewData["Title"] = "Members list";
+    ViewData["Title"] = "Members";
 }
 <h1> Members</h1>
 <br />
@@ -28,7 +28,7 @@
             <td>@member.Surname</td>
             <td>@member.Email</td>
             <td>@member.DateOfBirth.ToString("yyyy-MM-dd")</td>
-            <td>@member.Managers</td>
+            @*<td>@member.Managers</td>*@
             <td>
 
             <td class="text-end">

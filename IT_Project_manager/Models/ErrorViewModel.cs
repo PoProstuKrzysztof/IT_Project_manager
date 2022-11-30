@@ -1,9 +1,9 @@
-namespace IT_Project_manager.Models
+﻿namespace IT_Project_manager.Models
 {
     public class ErrorViewModel
     {
         public string? RequestId { get; set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public bool ShowRequestId => !string.IsNullOrEmpty( RequestId );
     }
 }
