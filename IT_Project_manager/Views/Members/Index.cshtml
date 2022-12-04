@@ -1,5 +1,5 @@
 ﻿@using IT_Project_manager;
-@model List<Member>
+@model IEnumerable<Member>
 
 @{
     ViewData["Title"] = "Members";
@@ -28,7 +28,10 @@
             <td>@member.Surname</td>
             <td>@member.Email</td>
             <td>@member.DateOfBirth.ToString("yyyy-MM-dd")</td>
-            @*<td>@member.Managers</td>*@
+            <td>@foreach (var m in member.Managers)
+                {
+                    <span><a asp-controller="ManagersTest" asp-action="Details" asp-route-id="@m.Id">@m.Name @m.Surname</a></span>
+                }</td>
             <td>
 
             <td class="text-end">

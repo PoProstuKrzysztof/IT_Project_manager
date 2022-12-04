@@ -6,6 +6,7 @@ using System.Data;
 using System.Net;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using IT_Project_manager.Services;
 
 namespace IT_Project_manager.Controllers
 {
@@ -20,19 +21,17 @@ namespace IT_Project_manager.Controllers
 
         public IActionResult Index()
         {
-            return View( _memberService.GetMembers() );
+            return View( _memberService.GetMembers());
         }
 
         // Adding 
-
-
-
+        //---------------------------------------------------------------------------------------------------------------
         [HttpGet]
         public IActionResult Create()
         {
 
             MembersViewModel model = new MembersViewModel();
-            //model.Managers = GetManagers();
+            model.Managers = _memberService.GetManagers();
             return View( model );
         }
 
@@ -63,10 +62,14 @@ namespace IT_Project_manager.Controllers
 
 
         //Editing 
-
+        //---------------------------------------------------------------------------------------------------------------
         [HttpGet]
         public IActionResult Edit([FromRoute] int? id)
         {
+            if (id is null)
+            {
+                return NotFound();
+            }
 
             var member = _memberService.FindBy( id );
             return member is null ? NotFound() : View( member );
@@ -91,37 +94,15 @@ namespace IT_Project_manager.Controllers
         }
 
 
-
-
-
         //Deleting
-
-
+        //---------------------------------------------------------------------------------------------------------------
         public IActionResult Delete([FromRoute] int? id)
         {
-
-            if (id == null)
-            {
-                return NotFound();
-            }
             var member = _memberService.FindBy( id );
             return member is null ? NotFound() : RedirectToAction( "Index" );
 
-
         }
 
-
-        //private List<SelectListItem> GetManagers()
-        //{
-        //    return _context
-        //        .Managers
-        //        .Select( m => new SelectListItem()
-        //        {
-        //            Value = m.Id.ToString(),
-        //            Text = $"{m.Name} {m.Surname} {m.Telephone}"
-        //        } )
-        //        .ToList();
-        //}
 
     }
 }

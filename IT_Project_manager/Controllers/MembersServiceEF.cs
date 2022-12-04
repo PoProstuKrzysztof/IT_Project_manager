@@ -1,4 +1,6 @@
 ﻿using IT_Project_manager.Models;
+using IT_Project_manager.Services;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace IT_Project_manager.Controllers;
@@ -12,14 +14,15 @@ public class MembersServiceEF : IMemberService
         _context = context;
     }
     //Delete member
+    //---------------------------------------------------------------------------------------------------------------
     public bool Delete(int? id)
     {
-        if(id == null)
+        if (id == null)
         {
             return false;
         }
         var member = _context.Members.Find( id );
-        if( member is not null )
+        if (member is not null)
         {
             _context.Members.Remove( member );
             _context.SaveChanges();
@@ -29,15 +32,16 @@ public class MembersServiceEF : IMemberService
     }
 
     //Find member 
+    //---------------------------------------------------------------------------------------------------------------
     public Member? FindBy(int? id)
     {
-        if(id is null)
+        if (id is null)
         {
-            throw new ArgumentNullException("Member not found");
+            throw new ArgumentNullException( "Member not found" );
         }
-        var member = _context.Members.Find( id ); 
-        
-        if( member is not null )
+        var member = _context.Members.Find( id );
+
+        if (member is not null)
         {
             return member;
         }
@@ -47,44 +51,59 @@ public class MembersServiceEF : IMemberService
 
 
     //Get members 
+    //---------------------------------------------------------------------------------------------------------------
     public ICollection<Member> GetMembers()
     {
-       return _context.Members.ToList();
+        return _context.Members.Include( m => m.Managers ).ToList();
     }
 
     //Add member
     public int Save(Member member)
     {
-        var entityEntry = _context.Members.Add(member);
+        var entityEntry = _context.Members.Add( member );
         _context.SaveChanges();
         return entityEntry.Entity.Id;
     }
 
 
     //Edit member
+    //---------------------------------------------------------------------------------------------------------------
     public bool Update(Member member)
     {
-        if(member == null )
+        if (member == null)
         {
             return false;
         }
         try
         {
             var findMember = _context.Members.Find( member.Id );
-            if( member is not null )
+            if (member is not null)
             {
                 findMember.Name = member.Name;
                 findMember.Surname = member.Surname;
-                findMember.Email= member.Email;
-                findMember.DateOfBirth= member.DateOfBirth;
+                findMember.Email = member.Email;
+                findMember.DateOfBirth = member.DateOfBirth;
                 _context.SaveChanges();
                 return true;
             }
             return false;
         }
-        catch(DbUpdateConcurrencyException)
+        catch (DbUpdateConcurrencyException)
         {
             return false;
         }
     }
+
+    public List<SelectListItem> GetManagers()
+    {
+        return _context
+            .Managers
+            .Select( m => new SelectListItem()
+            {
+                Value = m.Id.ToString(),
+                Text = $"{m.Name} {m.Surname} {m.Telephone}"
+            } )
+            .ToList();
+    }
+
 }

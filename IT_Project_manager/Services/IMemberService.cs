@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using IT_Project_manager.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
-namespace IT_Project_manager.Models;
+namespace IT_Project_manager.Services;
 
 public interface IMemberService
 {
@@ -10,5 +12,6 @@ public interface IMemberService
     public Member? FindBy(int? id);
 
     public ICollection<Member> GetMembers();
+    public List<SelectListItem> GetManagers();
 
 }

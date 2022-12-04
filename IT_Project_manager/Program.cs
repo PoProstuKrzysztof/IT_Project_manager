@@ -1,5 +1,6 @@
 using IT_Project_manager.Controllers;
 using IT_Project_manager.Models;
+using IT_Project_manager.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
