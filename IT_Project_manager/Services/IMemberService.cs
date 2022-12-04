@@ -13,5 +13,5 @@ public interface IMemberService
 
     public ICollection<Member> GetMembers();
     public List<SelectListItem> GetManagers();
-
+    Manager GetManager(int id);
 }

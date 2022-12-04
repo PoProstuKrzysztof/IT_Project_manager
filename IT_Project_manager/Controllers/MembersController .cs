@@ -21,6 +21,7 @@ namespace IT_Project_manager.Controllers
 
         public IActionResult Index()
         {
+            
             return View( _memberService.GetMembers());
         }
 
@@ -50,11 +51,20 @@ namespace IT_Project_manager.Controllers
                     Email = member.Email,
                     DateOfBirth = member.DateOfBirth
                 };
+                foreach (var mId in member.ManagersId)
+                {
+                    if (int.TryParse( mId, out int id ))
+                    {
+                        
+                        newMember.Managers.Add( _memberService.GetManager( id ) );
+                    }
+                    else continue;
+                }
                 _memberService.Save( newMember );
                 return View( "MemberConfirmation", member );
 
             }
-
+            member.Managers = _memberService.GetManagers();
             return View( member );
         }
 
@@ -96,10 +106,18 @@ namespace IT_Project_manager.Controllers
 
         //Deleting
         //---------------------------------------------------------------------------------------------------------------
-        public IActionResult Delete([FromRoute] int? id)
+        public IActionResult Delete(int? id)
         {
-            var member = _memberService.FindBy( id );
-            return member is null ? NotFound() : RedirectToAction( "Index" );
+            if(id == null)
+            {
+                return NotFound();
+            }
+            if(_memberService.Delete( id ))
+            {
+                return RedirectToAction( "Index" );
+            }
+            return Problem("Trying to delete not existing member");
+            
 
         }
 

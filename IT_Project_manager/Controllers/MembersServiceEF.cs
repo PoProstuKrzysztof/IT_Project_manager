@@ -2,6 +2,7 @@
 using IT_Project_manager.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 
 namespace IT_Project_manager.Controllers;
 
@@ -94,6 +95,8 @@ public class MembersServiceEF : IMemberService
         }
     }
 
+    //Get managers
+    //---------------------------------------------------------------------------------------------------------------
     public List<SelectListItem> GetManagers()
     {
         return _context
@@ -105,5 +108,12 @@ public class MembersServiceEF : IMemberService
             } )
             .ToList();
     }
-
+    
+    //Find particular manager
+    //---------------------------------------------------------------------------------------------------------------
+    public Manager GetManager(int id)
+    {
+        var manager = _context.Managers.Find( id );
+        return manager;
+    }
 }
