@@ -10,8 +10,12 @@ public class MembersViewModel
     {
         ManagersId = new List<string>();
     }
+
     [ValidateNever]
     public List<SelectListItem> Managers { get; set; }
+
+    [Display( Name = "Managers" )]
+    public List<string> ManagersId { get; set; }
 
     [Required]
     [Display( Name = "Name" )]
@@ -22,14 +26,11 @@ public class MembersViewModel
     public string Surname { get; set; }
 
     [Required]
-    [Display(Name ="Email")]
-    [DataType(DataType.EmailAddress)]
+    [Display( Name = "Email" )]
+    [DataType( DataType.EmailAddress )]
     public string? Email { get; set; }
 
-    [Display(Name="Date of birth")]
+    [Display( Name = "Date of birth" )]
     [DataType( DataType.Date )]
     public DateTime DateOfBirth { get; set; }
-
-    [Display( Name = "Managers" )]
-    public List<string> ManagersId { get; set; }
 }

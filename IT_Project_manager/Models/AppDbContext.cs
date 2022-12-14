@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Sqlite;
-using Microsoft.EntityFrameworkCore.Design;
-
-
-
 
 namespace IT_Project_manager.Models;
 
@@ -12,14 +7,15 @@ public class AppDbContext : DbContext
     public DbSet<Member> Members { get; set; }
     public DbSet<Manager> Managers { get; set; }
 
-    public string DbPath { get; set; }
+    public int Counter { get; set; }
 
+    public string DbPath { get; set; }
 
     public AppDbContext()
     {
-      var folder = Environment.SpecialFolder.LocalApplicationData;
-       var path = Environment.GetFolderPath( folder );
-       DbPath = System.IO.Path.Join( path, "members.db" );
+        var folder = Environment.SpecialFolder.LocalApplicationData;
+        var path = Environment.GetFolderPath( folder );
+        DbPath = System.IO.Path.Join( path, "members.db" );
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
@@ -39,7 +35,7 @@ public class AppDbContext : DbContext
             new Manager() { Id = 2, Name = "Zuzanna", Surname = "Krasko", Telephone = "987-654-321" }
             );
         modelBuilder.Entity<Member>()
-            .HasMany<Manager>( m => m.Managers )
+            .HasMany( m => m.Managers )
             .WithMany( a => a.Members )
             .UsingEntity( join => join.HasData(
                 new { MembersId = 1, ManagersId = 1 },
@@ -47,8 +43,5 @@ public class AppDbContext : DbContext
                 new { MembersId = 3, ManagersId = 2 },
                 new { MembersId = 4, ManagersId = 2 }
                 ) );
-
-
-
     }
 }

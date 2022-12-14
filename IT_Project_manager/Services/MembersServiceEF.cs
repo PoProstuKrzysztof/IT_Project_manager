@@ -2,7 +2,6 @@
 using IT_Project_manager.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol;
 
 namespace IT_Project_manager.Controllers;
 
@@ -14,8 +13,8 @@ public class MembersServiceEF : IMemberService
     {
         _context = context;
     }
+
     //Delete member
-    //---------------------------------------------------------------------------------------------------------------
     public bool Delete(int? id)
     {
         if (id == null)
@@ -32,8 +31,7 @@ public class MembersServiceEF : IMemberService
         return false;
     }
 
-    //Find member 
-    //---------------------------------------------------------------------------------------------------------------
+    //Find member
     public Member? FindBy(int? id)
     {
         if (id is null)
@@ -47,18 +45,15 @@ public class MembersServiceEF : IMemberService
             return member;
         }
         throw new ArgumentNullException( "Member not found" );
-
     }
 
-
-    //Get members 
-    //---------------------------------------------------------------------------------------------------------------
+    //Get members
     public ICollection<Member> GetMembers()
     {
         return _context.Members.Include( m => m.Managers ).ToList();
     }
 
-    //Add member
+    //Save manager in database
     public int Save(Member member)
     {
         var entityEntry = _context.Members.Add( member );
@@ -66,9 +61,7 @@ public class MembersServiceEF : IMemberService
         return entityEntry.Entity.Id;
     }
 
-
     //Edit member
-    //---------------------------------------------------------------------------------------------------------------
     public bool Update(Member member)
     {
         if (member == null)
@@ -96,7 +89,6 @@ public class MembersServiceEF : IMemberService
     }
 
     //Get managers
-    //---------------------------------------------------------------------------------------------------------------
     public List<SelectListItem> GetManagers()
     {
         return _context
@@ -108,12 +100,30 @@ public class MembersServiceEF : IMemberService
             } )
             .ToList();
     }
-    
+
     //Find particular manager
-    //---------------------------------------------------------------------------------------------------------------
     public Manager GetManager(int id)
     {
         var manager = _context.Managers.Find( id );
         return manager;
+    }
+
+    public bool AddManagerToMember(MembersViewModel memberModel, Member member)
+    {
+        if (member == null)
+        {
+            return false;
+        }
+
+        foreach (var mId in memberModel.ManagersId)
+        {
+            if (int.TryParse( mId, out int id ))
+            {
+                var manager = _context.Managers.Find( id );
+                member.Managers.Add( manager );
+                return true;
+            }
+        }
+        return false;
     }
 }

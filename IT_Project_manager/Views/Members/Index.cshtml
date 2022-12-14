@@ -6,43 +6,31 @@
 }
 <h1> Members</h1>
 <br />
-
+<a class="btn btn-link" asp-action="Create">Create new member</a>
 <table class="table">
 
     <tr>
-        <th><b>ID</b></th>
         <th><b>Name</b></th>
         <th><b>Surname</b></th>
-        <th><b>Email</b></th>
-        <th><b>Date of birth</b></th>
         <th><b>Managers</b></th>
-
     </tr>
     @foreach (var member in @Model)
     {
-
         <tr>
 
-            <td>@member.Id</td>
             <td>@member.Name</td>
             <td>@member.Surname</td>
-            <td>@member.Email</td>
-            <td>@member.DateOfBirth.ToString("yyyy-MM-dd")</td>
-            <td>@foreach (var m in member.Managers)
+            <td>
+                @foreach (var m in member.Managers)
                 {
                     <span><a asp-controller="ManagersTest" asp-action="Details" asp-route-id="@m.Id">@m.Name @m.Surname</a></span>
-                }</td>
+                }
+            </td>
             <td>
-
-            <td class="text-end">
-                <a class="btn btn-primary" asp-controller="Members" asp-action="Edit" asp-route-id="@member.Id">Edit</a>
+                <a class="btn btn-primary btn-sm" asp-controller="Members" asp-action="Edit" asp-route-id="@member.Id">Edit</a> |
+                <a class="btn btn-warning btn-sm" asp-controller="Members" asp-action="Details" asp-route-id="@member.Id">Details</a> |
+                <a class="btn btn-danger btn-sm" asp-controller="Members" asp-action="Delete" asp-route-id="@member.Id">Delete</a>
             </td>
-            <td class="text-end">
-                <a class="btn btn-danger" asp-controller="Members" asp-action="Delete" asp-route-id="@member.Id">Delete</a>
-            </td>
-                
-           
         </tr>
-
     }
 </table>

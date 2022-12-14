@@ -1,12 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using IT_Project_manager.Models;
-using System.Reflection.Metadata.Ecma335;
-using System.Diagnostics.Metrics;
-using System.Data;
-using System.Net;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using IT_Project_manager.Models;
 using IT_Project_manager.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IT_Project_manager.Controllers
 {
@@ -16,63 +10,51 @@ namespace IT_Project_manager.Controllers
 
         public MembersController(AppDbContext context, IMemberService memberService)
         {
-            _memberService= memberService;
+            _memberService = memberService;
         }
 
         public IActionResult Index()
         {
-            
-            return View( _memberService.GetMembers());
+            return View( _memberService.GetMembers() );
         }
 
-        // Adding 
-        //---------------------------------------------------------------------------------------------------------------
+        // Adding
         [HttpGet]
         public IActionResult Create()
         {
-
             MembersViewModel model = new MembersViewModel();
             model.Managers = _memberService.GetManagers();
             return View( model );
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([FromForm] MembersViewModel member)
+        public IActionResult Create(MembersViewModel member)
         {
-
-            if (ModelState.IsValid || member is not null)
+            if (!ModelState.IsValid)
             {
-                Member newMember = new Member()
-                {
-                    Name = member.Name,
-                    Surname = member.Surname,
-                    Email = member.Email,
-                    DateOfBirth = member.DateOfBirth
-                };
-                foreach (var mId in member.ManagersId)
-                {
-                    if (int.TryParse( mId, out int id ))
-                    {
-                        
-                        newMember.Managers.Add( _memberService.GetManager( id ) );
-                    }
-                    else continue;
-                }
+                return NotFound();
+            }
+
+            Member newMember = new Member()
+            {
+                Name = member.Name,
+                Surname = member.Surname,
+                Email = member.Email,
+                DateOfBirth = member.DateOfBirth
+            };
+
+            if (_memberService.AddManagerToMember( member, newMember ))
+            {
                 _memberService.Save( newMember );
                 return View( "MemberConfirmation", member );
-
             }
+
             member.Managers = _memberService.GetManagers();
             return View( member );
         }
 
-
-
-
-        //Editing 
-        //---------------------------------------------------------------------------------------------------------------
+        //Editing
         [HttpGet]
         public IActionResult Edit([FromRoute] int? id)
         {
@@ -83,16 +65,12 @@ namespace IT_Project_manager.Controllers
 
             var member = _memberService.FindBy( id );
             return member is null ? NotFound() : View( member );
-
         }
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Member member)
+        public IActionResult Edit(Member member)
         {
-
             if (ModelState.IsValid || member != null)
             {
                 _memberService.Update( member );
@@ -100,31 +78,34 @@ namespace IT_Project_manager.Controllers
             }
 
             return View( member );
-
         }
 
-
         //Deleting
-        //---------------------------------------------------------------------------------------------------------------
         public IActionResult Delete(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            if(_memberService.Delete( id ))
-            {
-                return RedirectToAction( "Index" );
-            }
-            return Problem("Trying to delete not existing member");
-            
 
+            if (_memberService.Delete( id ))
+            {
+                return RedirectToAction( "DeleteConfirmation" );
+            }
+            return Problem( "Trying to delete not existing member" );
         }
 
+        //Details
+        [HttpGet]
+        public IActionResult Details(Member member)
+        {
+            if (member is null)
+            {
+                return NotFound();
+            }
 
+            var found = _memberService.FindBy( member.Id );
+            return found is null ? NotFound() : View( found );
+        }
     }
 }
-
-
-
-

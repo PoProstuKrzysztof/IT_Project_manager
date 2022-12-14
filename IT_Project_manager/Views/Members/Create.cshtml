@@ -25,13 +25,12 @@
         </div>
         <div>
             <span asp-validation-for="DateOfBirth" class="text-danger"></span><br />
-            <label asp-for="DateOfBirth">Enter your birth day</label><br />
+            <label asp-for="DateOfBirth">Enter your birth day</label> <br />
             <input type="date" max="2022-12-31" asp-for="DateOfBirth" /><br />
         </div>
-        <div class="m-3">
+        <div class="m-2">
             <select asp-for="ManagersId" class="form-control" asp-items="@Model.Managers"></select>
         </div>
-
-        <br /><button type="submit">Create</button><br />
+        <br /><button type="submit" class="btn btn-primary">Create</button><br />
     </div>
 </form>
