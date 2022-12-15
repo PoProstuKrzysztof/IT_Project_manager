@@ -4,33 +4,38 @@
 @{
     ViewData["Title"] = "Members";
 }
-<h1> Members</h1>
-<br />
-<a class="btn btn-link" asp-action="Create">Create new member</a>
-<table class="table">
 
-    <tr>
-        <th><b>Name</b></th>
-        <th><b>Surname</b></th>
-        <th><b>Managers</b></th>
-    </tr>
-    @foreach (var member in @Model)
-    {
+<body>
+    <h1 id="indexTitle">Members</h1>
+    <a style="margin: 10px" class="btn btn-outline-primary" asp-action="Create">Create new</a>
+    <table class="table">
+
         <tr>
-
-            <td>@member.Name</td>
-            <td>@member.Surname</td>
-            <td>
-                @foreach (var m in member.Managers)
-                {
-                    <span><a asp-controller="ManagersTest" asp-action="Details" asp-route-id="@m.Id">@m.Name @m.Surname</a></span>
-                }
-            </td>
-            <td>
-                <a class="btn btn-primary btn-sm" asp-controller="Members" asp-action="Edit" asp-route-id="@member.Id">Edit</a> |
-                <a class="btn btn-warning btn-sm" asp-controller="Members" asp-action="Details" asp-route-id="@member.Id">Details</a> |
-                <a class="btn btn-danger btn-sm" asp-controller="Members" asp-action="Delete" asp-route-id="@member.Id">Delete</a>
-            </td>
+            <th><b>Name</b></th>
+            <th><b>Surname</b></th>
+            <th><b>Managers</b></th>
+            <th><b>Operations</b></th>
         </tr>
-    }
-</table>
+
+        @foreach (var member in @Model)
+        {
+            <tr id="tableData" >
+
+                <td>@member.Name</td>
+                <td >@member.Surname</td>
+                <td >
+                    @foreach (var m in member.Managers)
+                    {
+                        <span><a asp-controller="ManagersTest" asp-action="Details" asp-route-id="@m.Id">@m.Name @m.Surname</a></span>
+                    }
+                </td>
+                <td  >
+                    <a  class="btn btn-outline-primary btn-sm" asp-controller="Members" asp-action="Edit" asp-route-id="@member.Id">Edit</a> |
+                    <a  class="btn btn-outline-warning btn-sm" asp-controller="Members" asp-action="Details" asp-route-id="@member.Id">Details</a> |
+                    <a  class="btn btn-outline-danger btn-sm" asp-controller="Members" asp-action="Delete" asp-route-id="@member.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+</body>
+
