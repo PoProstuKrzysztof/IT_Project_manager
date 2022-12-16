@@ -21,7 +21,15 @@ public class IdentityDbContext : IdentityDbContext<ApplicationUser>
 
         builder.ApplyConfiguration( new ApplicationUserEntityConfiguration() );
     }
+
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //{
+    //    optionsBuilder.UseSqlServer( @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=IT_Project_manager;Integrated Security=True;" );
+    //}
+
 }
+
+
 
 public class IdentityDbContextFactory : IDesignTimeDbContextFactory<IdentityDbContext>
 {

@@ -11,13 +11,12 @@ var connectionString = builder.Configuration.GetConnectionString( "IdentityDbCon
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<IdentityDbContext>(options => 
-options.UseSqlServer(connectionString));
+builder.Services.AddDbContext < IdentityDbContext>();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<IdentityDbContext>();
 builder.Services.AddRazorPages();
-builder.Services.AddScoped<IMemberService, MembersServiceEF>();
-builder.Services.AddScoped<IManagerService, ManagersServiceEF>();
+//builder.Services.AddScoped<IMemberService, MembersServiceEF>();
+//builder.Services.AddScoped<IManagerService, ManagersServiceEF>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

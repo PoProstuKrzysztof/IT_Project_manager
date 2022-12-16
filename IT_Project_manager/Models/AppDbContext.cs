@@ -16,10 +16,10 @@ public class AppDbContext : DbContext
 
     }
 
-    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //{
-    //    optionsBuilder.UseSqlServer( @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=IT_Project_manager;Integrated Security=True;" );
-    //}
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer( @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=IT_Project_manager;Integrated Security=True;" );
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
