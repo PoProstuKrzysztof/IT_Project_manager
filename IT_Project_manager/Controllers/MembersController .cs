@@ -15,7 +15,7 @@ namespace IT_Project_manager.Controllers
 
         public IActionResult Index()
         {
-            return View( _memberService.GetMembers() );
+            return View(  _memberService.GetMembers() );
         }
 
         // Adding
