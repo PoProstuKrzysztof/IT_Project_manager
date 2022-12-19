@@ -7,8 +7,9 @@ namespace IT_Project_manager.Models
     [Table( "Members" )]
     public class Member
     {
-        public static int m_counter = 0;
-
+      
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [HiddenInput]
         public int Id { get; set; }
 
@@ -35,11 +36,5 @@ namespace IT_Project_manager.Models
             Managers = new HashSet<Manager>();
         }
 
-        public void Delete()
-        {
-            m_counter--;
-            if (m_counter < 0)
-                m_counter = 0;
-        }
     }
 }

@@ -1,28 +1,35 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using IT_Project_manager.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace IT_Project_manager.Models;
 
-public class AppDbContext : DbContext
+public class AppDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<Member> Members { get; set; }
     public DbSet<Manager> Managers { get; set; }
 
-    public int Counter { get; set; }
 
-    //public string DbPath { get; set; }
+  
 
-    public AppDbContext()
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
-
+        
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer( @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=IT_Project_manager;Integrated Security=True;" );
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer( @"Data Source=(localdb)\MSSQLLocalDB;Database=IT_Project_manager;Integrated Security=True;" );
+
+        }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<Member>().HasData(
       new Member() { Id = 1, Name = "Krzysztof", Surname = "Palonek", Email = "krzysiek.palonek@gmail.com", DateOfBirth = DateTime.Parse( "2000-10-23" ) },
      new Member() { Id = 2, Name = "Marzena", Surname = "Kołodziej", Email = "marz.koł@gmail.com", DateOfBirth = DateTime.Parse( "2001-05-24" ) },

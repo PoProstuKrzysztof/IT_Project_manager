@@ -7,7 +7,7 @@ namespace IT_Project_manager.Controllers;
 
 public class MembersServiceEF : IMemberService
 {
-    private readonly AppDbContext _context = new AppDbContext();
+    private readonly AppDbContext _context;
 
     public MembersServiceEF(AppDbContext context)
     {

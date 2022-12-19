@@ -7,16 +7,18 @@ using IT_Project_manager.Data;
 using IT_Project_manager.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder( args );
-var connectionString = builder.Configuration.GetConnectionString( "IdentityDbContextConnection" ) ?? throw new InvalidOperationException( "Connection string 'IdentityDbContextConnection' not found." );
+var connectionString = builder.Configuration.GetConnectionString( "Default" ) ?? throw new InvalidOperationException( "Connection string 'Default' not found." );
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext < IdentityDbContext>();
+
+builder.Services.AddDbContext<AppDbContext>( options =>
+    options.UseSqlServer( connectionString ) );
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<IdentityDbContext>();
+    .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-//builder.Services.AddScoped<IMemberService, MembersServiceEF>();
-//builder.Services.AddScoped<IManagerService, ManagersServiceEF>();
+builder.Services.AddScoped<IMemberService, MembersServiceEF>();
+builder.Services.AddScoped<IManagerService, ManagersServiceEF>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,12 +33,14 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();;
 
+app.UseAuthentication();;
 app.UseAuthorization();
-app.MapRazorPages();
+
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}" );
+app.MapRazorPages();
 
 app.Run();

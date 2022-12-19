@@ -6,7 +6,7 @@ namespace IT_Project_manager.Services;
 
 public class ManagersServiceEF : IManagerService
 {
-    private readonly AppDbContext _context = new AppDbContext();
+    private readonly AppDbContext _context;
 
     public ManagersServiceEF(AppDbContext context)
     {

@@ -2,11 +2,67 @@
 
 
 @{
-    ViewData["Title"] = "Member form";
+    ViewData["Title"] = "Create member";
 }
 
+<h1>Create</h1>
 
-<form asp-action="Create" method="post">
+<h4>Members</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div id="formDiv" >
+
+                <label asp-for="Name" class="control-label">Name</label>
+                <input asp-for="Name" type="text" placeholder="Name" class="form-control" />
+
+            </div>
+            <div id="formDiv" >
+                <span asp-validation-for="Surname" class="text-danger"></span>
+                <label asp-for="Surname" class="control-label">Surname</label>
+                <input asp-for="Surname" type="text" placeholder="Surname" class="form-control" />
+            </div>
+
+
+            <div id="formDiv" >
+
+                <div class="input-group">
+                    
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <span class="input-group-text">@@</span>
+                    <input asp-for="Email" class="form-control" type="email" placeholder="E-mail" />
+
+                </div>
+
+            </div>
+
+            <div id="formDiv" >
+                <label asp-for="DateOfBirth">Enter your birth day</label>
+                <input type="date" max="@DateTime.Today" min="1900-01-01" value="1900-01-01" asp-for="DateOfBirth" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div id="formDiv" >
+                <label asp-for="ManagersId" >Select your manager</label>
+                <select asp-for="ManagersId" class="form-select" asp-items="@Model.Managers"> </select>
+            </div>
+            <div id="formDiv">
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+
+        </form>
+    </div>
+
+
+
+    <div>
+        <br /><a class="btn btn-primary" asp-action="Index">Back to List</a>
+    </div>
+
+</div>
+
+@*<form asp-action="Create" method="post">
     <div asp-validation-summary="All">
         <div>
             <span asp-validation-for="Name" class="text-danger"></span><br />
@@ -33,4 +89,4 @@
         </div>
         <br /><button type="submit" class="btn btn-primary">Create</button><br />
     </div>
-</form>
+</form>*@

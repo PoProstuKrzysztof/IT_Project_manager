@@ -15,13 +15,13 @@ namespace IT_Project_manager.Controllers
             _managerService = managerService;
         }
 
-
+        //Managers list
         public IActionResult Index()
         {
             return View( _managerService.GetManagers() );
         }
 
-
+        //Details
         public IActionResult Details(Manager manager)
         {
             if (manager is null)
@@ -34,6 +34,7 @@ namespace IT_Project_manager.Controllers
         }
 
 
+        //Create
         public IActionResult Create()
         {
             return View();
@@ -41,12 +42,21 @@ namespace IT_Project_manager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind( "Id,Name,Surname,Telephone" )] Manager manager)
+        public IActionResult Create(Manager manager)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound();
             }
+
+            Manager newManager = new Manager()
+            {
+                Name = manager.Name,
+                Surname = manager.Surname,
+                Telephone = manager.Telephone
+            };
+
+            _managerService.Save( newManager );
 
             return View( manager );
         }
@@ -66,7 +76,7 @@ namespace IT_Project_manager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind( "Id,Name,Surname,Telephone" )] Manager manager)
+        public IActionResult Edit(int id,  Manager manager)
         {
             if (id != manager.Id)
             {
