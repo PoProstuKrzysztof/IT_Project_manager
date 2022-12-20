@@ -1,4 +1,5 @@
 ﻿using IT_Project_manager.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -13,6 +14,7 @@ namespace IT_Project_manager.Controllers
             _logger = logger;
         }
 
+        
         public IActionResult Index()
         {
             return View();
