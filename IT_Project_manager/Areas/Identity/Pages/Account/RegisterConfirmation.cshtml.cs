@@ -27,9 +27,6 @@ namespace IT_Project_manager.Areas.Identity.Pages.Account
             _sender = sender;
         }
 
-        public string Name { get; set; }
-        public string Surname { get; set; }
-
         public string Email { get; set; }
 
 
