@@ -14,8 +14,10 @@ var connectionString = builder.Configuration.GetConnectionString( "Default" ) ??
 
 builder.Services.AddDbContext<AppDbContext>( options =>
 options.UseSqlServer( connectionString ) );
-builder.Services.AddDefaultIdentity<ApplicationUser>( options => options.SignIn.RequireConfirmedAccount = true )
-    .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>( options => options.SignIn.RequireConfirmedAccount = true )
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultUI()
+    .AddDefaultTokenProviders();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IMemberService, MembersServiceEF>();

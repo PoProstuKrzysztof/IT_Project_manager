@@ -57,6 +57,15 @@ namespace IT_Project_manager.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Required]
+            [StringLength( 50, ErrorMessage = "The name should have a maximum of 50 characters" )]
+            [Display( Name = "Name" )]
+            public string Name { get; set; }
+
+            [Required]
+            [StringLength( 50, ErrorMessage = "The surname should have a maximum of 50 characters" )]
+            [Display( Name = "Surname" )]
+            public string Surname { get; set; }
 
             [Required]
             [EmailAddress]
@@ -91,12 +100,13 @@ namespace IT_Project_manager.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
-                var result = await _userManager.CreateAsync( user, Input.Password );
-
+                var user = CreateUser();
                 await _userStore.SetUserNameAsync( user, Input.Email, CancellationToken.None );
                 await _emailStore.SetEmailAsync( user, Input.Email, CancellationToken.None );
+                //var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var result = await _userManager.CreateAsync( user, Input.Password );
 
+                
 
                 if (result.Succeeded)
                 {

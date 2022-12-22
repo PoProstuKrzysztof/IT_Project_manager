@@ -26,7 +26,7 @@
                 <td >
                     @foreach (var m in member.Managers)
                     {
-                        <span><a asp-controller="ManagersTest" asp-action="Details" asp-route-id="@m.Id">@m.Name @m.Surname</a></span>
+                        <span><a asp-controller="Managers" asp-action="Details" asp-route-id="@m.Id">@m.Name @m.Surname</a></span>
                     }
                 </td>
                 <td  >

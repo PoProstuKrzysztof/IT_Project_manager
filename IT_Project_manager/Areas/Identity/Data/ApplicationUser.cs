@@ -11,10 +11,11 @@ namespace IT_Project_manager.Areas.Identity.Data;
 public class ApplicationUser : IdentityUser
 {
     [PersonalData]
-    [Column(TypeName ="nvarchar(100)")]
-    public string Name { get; set; }
+    [Column( TypeName = "nvarchar(100)" )]
+    public string? Name { get; set; }
     [PersonalData]
     [Column( TypeName = "nvarchar(100)" )]
-    public string Surname { get; set; }
+    public string? Surname { get; set; }
+
 }
 
