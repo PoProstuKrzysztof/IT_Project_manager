@@ -1,6 +1,5 @@
 ﻿using IT_Project_manager.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Metrics;
 
 namespace IT_Project_manager.Services;
 
@@ -12,6 +11,7 @@ public class ManagersServiceEF : IManagerService
     {
         _context = context;
     }
+
     //Deleting
     public bool Delete(int? id)
     {
@@ -19,7 +19,6 @@ public class ManagersServiceEF : IManagerService
         {
             return false;
         }
-
 
         var manager = _context.Managers.Find( id );
         if (manager is not null)
@@ -36,7 +35,7 @@ public class ManagersServiceEF : IManagerService
     {
         if (id is null)
         {
-            throw new ArgumentNullException( "Member not found" );
+            throw new ArgumentNullException( "Manager not found" );
         }
         var manager = _context.Managers.Find( id );
 
@@ -44,7 +43,7 @@ public class ManagersServiceEF : IManagerService
         {
             return manager;
         }
-        throw new ArgumentNullException( "Member not found" );
+        throw new ArgumentNullException( "Manager not found" );
     }
 
     //Managers to list
@@ -57,7 +56,7 @@ public class ManagersServiceEF : IManagerService
     public int Save(Manager manager)
     {
         var entityEntry = _context.Managers.Add( manager );
-        _context.SaveChanges();
+         _context.SaveChanges();
         return entityEntry.Entity.Id;
     }
 
@@ -68,7 +67,6 @@ public class ManagersServiceEF : IManagerService
         {
             return false;
         }
-
 
         try
         {
@@ -89,4 +87,3 @@ public class ManagersServiceEF : IManagerService
         }
     }
 }
-

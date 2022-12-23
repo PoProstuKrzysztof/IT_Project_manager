@@ -1,11 +1,10 @@
+using IT_Project_manager.Areas.Identity.Data;
 using IT_Project_manager.Controllers;
 using IT_Project_manager.Models;
 using IT_Project_manager.Services;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using IT_Project_manager.Data;
-using IT_Project_manager.Areas.Identity.Data;
-using IT_Project_manager.Areas.Identity;
 
 var builder = WebApplication.CreateBuilder( args );
 var connectionString = builder.Configuration.GetConnectionString( "Default" ) ?? throw new InvalidOperationException( "Connection string 'Default' not found." );
@@ -14,16 +13,17 @@ var connectionString = builder.Configuration.GetConnectionString( "Default" ) ??
 
 builder.Services.AddDbContext<AppDbContext>( options =>
 options.UseSqlServer( connectionString ) );
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>( options => options.SignIn.RequireConfirmedAccount = true )
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultUI()
+    .AddRoles<IdentityRole>()
     .AddDefaultTokenProviders();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IMemberService, MembersServiceEF>();
 builder.Services.AddScoped<IManagerService, ManagersServiceEF>();
-
-
 
 builder.Services.Configure<IdentityOptions>( options =>
 {
@@ -38,12 +38,11 @@ builder.Services.Configure<IdentityOptions>( options =>
     options.Lockout.MaxFailedAccessAttempts = 5;
     options.Lockout.AllowedForNewUsers = true;
 
-    //User settings 
+    //User settings
     options.User.AllowedUserNameCharacters =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
     options.User.RequireUniqueEmail = false;
-    
-});
+} );
 
 builder.Services.ConfigureApplicationCookie( options =>
 {
@@ -53,7 +52,6 @@ builder.Services.ConfigureApplicationCookie( options =>
 
     options.LoginPath = "/Account/Login";
     options.SlidingExpiration = true;
-
 } );
 
 var app = builder.Build();
@@ -73,8 +71,6 @@ app.UseRouting();
 
 app.UseAuthentication(); ;
 app.UseAuthorization();
-
-
 
 app.MapControllerRoute(
     name: "default",

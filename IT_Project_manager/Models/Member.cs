@@ -7,9 +7,8 @@ namespace IT_Project_manager.Models
     [Table( "Members" )]
     public class Member
     {
-      
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated( DatabaseGeneratedOption.Identity )]
         [HiddenInput]
         public int Id { get; set; }
 
@@ -35,6 +34,5 @@ namespace IT_Project_manager.Models
         {
             Managers = new HashSet<Manager>();
         }
-
     }
 }

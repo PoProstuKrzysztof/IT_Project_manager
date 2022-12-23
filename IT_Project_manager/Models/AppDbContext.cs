@@ -9,12 +9,8 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Member> Members { get; set; }
     public DbSet<Manager> Managers { get; set; }
 
-
-  
-
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base( options )
     {
-        
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -22,13 +18,12 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         if (!optionsBuilder.IsConfigured)
         {
             optionsBuilder.UseSqlServer( @"Data Source=(localdb)\MSSQLLocalDB;Database=IT_Project_manager;Integrated Security=True;" );
-
         }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
+        base.OnModelCreating( modelBuilder );
 
         modelBuilder.Entity<Member>().HasData(
       new Member() { Id = 1, Name = "Krzysztof", Surname = "Palonek", Email = "krzysiek.palonek@gmail.com", DateOfBirth = DateTime.Parse( "2000-10-23" ) },

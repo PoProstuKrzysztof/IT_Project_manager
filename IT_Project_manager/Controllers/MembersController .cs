@@ -1,5 +1,7 @@
 ﻿using IT_Project_manager.Models;
 using IT_Project_manager.Services;
+using Microsoft.AspNetCore.Authorization;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace IT_Project_manager.Controllers
@@ -7,19 +9,25 @@ namespace IT_Project_manager.Controllers
     public class MembersController : Controller
     {
         private readonly IMemberService? _memberService;
+        private readonly ILogger<MembersController> _logger;
 
-        public MembersController(AppDbContext context, IMemberService memberService)
+        public MembersController(AppDbContext context,ILogger<MembersController> logger, IMemberService memberService)
         {
             _memberService = memberService;
+            _logger = logger;
         }
 
+        // List of members
         public IActionResult Index()
         {
-            return View(  _memberService.GetMembers() );
+            return View(_memberService.GetMembers() );
         }
 
-        // Adding
+        // Creating [GET]
+        
         [HttpGet]
+        [Authorize( Roles = "Administrator" )]
+
         public IActionResult Create()
         {
             MembersViewModel model = new MembersViewModel();
@@ -27,6 +35,7 @@ namespace IT_Project_manager.Controllers
             return View( model );
         }
 
+        //Creating [POST]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(MembersViewModel member)
@@ -54,8 +63,10 @@ namespace IT_Project_manager.Controllers
             return View( member );
         }
 
-        //Editing
+        //Editing [GET]
+        
         [HttpGet]
+        [Authorize( Roles = "Administrator" )]
         public IActionResult Edit([FromRoute] int? id)
         {
             if (id is null)
@@ -64,23 +75,39 @@ namespace IT_Project_manager.Controllers
             }
 
             var member = _memberService.FindBy( id );
+
+           
+
             return member is null ? NotFound() : View( member );
         }
 
+        //Editing [POST]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Member member)
+
+        public async Task<IActionResult> Edit(Member member)
         {
-            if (ModelState.IsValid || member != null)
+
+
+            if (ModelState.IsValid )
             {
                 _memberService.Update( member );
+
+                var username = HttpContext.User.Identity.Name;
+                _logger.LogWarning( ( EventId )400, $"{member.Id} edited by {username} on {DateTime.Now}" );
+
                 return RedirectToAction( "Index" );
             }
 
-            return View( member );
+
+
+
+            return View( member );  
         }
 
-        //Deleting
+        //Deleting [GET]
+        [Authorize]
+        [Authorize( Roles = "Administrator" )]
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -95,8 +122,10 @@ namespace IT_Project_manager.Controllers
             return Problem( "Trying to delete not existing member" );
         }
 
-        //Details
+        //Details [GET]
+        [Authorize]
         [HttpGet]
+        [Authorize( Roles = "Administrator " )]
         public IActionResult Details(Member member)
         {
             if (member is null)

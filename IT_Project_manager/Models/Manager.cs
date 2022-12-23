@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -25,6 +26,6 @@ public class Manager
     [Column( "Telephone" )]
     [DataType( DataType.PhoneNumber )]
     public string Telephone { get; set; }
-    
+
     public ISet<Member> Members { get; set; }
 }

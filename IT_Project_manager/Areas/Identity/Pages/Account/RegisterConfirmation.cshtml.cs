@@ -2,9 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Text;
-using System.Threading.Tasks;
 using IT_Project_manager.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,6 +9,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
 
 namespace IT_Project_manager.Areas.Identity.Pages.Account
 {
@@ -29,9 +27,7 @@ namespace IT_Project_manager.Areas.Identity.Pages.Account
 
         public string Email { get; set; }
 
-
         public bool DisplayConfirmAccountLink { get; set; }
-
 
         public string EmailConfirmationUrl { get; set; }
 
@@ -39,14 +35,14 @@ namespace IT_Project_manager.Areas.Identity.Pages.Account
         {
             if (email == null)
             {
-                return RedirectToPage("/Index");
+                return RedirectToPage( "/Index" );
             }
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl = returnUrl ?? Url.Content( "~/" );
 
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync( email );
             if (user == null)
             {
-                return NotFound($"Unable to load user with email '{email}'.");
+                return NotFound( $"Unable to load user with email '{email}'." );
             }
 
             Email = email;
@@ -54,14 +50,14 @@ namespace IT_Project_manager.Areas.Identity.Pages.Account
             DisplayConfirmAccountLink = true; ;
             if (DisplayConfirmAccountLink)
             {
-                var userId = await _userManager.GetUserIdAsync(user);
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var userId = await _userManager.GetUserIdAsync( user );
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync( user );
+                code = WebEncoders.Base64UrlEncode( Encoding.UTF8.GetBytes( code ) );
                 EmailConfirmationUrl = Url.Page(
                     "/Account/ConfirmEmail",
                     pageHandler: null,
                     values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                    protocol: Request.Scheme);
+                    protocol: Request.Scheme );
             }
 
             return Page();
