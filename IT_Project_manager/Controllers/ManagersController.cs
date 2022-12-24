@@ -51,7 +51,7 @@ namespace IT_Project_manager.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return NotFound();
+                return View( manager );
             }
 
             Manager newManager = await _managerService.CreateManager( manager );

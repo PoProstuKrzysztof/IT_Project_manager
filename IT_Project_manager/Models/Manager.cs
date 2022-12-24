@@ -30,4 +30,9 @@ public class Manager
     public string Telephone { get; set; }
 
     public ISet<Member> Members { get; set; }
+
+    public Manager()
+    {
+        Members = new HashSet<Member>();
+    }
 }

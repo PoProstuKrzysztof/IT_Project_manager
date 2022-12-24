@@ -3,29 +3,34 @@
 @{
     ViewData["Title"] = "Create manager";
 }
+<header class="container">
+    <h1>Create</h1>
 
-<h1>Create</h1>
+    <h4>Manager</h4>
+</header>
 
-<h4>Manager</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div id="formDiv">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control" type="text" placeholder="Name.." />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div id="formDiv">
                 <label asp-for="Surname" class="control-label"></label>
-                <input asp-for="Surname" class="form-control" />
+                <input asp-for="Surname" class="form-control" type="text" placeholder="Surname.." />
                 <span asp-validation-for="Surname" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div id="formDiv">
                 <label asp-for="Telephone" class="control-label"></label>
-                <input asp-for="Telephone" class="form-control" />
+                <input asp-for="Telephone" class="form-control" type="tel" placeholder="Phone number.."/>
                 <span asp-validation-for="Telephone" class="text-danger"></span>
+            </div>
+            <div>
+                <input asp-for="Members" type="hidden"/>
             </div>
             <div id="formDiv">
                 <button type="submit" class="btn btn-primary">Create</button>
