@@ -5,19 +5,21 @@ namespace IT_Project_manager.Services;
 
 public interface IMemberService
 {
-    public int Save(Member member);
+    public Task<int> Save(Member member);
+    public Task<Member?> CreateMember(MembersViewModel member);
 
-    public bool Delete(int? id);
+    public Task<bool> Delete(int? id);
 
-    public bool Update(Member member);
+    public Task<bool> Update(Member member);
 
-    public bool AddManagerToMember(MembersViewModel memberModel, Member member);
+    public Task<bool> AddManagerToMember(MembersViewModel memberModel, Member member);
 
-    public Member? FindBy(int? id);
+    public Task<Member?> FindBy(int? id);
 
-    public ICollection<Member> GetMembers();
+    public Task<ICollection<Member>> GetMembers();
 
-    public List<SelectListItem> GetManagers();
+    public Task<List<SelectListItem>> GetManagers();
 
-    Manager GetManager(int id);
+    public Task<Manager> GetManager(int id);
+    
 }

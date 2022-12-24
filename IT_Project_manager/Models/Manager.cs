@@ -23,7 +23,9 @@ public class Manager
     [StringLength( 30 )]
     public string Surname { get; set; }
 
+
     [Column( "Telephone" )]
+    [StringLength(12,MinimumLength = 9 )]  
     [DataType( DataType.PhoneNumber )]
     public string Telephone { get; set; }
 

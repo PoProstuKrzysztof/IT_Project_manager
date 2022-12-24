@@ -1,5 +1,6 @@
 ﻿using IT_Project_manager.Models;
 using IT_Project_manager.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,30 +16,30 @@ public class MembersServiceEF : IMemberService
     }
 
     //Delete member
-    public bool Delete(int? id)
+    public async Task<bool> Delete(int? id)
     {
         if (id == null)
         {
             return false;
         }
-        var member = _context.Members.Find( id );
+        var member = await _context.Members.FindAsync( id );
         if (member is not null)
         {
             _context.Members.Remove( member );
-            _context.SaveChanges();
+           await _context.SaveChangesAsync();
             return true;
         }
         return false;
     }
 
     //Find member
-    public Member? FindBy(int? id)
+    public async Task<Member?> FindBy(int? id)
     {
         if (id is null)
         {
             throw new ArgumentNullException( "Member not found" );
         }
-        var member = _context.Members.Find( id );
+        var member = await _context.Members.FindAsync( id );
 
         if (member is not null)
         {
@@ -48,21 +49,22 @@ public class MembersServiceEF : IMemberService
     }
 
     //Get members
-    public ICollection<Member> GetMembers()
+    public async Task<ICollection<Member>> GetMembers()
     {
-        return _context.Members.Include( m => m.Managers ).ToList();
+        return await _context.Members.Include( m => m.Managers ).ToListAsync();
     }
 
     //Save manager in database
-    public int Save(Member member)
+    public async Task<int> Save(Member member)
     {
-        var entityEntry = _context.Members.Add( member );
+        var entityEntry = await _context.Members.AddAsync( member );
         _context.SaveChanges();
         return entityEntry.Entity.Id;
     }
 
     //Edit member
-    public bool Update(Member member)
+
+    public async Task<bool> Update(Member member)
     {
         if (member == null)
         {
@@ -70,14 +72,14 @@ public class MembersServiceEF : IMemberService
         }
         try
         {
-            var findMember = _context.Members.Find( member.Id );
+            var findMember = await _context.Members.FindAsync( member.Id );
             if (member is not null)
             {
                 findMember.Name = member.Name;
                 findMember.Surname = member.Surname;
                 findMember.Email = member.Email;
                 findMember.DateOfBirth = member.DateOfBirth;
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             return false;
@@ -89,26 +91,28 @@ public class MembersServiceEF : IMemberService
     }
 
     //Get managers
-    public List<SelectListItem> GetManagers()
+    public async Task <List<SelectListItem>> GetManagers()
     {
-        return _context
+        return await _context
             .Managers
             .Select( m => new SelectListItem()
             {
                 Value = m.Id.ToString(),
                 Text = $"{m.Name} {m.Surname} {m.Telephone}"
             } )
-            .ToList();
+            .ToListAsync();
     }
 
     //Find particular manager
-    public Manager GetManager(int id)
+    public async Task<Manager> GetManager(int id)
     {
-        var manager = _context.Managers.Find( id );
+        var manager = await _context.Managers.FindAsync( id );
         return manager;
     }
 
-    public bool AddManagerToMember(MembersViewModel memberModel, Member member)
+
+    //Add manager to member 
+    public async Task<bool> AddManagerToMember(MembersViewModel memberModel, Member member)
     {
         if (member == null)
         {
@@ -119,11 +123,25 @@ public class MembersServiceEF : IMemberService
         {
             if (int.TryParse( mId, out int id ))
             {
-                var manager = _context.Managers.Find( id );
+                var manager = await _context.Managers.FindAsync( id );
                 member.Managers.Add( manager );
                 return true;
             }
         }
         return false;
+    }
+    
+
+    //Create member
+    public async Task<Member?> CreateMember(MembersViewModel member)
+    {
+        Member m = new Member()
+        {
+            Name = member.Name,
+            Surname = member.Surname,
+            Email = member.Email,
+            DateOfBirth = member.DateOfBirth
+        };
+        return m;
     }
 }

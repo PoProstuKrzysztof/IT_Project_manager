@@ -12,12 +12,13 @@
 }
 
 <form asp-action="Index" method="get">
-    <div class="form-group col-3">
-        <label for="SearchByManager">Search by manager:</label>
-        <input type="text" class="form-control" name="SearchByManager" value="" />
+    <div class="form-group col-2">
+        <label for="SearchString">Search by name:</label>
+        <input type="text" class="form-control" name="SearchString" value="@ViewData["CurrentFilter"]" />
         <input type="submit" value="Search" class="btn btn-primary" />
     </div>
 </form>
+
 <body>
 
     <div class="container my-5">

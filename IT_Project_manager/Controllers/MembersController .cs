@@ -18,9 +18,18 @@ namespace IT_Project_manager.Controllers
         }
 
         // List of members
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(_memberService.GetMembers() );
+            @ViewData["CurrentFilter"] = searchString;
+            var m = from c in await _memberService.GetMembers()
+                    select c;
+
+            if(!string.IsNullOrEmpty( searchString ))
+            {
+                m = m.Where( c => c.Name.Contains( searchString ) );
+            }
+
+            return View(m );
         }
 
         // Creating [GET]
@@ -28,38 +37,32 @@ namespace IT_Project_manager.Controllers
         [HttpGet]
         [Authorize( Roles = "Administrator" )]
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             MembersViewModel model = new MembersViewModel();
-            model.Managers = _memberService.GetManagers();
+            model.Managers = await _memberService.GetManagers();
             return View( model );
         }
 
         //Creating [POST]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(MembersViewModel member)
+        public async Task <IActionResult> Create(MembersViewModel member)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound();
             }
 
-            Member newMember = new Member()
-            {
-                Name = member.Name,
-                Surname = member.Surname,
-                Email = member.Email,
-                DateOfBirth = member.DateOfBirth
-            };
+           var newMember = await _memberService.CreateMember( member );
 
-            if (_memberService.AddManagerToMember( member, newMember ))
+            if (await _memberService.AddManagerToMember( member, newMember ))
             {
-                _memberService.Save( newMember );
+                await _memberService.Save( newMember );
                 return View( "MemberConfirmation", member );
             }
 
-            member.Managers = _memberService.GetManagers();
+            member.Managers = await _memberService.GetManagers();
             return View( member );
         }
 
@@ -67,14 +70,14 @@ namespace IT_Project_manager.Controllers
         
         [HttpGet]
         [Authorize( Roles = "Administrator" )]
-        public IActionResult Edit([FromRoute] int? id)
+        public async Task<IActionResult> Edit([FromRoute] int? id)
         {
             if (id is null)
             {
                 return NotFound();
             }
 
-            var member = _memberService.FindBy( id );
+            var member = await _memberService.FindBy( id );
 
            
 
@@ -91,7 +94,7 @@ namespace IT_Project_manager.Controllers
 
             if (ModelState.IsValid )
             {
-                _memberService.Update( member );
+                await _memberService.Update( member );
 
                 var username = HttpContext.User.Identity.Name;
                 _logger.LogWarning( ( EventId )400, $"{member.Id} edited by {username} on {DateTime.Now}" );
@@ -108,14 +111,14 @@ namespace IT_Project_manager.Controllers
         //Deleting [GET]
         [Authorize]
         [Authorize( Roles = "Administrator" )]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            if (_memberService.Delete( id ))
+            if (await _memberService.Delete( id ))
             {
                 return RedirectToAction( "DeleteConfirmation" );
             }
@@ -126,14 +129,14 @@ namespace IT_Project_manager.Controllers
         [Authorize]
         [HttpGet]
         [Authorize( Roles = "Administrator " )]
-        public IActionResult Details(Member member)
+        public async Task<IActionResult> Details(Member member)
         {
             if (member is null)
             {
                 return NotFound();
             }
 
-            var found = _memberService.FindBy( member.Id );
+            var found = await _memberService.FindBy( member.Id );
             return found is null ? NotFound() : View( found );
         }
     }

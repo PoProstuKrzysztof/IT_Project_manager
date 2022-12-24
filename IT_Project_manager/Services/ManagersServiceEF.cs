@@ -12,8 +12,21 @@ public class ManagersServiceEF : IManagerService
         _context = context;
     }
 
+
+    //Create new manager instance
+    public async Task<Manager?> CreateManager(Manager manager)
+    {
+        Manager m = new Manager()
+        {
+            Name = manager.Name,
+            Surname = manager.Surname,
+            Telephone = manager.Telephone
+        };
+        return m;
+    }
+
     //Deleting
-    public bool Delete(int? id)
+    public async Task<bool> Delete(int? id)
     {
         if (id == null)
         {
@@ -31,13 +44,13 @@ public class ManagersServiceEF : IManagerService
     }
 
     //Find Manager
-    public Manager? FindBy(int? id)
+    public async Task<Manager?> FindBy(int? id)
     {
         if (id is null)
         {
             throw new ArgumentNullException( "Manager not found" );
         }
-        var manager = _context.Managers.Find( id );
+        var manager = await _context.Managers.FindAsync( id );
 
         if (manager is not null)
         {
@@ -47,21 +60,21 @@ public class ManagersServiceEF : IManagerService
     }
 
     //Managers to list
-    public ICollection<Manager> GetManagers()
+    public async Task<ICollection<Manager>> GetManagers()
     {
-        return _context.Managers.ToList();
+        return  await _context.Managers.ToListAsync();
     }
 
     //Save manager in database
-    public int Save(Manager manager)
+    public async Task<int> Save(Manager manager)
     {
-        var entityEntry = _context.Managers.Add( manager );
-         _context.SaveChanges();
+        var entityEntry = await _context.Managers.AddAsync( manager );
+        await _context.SaveChangesAsync();
         return entityEntry.Entity.Id;
     }
 
     // Update manager
-    public bool Update(Manager manager)
+    public async Task<bool> Update(Manager manager)
     {
         if (manager == null)
         {
@@ -70,13 +83,13 @@ public class ManagersServiceEF : IManagerService
 
         try
         {
-            var findManager = _context.Managers.Find( manager.Id );
+            var findManager = await _context.Managers.FindAsync( manager.Id );
             if (manager is not null)
             {
                 findManager.Name = manager.Name;
                 findManager.Surname = manager.Surname;
                 findManager.Telephone = manager.Telephone;
-                _context.SaveChanges();
+               await _context.SaveChangesAsync();
                 return true;
             }
             return false;

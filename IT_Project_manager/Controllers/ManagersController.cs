@@ -17,22 +17,22 @@ namespace IT_Project_manager.Controllers
         }
 
         //Managers list
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View( _managerService.GetManagers() );
+            return View( await _managerService.GetManagers() );
         }
 
         //Details [GET]
         [Authorize]
         [Authorize( Roles = "Administrator" )]
-        public IActionResult Details(Manager manager)
+        public async Task<IActionResult> Details(Manager manager)
         {
             if (manager is null)
             {
                 return NotFound();
             }
 
-            var found = _managerService.FindBy( manager.Id );
+            var found = await _managerService.FindBy( manager.Id );
             return found is null ? NotFound() : View( found );
         }
 
@@ -41,28 +41,23 @@ namespace IT_Project_manager.Controllers
         [Authorize( Roles = "Administrator" )]
         public IActionResult Create()
         {
-            return View();
+            Manager m = new Manager();
+            return View(m);
         }
         //Create [POST]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Manager manager)
+        public async Task<IActionResult> Create(Manager manager)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound();
             }
 
-            Manager newManager = new Manager()
-            {
-                Name = manager.Name,
-                Surname = manager.Surname,
-                Telephone = manager.Telephone
-            };
+            Manager newManager = await _managerService.CreateManager( manager );
+            await _managerService.Save( newManager );
 
-            _managerService.Save( newManager );
-
-            return View( manager );
+            return RedirectToAction("Index" );
         }
 
         //Editing [GET]
@@ -82,12 +77,12 @@ namespace IT_Project_manager.Controllers
         //Editing [POST]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Manager manager)
+        public async Task<IActionResult> Edit(Manager manager)
         {
 
             if (ModelState.IsValid)
             {
-                _managerService.Update( manager );
+                 await _managerService.Update( manager );
 
                 var username = HttpContext.User.Identity.Name;
                 _logger.LogWarning( ( EventId )400, $"{manager.Id} edited by {username} on {DateTime.Now}" );
@@ -102,14 +97,14 @@ namespace IT_Project_manager.Controllers
         //Deleting [GET]
         [Authorize]
         [Authorize( Roles = "Administrator" )]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            if (_managerService.Delete( id ))
+            if (await _managerService.Delete( id ))
             {
                 return RedirectToAction( "Index" );
             }
