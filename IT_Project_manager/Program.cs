@@ -28,10 +28,10 @@ builder.Services.AddScoped<IManagerService, ManagersServiceEF>();
 builder.Services.Configure<IdentityOptions>( options =>
 {
     //Password settings
-    //options.Password.RequireDigit = true;
-    //options.Password.RequireNonAlphanumeric = true;
-    //options.Password.RequiredLength = 6;
-    //options.Password.RequiredUniqueChars = 1;
+    options.Password.RequireDigit = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
 
     // Lockout settings
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes( 1 );
@@ -48,7 +48,7 @@ builder.Services.ConfigureApplicationCookie( options =>
 {
     //Cookie settings
     options.Cookie.HttpOnly = true;
-    options.ExpireTimeSpan = TimeSpan.FromMinutes( 5 );
+    options.ExpireTimeSpan = TimeSpan.FromMinutes( 100 );
 
     options.LoginPath = "/Account/Login";
     options.SlidingExpiration = true;
@@ -78,3 +78,6 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+
+public partial class Program { }

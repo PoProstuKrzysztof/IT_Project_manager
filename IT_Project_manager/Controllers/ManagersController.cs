@@ -25,14 +25,14 @@ namespace IT_Project_manager.Controllers
         //Details [GET]
         [Authorize]
         [Authorize( Roles = "Administrator" )]
-        public async Task<IActionResult> Details(Manager manager)
+        public IActionResult Details(Manager manager)
         {
             if (manager is null)
             {
-                return NotFound();
+                return BadRequest( ModelState );
             }
 
-            var found = await _managerService.FindBy( manager.Id );
+            var found = _managerService.FindBy( manager.Id );
             return found is null ? NotFound() : View( found );
         }
 
@@ -51,7 +51,7 @@ namespace IT_Project_manager.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View( manager );
+                return BadRequest( ModelState );
             }
 
             Manager newManager = await _managerService.CreateManager( manager );
@@ -63,11 +63,11 @@ namespace IT_Project_manager.Controllers
         //Editing [GET]
         [Authorize]
         [Authorize( Roles = "Administrator" )]
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id is null)
             {
-                return NotFound();
+                return BadRequest( ModelState );
             }
 
             var manager = _managerService.FindBy( id );
@@ -85,7 +85,7 @@ namespace IT_Project_manager.Controllers
                  await _managerService.Update( manager );
 
                 var username = HttpContext.User.Identity.Name;
-                _logger.LogWarning( ( EventId )400, $"{manager.Id} edited by {username} on {DateTime.Now}" );
+                
 
                 return RedirectToAction( "Index" );
 
@@ -101,7 +101,7 @@ namespace IT_Project_manager.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return BadRequest( ModelState );
             }
 
             if (await _managerService.Delete( id ))
@@ -112,23 +112,5 @@ namespace IT_Project_manager.Controllers
             return Problem( "Trying to delete not existing member" );
         }
 
-        //// POST: ManagersTest/Delete/5
-        //[HttpPost, ActionName( "Delete" )]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    if (_managerService.Managers == null)
-        //    {
-        //        return Problem( "Entity set 'AppDbContext.Managers'  is null." );
-        //    }
-        //    var manager = await _managerService.Managers.FindAsync( id );
-        //    if (manager != null)
-        //    {
-        //        _managerService.Managers.Remove( manager );
-        //    }
-
-        //    await _managerService.SaveChangesAsync();
-        //    return RedirectToAction( nameof( Index ) );
-        //}
     }
 }

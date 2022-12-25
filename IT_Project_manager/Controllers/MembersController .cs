@@ -17,6 +17,7 @@ namespace IT_Project_manager.Controllers
             _logger = logger;
         }
 
+
         // List of members
         public async Task<IActionResult> Index(string searchString)
         {
@@ -51,7 +52,7 @@ namespace IT_Project_manager.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
 
            var newMember = await _memberService.CreateMember( member );
@@ -74,7 +75,7 @@ namespace IT_Project_manager.Controllers
         {
             if (id is null)
             {
-                return NotFound();
+                return BadRequest( ModelState );
             }
 
             var member = await _memberService.FindBy( id );
@@ -91,7 +92,6 @@ namespace IT_Project_manager.Controllers
         public async Task<IActionResult> Edit(Member member)
         {
 
-
             if (ModelState.IsValid )
             {
                 await _memberService.Update( member );
@@ -101,9 +101,6 @@ namespace IT_Project_manager.Controllers
 
                 return RedirectToAction( "Index" );
             }
-
-
-
 
             return View( member );  
         }
@@ -115,14 +112,16 @@ namespace IT_Project_manager.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return BadRequest( ModelState );
             }
 
             if (await _memberService.Delete( id ))
             {
-                return RedirectToAction( "DeleteConfirmation" );
+                return RedirectToAction( "Index" );
             }
+
             return Problem( "Trying to delete not existing member" );
+
         }
 
         //Details [GET]
@@ -133,7 +132,7 @@ namespace IT_Project_manager.Controllers
         {
             if (member is null)
             {
-                return NotFound();
+                return BadRequest( ModelState );
             }
 
             var found = await _memberService.FindBy( member.Id );

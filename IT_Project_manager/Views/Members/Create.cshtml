@@ -44,7 +44,7 @@
 
             <div id="formDiv" >
                 <label asp-for="DateOfBirth">Enter your birth day</label>
-                <input type="date" max="@DateTime.Today" min="1960-01-01" value="1900-01-01" asp-for="DateOfBirth" />
+                <input type="date" max="@DateTime.Today" min="1960-01-01" value="1960-01-01" asp-for="DateOfBirth" />
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
 

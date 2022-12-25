@@ -1,29 +1,27 @@
 ﻿@using IT_Project_manager;
 @model IEnumerable<Member>
-<link  rel="stylesheet" href="~/css/"/>
+<link rel="stylesheet" href="~/css/" />
 @{
     ViewData["Title"] = "Members";
 }
 
-<h1 id="indexTitle">Members</h1>
-@if (User.IsInRole( "Administrator" ))
-{
-    <a style="margin: 10px" class="btn btn-outline-primary" asp-action="Create">Create new</a>
-}
 
-<form asp-action="Index" method="get">
-    <div class="form-group col-2">
-        <label for="SearchString">Search by name:</label>
-        <input type="text" class="form-control" name="SearchString" value="@ViewData["CurrentFilter"]" />
-        <input type="submit" value="Search" class="btn btn-primary" />
-    </div>
-</form>
 
 <body>
+    <h1 id="indexTitle">Members</h1>
+
+    <form asp-action="Index" method="get">
+        <div class="form-group col-2">
+            <label for="SearchString">Search by name:</label>
+            <input type="text" class="form-control" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </div>
+    </form>
+
 
     <div class="container my-5">
-        <div >
-            <table class="table align-middle mb-0 shadow rounded-3 overflow-hidden">
+        <div>
+            <table class="table align-middle mb-0 shadow-lg rounded-3 overflow-hidden">
                 <tr>
                     <th><b>Name</b></th>
                     <th><b>Surname</b></th>
@@ -49,10 +47,10 @@
                         @if (User.IsInRole( "Administrator" ))
                         {
                             <td>
-
+                                
                                 <a class="btn btn-primary btn-sm" asp-controller="Members" asp-action="Edit" asp-route-id="@member.Id">Edit</a> |
                                 <a class="btn btn-warning btn-sm" asp-controller="Members" asp-action="Details" asp-route-id="@member.Id">Details</a> |
-                                <a class="btn btn-danger btn-sm" asp-controller="Members" asp-action="Delete" asp-route-id="@member.Id">Delete</a>
+                                <a class="btn btn-danger btn-sm" asp-controller="Members" asp-action="Delete" asp-route-id="@member.Id">Delete</a>                            
                             </td>
                         }
 
@@ -60,9 +58,13 @@
                     </tr>
                 }
             </table>
+            @if (User.IsInRole( "Administrator" ))
+            {
+                <a style="margin: 5px 0 0 0" class="btn btn-outline-primary" asp-action="Create">Create new</a>
+            }
         </div>
-        
+
     </div>
-    
+
 </body>
 

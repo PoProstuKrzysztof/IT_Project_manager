@@ -12,7 +12,7 @@ public interface IManagerService
 
     public Task<bool> Update(Manager manager);
 
-    public Task<Manager?> FindBy(int? id);
+    public Manager? FindBy(int? id);
 
     public Task<ICollection<Manager>> GetManagers();
 }

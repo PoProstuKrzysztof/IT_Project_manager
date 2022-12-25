@@ -33,7 +33,7 @@ public class ManagersServiceEF : IManagerService
             return false;
         }
 
-        var manager = _context.Managers.Find( id );
+        var manager = await _context.Managers.FindAsync( id );
         if (manager is not null)
         {
             _context.Managers.Remove( manager );
@@ -44,13 +44,13 @@ public class ManagersServiceEF : IManagerService
     }
 
     //Find Manager
-    public async Task<Manager?> FindBy(int? id)
+    public Manager? FindBy(int? id)
     {
         if (id is null)
         {
             throw new ArgumentNullException( "Manager not found" );
         }
-        var manager = await _context.Managers.FindAsync( id );
+        var manager =  _context.Managers.Find( id );
 
         if (manager is not null)
         {
