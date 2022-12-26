@@ -9,6 +9,8 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Member> Members { get; set; }
     public DbSet<Manager> Managers { get; set; }
 
+    public DbSet<Team> Teams { get; set; }
+
     public AppDbContext(DbContextOptions<AppDbContext> options) : base( options )
     {
     }
@@ -25,6 +27,22 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         base.OnModelCreating( modelBuilder );
 
+        modelBuilder.Entity<Team>().HasData(
+            new Team() { Id = 1, Name = "Back-end", Description = "Creating connection between database and API", AssigmentDate = DateTime.Now, DeadlineDate = DateTime.Parse( "2023-03-03" ) },
+            new Team() { Id = 2, Name = "Front-end", Description = "Creating website", AssigmentDate = DateTime.Now, DeadlineDate = DateTime.Parse( "2023-05-24" ) }
+            );
+
+
+        //modelBuilder.Entity<Member>()
+        //    .HasOne( t => t.Team )
+        //    .WithMany( t => t.Members )
+        //    .UsingEntity( join => join.HasData(
+        //        new { MembersId = 1, TeamId = 1 },
+        //        new { MembersId = 2, TeamId = 1 },
+        //        new { MembersId = 3, TeamId = 2 },
+        //        new { MembersId = 4, TeamId = 2 }
+        //        ) );
+
         modelBuilder.Entity<Member>().HasData(
       new Member() { Id = 1, Name = "Krzysztof", Surname = "Palonek", Email = "krzysiek.palonek@gmail.com", DateOfBirth = DateTime.Parse( "2000-10-23" ) },
      new Member() { Id = 2, Name = "Marzena", Surname = "Kołodziej", Email = "marz.koł@gmail.com", DateOfBirth = DateTime.Parse( "2001-05-24" ) },
@@ -39,6 +57,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         modelBuilder.Entity<Member>()
             .HasMany( m => m.Managers )
             .WithMany( a => a.Members )
+
             .UsingEntity( join => join.HasData(
                 new { MembersId = 1, ManagersId = 1 },
                 new { MembersId = 2, ManagersId = 1 },

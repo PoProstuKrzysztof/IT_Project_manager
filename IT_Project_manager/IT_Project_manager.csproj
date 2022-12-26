@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Team_Member.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Views\Managers\Edit.cshtml~RF56571a8.TMP" />
   </ItemGroup>
 

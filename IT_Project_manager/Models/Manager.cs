@@ -8,6 +8,12 @@ namespace IT_Project_manager.Models;
 [Table( "Managers" )]
 public class Manager
 {
+
+    public Manager()
+    {
+        Members = new HashSet<Member>();
+    }
+
     [Key]
     [DatabaseGenerated( DatabaseGeneratedOption.Identity )]
     [HiddenInput]
@@ -30,9 +36,13 @@ public class Manager
     public string Telephone { get; set; }
 
     public ISet<Member> Members { get; set; }
+    public int? TeamId { get; set; }
 
-    public Manager()
-    {
-        Members = new HashSet<Member>();
-    }
+    public IEnumerable<Team> Team { get; set; }
+
+
+
+    //public ISet<Team> Teams { get; set; }
+
+
 }
