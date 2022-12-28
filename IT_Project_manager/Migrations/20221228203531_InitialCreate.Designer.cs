@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ITProjectmanager.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221226142256_TeamAdd")]
-    partial class TeamAdd
+    [Migration("20221228203531_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -169,6 +169,7 @@ namespace ITProjectmanager.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TeamId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -184,7 +185,8 @@ namespace ITProjectmanager.Migrations
                             DateOfBirth = new DateTime(2000, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "krzysiek.palonek@gmail.com",
                             Name = "Krzysztof",
-                            Surname = "Palonek"
+                            Surname = "Palonek",
+                            TeamId = 2
                         },
                         new
                         {
@@ -192,7 +194,8 @@ namespace ITProjectmanager.Migrations
                             DateOfBirth = new DateTime(2001, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "marz.koł@gmail.com",
                             Name = "Marzena",
-                            Surname = "Kołodziej"
+                            Surname = "Kołodziej",
+                            TeamId = 2
                         },
                         new
                         {
@@ -200,7 +203,8 @@ namespace ITProjectmanager.Migrations
                             DateOfBirth = new DateTime(1989, 7, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "jan.kow@gmail.com",
                             Name = "Jan",
-                            Surname = "Kowalski"
+                            Surname = "Kowalski",
+                            TeamId = 1
                         },
                         new
                         {
@@ -208,7 +212,8 @@ namespace ITProjectmanager.Migrations
                             DateOfBirth = new DateTime(1999, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Nat.uro@gmail.com",
                             Name = "Natalia",
-                            Surname = "Urodek"
+                            Surname = "Urodek",
+                            TeamId = 1
                         });
                 });
 
@@ -234,7 +239,6 @@ namespace ITProjectmanager.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -248,7 +252,7 @@ namespace ITProjectmanager.Migrations
                         new
                         {
                             Id = 1,
-                            AssigmentDate = new DateTime(2022, 12, 26, 15, 22, 56, 587, DateTimeKind.Local).AddTicks(7646),
+                            AssigmentDate = new DateTime(2022, 12, 28, 21, 35, 30, 904, DateTimeKind.Local).AddTicks(8387),
                             DeadlineDate = new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Creating connection between database and API",
                             Name = "Back-end"
@@ -256,7 +260,7 @@ namespace ITProjectmanager.Migrations
                         new
                         {
                             Id = 2,
-                            AssigmentDate = new DateTime(2022, 12, 26, 15, 22, 56, 587, DateTimeKind.Local).AddTicks(7728),
+                            AssigmentDate = new DateTime(2022, 12, 28, 21, 35, 30, 904, DateTimeKind.Local).AddTicks(8473),
                             DeadlineDate = new DateTime(2023, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Creating website",
                             Name = "Front-end"
@@ -437,7 +441,9 @@ namespace ITProjectmanager.Migrations
                 {
                     b.HasOne("IT_Project_manager.Models.Team", "Team")
                         .WithMany("Members")
-                        .HasForeignKey("TeamId");
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Team");
                 });
@@ -445,7 +451,7 @@ namespace ITProjectmanager.Migrations
             modelBuilder.Entity("IT_Project_manager.Models.Team", b =>
                 {
                     b.HasOne("IT_Project_manager.Models.Manager", "Manager")
-                        .WithMany("Team")
+                        .WithMany("Teams")
                         .HasForeignKey("ManagerId");
 
                     b.Navigation("Manager");
@@ -519,7 +525,7 @@ namespace ITProjectmanager.Migrations
 
             modelBuilder.Entity("IT_Project_manager.Models.Manager", b =>
                 {
-                    b.Navigation("Team");
+                    b.Navigation("Teams");
                 });
 
             modelBuilder.Entity("IT_Project_manager.Models.Team", b =>

@@ -46,11 +46,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
-
-  <ItemGroup>
     <None Include="wwwroot\js\scripts.js" />
     <None Include="wwwroot\js\site.js" />
   </ItemGroup>

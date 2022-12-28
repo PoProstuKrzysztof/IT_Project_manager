@@ -12,7 +12,8 @@ var connectionString = builder.Configuration.GetConnectionString( "Default" ) ??
 // Add services to the container.
 
 builder.Services.AddDbContext<AppDbContext>( options =>
-options.UseSqlServer( connectionString ) );
+options.UseSqlServer( connectionString ));
+
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>( options => options.SignIn.RequireConfirmedAccount = true )
     .AddEntityFrameworkStores<AppDbContext>()

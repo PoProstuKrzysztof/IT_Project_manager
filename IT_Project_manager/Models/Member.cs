@@ -34,14 +34,16 @@ namespace IT_Project_manager.Models
         [DataType( DataType.Date )]
         public DateTime DateOfBirth { get; set; }
 
-        public ISet<Manager>? Managers { get; set; }
+        public virtual ISet<Manager>? Managers { get; set; }
+
+
+
 
         public int? TeamId { get; set; }
-
         public Team Team { get; set; }
 
 
-        //public List<Team_Member> Team_Members { get; set; }
+        
 
 
 
