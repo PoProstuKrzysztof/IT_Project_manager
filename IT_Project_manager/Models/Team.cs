@@ -33,13 +33,10 @@ public class Team
     public DateTime DeadlineDate { get; set; }
 
 
-    
-    public int? ManagerId { get; set; }
-    
-    public Manager? Manager { get; set; }   
-    
-    
-    public virtual ISet<Member>? Members { get; set; }  
+    public virtual ISet<Manager>? Managers { get; set; }
+
+
+    public virtual ISet<Member>? Members { get; set; }
 
 
 

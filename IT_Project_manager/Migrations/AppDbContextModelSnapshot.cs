@@ -113,9 +113,6 @@ namespace ITProjectmanager.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasColumnName("Surname");
 
-                    b.Property<int?>("TeamId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Telephone")
                         .IsRequired()
                         .HasMaxLength(12)
@@ -165,13 +162,7 @@ namespace ITProjectmanager.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TeamId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TeamId");
 
                     b.ToTable("Members");
 
@@ -182,8 +173,7 @@ namespace ITProjectmanager.Migrations
                             DateOfBirth = new DateTime(2000, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "krzysiek.palonek@gmail.com",
                             Name = "Krzysztof",
-                            Surname = "Palonek",
-                            TeamId = 2
+                            Surname = "Palonek"
                         },
                         new
                         {
@@ -191,8 +181,7 @@ namespace ITProjectmanager.Migrations
                             DateOfBirth = new DateTime(2001, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "marz.koł@gmail.com",
                             Name = "Marzena",
-                            Surname = "Kołodziej",
-                            TeamId = 2
+                            Surname = "Kołodziej"
                         },
                         new
                         {
@@ -200,8 +189,7 @@ namespace ITProjectmanager.Migrations
                             DateOfBirth = new DateTime(1989, 7, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "jan.kow@gmail.com",
                             Name = "Jan",
-                            Surname = "Kowalski",
-                            TeamId = 1
+                            Surname = "Kowalski"
                         },
                         new
                         {
@@ -209,8 +197,7 @@ namespace ITProjectmanager.Migrations
                             DateOfBirth = new DateTime(1999, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Nat.uro@gmail.com",
                             Name = "Natalia",
-                            Surname = "Urodek",
-                            TeamId = 1
+                            Surname = "Urodek"
                         });
                 });
 
@@ -232,16 +219,11 @@ namespace ITProjectmanager.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<int?>("ManagerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ManagerId");
 
                     b.ToTable("Teams");
 
@@ -249,7 +231,7 @@ namespace ITProjectmanager.Migrations
                         new
                         {
                             Id = 1,
-                            AssigmentDate = new DateTime(2022, 12, 28, 21, 35, 30, 904, DateTimeKind.Local).AddTicks(8387),
+                            AssigmentDate = new DateTime(2022, 12, 28, 22, 42, 32, 217, DateTimeKind.Local).AddTicks(5340),
                             DeadlineDate = new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Creating connection between database and API",
                             Name = "Back-end"
@@ -257,7 +239,7 @@ namespace ITProjectmanager.Migrations
                         new
                         {
                             Id = 2,
-                            AssigmentDate = new DateTime(2022, 12, 28, 21, 35, 30, 904, DateTimeKind.Local).AddTicks(8473),
+                            AssigmentDate = new DateTime(2022, 12, 28, 22, 42, 32, 217, DateTimeKind.Local).AddTicks(5424),
                             DeadlineDate = new DateTime(2023, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Creating website",
                             Name = "Front-end"
@@ -298,6 +280,70 @@ namespace ITProjectmanager.Migrations
                         {
                             ManagersId = 2,
                             MembersId = 4
+                        });
+                });
+
+            modelBuilder.Entity("ManagerTeam", b =>
+                {
+                    b.Property<int>("ManagersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ManagersId", "TeamsId");
+
+                    b.HasIndex("TeamsId");
+
+                    b.ToTable("ManagerTeam");
+
+                    b.HasData(
+                        new
+                        {
+                            ManagersId = 1,
+                            TeamsId = 1
+                        },
+                        new
+                        {
+                            ManagersId = 2,
+                            TeamsId = 2
+                        });
+                });
+
+            modelBuilder.Entity("MemberTeam", b =>
+                {
+                    b.Property<int>("MembersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MembersId", "TeamsId");
+
+                    b.HasIndex("TeamsId");
+
+                    b.ToTable("MemberTeam");
+
+                    b.HasData(
+                        new
+                        {
+                            MembersId = 1,
+                            TeamsId = 1
+                        },
+                        new
+                        {
+                            MembersId = 2,
+                            TeamsId = 1
+                        },
+                        new
+                        {
+                            MembersId = 3,
+                            TeamsId = 2
+                        },
+                        new
+                        {
+                            MembersId = 4,
+                            TeamsId = 2
                         });
                 });
 
@@ -434,26 +480,6 @@ namespace ITProjectmanager.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("IT_Project_manager.Models.Member", b =>
-                {
-                    b.HasOne("IT_Project_manager.Models.Team", "Team")
-                        .WithMany("Members")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Team");
-                });
-
-            modelBuilder.Entity("IT_Project_manager.Models.Team", b =>
-                {
-                    b.HasOne("IT_Project_manager.Models.Manager", "Manager")
-                        .WithMany("Teams")
-                        .HasForeignKey("ManagerId");
-
-                    b.Navigation("Manager");
-                });
-
             modelBuilder.Entity("ManagerMember", b =>
                 {
                     b.HasOne("IT_Project_manager.Models.Manager", null)
@@ -465,6 +491,36 @@ namespace ITProjectmanager.Migrations
                     b.HasOne("IT_Project_manager.Models.Member", null)
                         .WithMany()
                         .HasForeignKey("MembersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerTeam", b =>
+                {
+                    b.HasOne("IT_Project_manager.Models.Manager", null)
+                        .WithMany()
+                        .HasForeignKey("ManagersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IT_Project_manager.Models.Team", null)
+                        .WithMany()
+                        .HasForeignKey("TeamsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MemberTeam", b =>
+                {
+                    b.HasOne("IT_Project_manager.Models.Member", null)
+                        .WithMany()
+                        .HasForeignKey("MembersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IT_Project_manager.Models.Team", null)
+                        .WithMany()
+                        .HasForeignKey("TeamsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -518,16 +574,6 @@ namespace ITProjectmanager.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("IT_Project_manager.Models.Manager", b =>
-                {
-                    b.Navigation("Teams");
-                });
-
-            modelBuilder.Entity("IT_Project_manager.Models.Team", b =>
-                {
-                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }

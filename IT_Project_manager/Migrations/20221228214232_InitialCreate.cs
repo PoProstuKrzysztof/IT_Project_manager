@@ -62,12 +62,43 @@ namespace ITProjectmanager.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Telephone = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
-                    TeamId = table.Column<int>(type: "int", nullable: true)
+                    Telephone = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Managers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Members",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Members", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Teams",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    AssigmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeadlineDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Teams", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -177,51 +208,6 @@ namespace ITProjectmanager.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Teams",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    AssigmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeadlineDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ManagerId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Teams", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Teams_Managers_ManagerId",
-                        column: x => x.ManagerId,
-                        principalTable: "Managers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Members",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TeamId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Members", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Members_Teams_TeamId",
-                        column: x => x.TeamId,
-                        principalTable: "Teams",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ManagerMember",
                 columns: table => new
                 {
@@ -245,33 +231,81 @@ namespace ITProjectmanager.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Managers",
-                columns: new[] { "Id", "Name", "Surname", "TeamId", "Telephone" },
-                values: new object[,]
+            migrationBuilder.CreateTable(
+                name: "ManagerTeam",
+                columns: table => new
                 {
-                    { 1, "Maciej", "Krasko", null, "123-456-789" },
-                    { 2, "Zuzanna", "Krasko", null, "987-654-321" }
+                    ManagersId = table.Column<int>(type: "int", nullable: false),
+                    TeamsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ManagerTeam", x => new { x.ManagersId, x.TeamsId });
+                    table.ForeignKey(
+                        name: "FK_ManagerTeam_Managers_ManagersId",
+                        column: x => x.ManagersId,
+                        principalTable: "Managers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ManagerTeam_Teams_TeamsId",
+                        column: x => x.TeamsId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MemberTeam",
+                columns: table => new
+                {
+                    MembersId = table.Column<int>(type: "int", nullable: false),
+                    TeamsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MemberTeam", x => new { x.MembersId, x.TeamsId });
+                    table.ForeignKey(
+                        name: "FK_MemberTeam_Members_MembersId",
+                        column: x => x.MembersId,
+                        principalTable: "Members",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MemberTeam_Teams_TeamsId",
+                        column: x => x.TeamsId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "Teams",
-                columns: new[] { "Id", "AssigmentDate", "DeadlineDate", "Description", "ManagerId", "Name" },
+                table: "Managers",
+                columns: new[] { "Id", "Name", "Surname", "Telephone" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 12, 28, 21, 35, 30, 904, DateTimeKind.Local).AddTicks(8387), new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "Creating connection between database and API", null, "Back-end" },
-                    { 2, new DateTime(2022, 12, 28, 21, 35, 30, 904, DateTimeKind.Local).AddTicks(8473), new DateTime(2023, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "Creating website", null, "Front-end" }
+                    { 1, "Maciej", "Krasko", "123-456-789" },
+                    { 2, "Zuzanna", "Krasko", "987-654-321" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Members",
-                columns: new[] { "Id", "DateOfBirth", "Email", "Name", "Surname", "TeamId" },
+                columns: new[] { "Id", "DateOfBirth", "Email", "Name", "Surname" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2000, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "krzysiek.palonek@gmail.com", "Krzysztof", "Palonek", 2 },
-                    { 2, new DateTime(2001, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "marz.koł@gmail.com", "Marzena", "Kołodziej", 2 },
-                    { 3, new DateTime(1989, 7, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "jan.kow@gmail.com", "Jan", "Kowalski", 1 },
-                    { 4, new DateTime(1999, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Nat.uro@gmail.com", "Natalia", "Urodek", 1 }
+                    { 1, new DateTime(2000, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "krzysiek.palonek@gmail.com", "Krzysztof", "Palonek" },
+                    { 2, new DateTime(2001, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "marz.koł@gmail.com", "Marzena", "Kołodziej" },
+                    { 3, new DateTime(1989, 7, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "jan.kow@gmail.com", "Jan", "Kowalski" },
+                    { 4, new DateTime(1999, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Nat.uro@gmail.com", "Natalia", "Urodek" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Teams",
+                columns: new[] { "Id", "AssigmentDate", "DeadlineDate", "Description", "Name" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2022, 12, 28, 22, 42, 32, 217, DateTimeKind.Local).AddTicks(5340), new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "Creating connection between database and API", "Back-end" },
+                    { 2, new DateTime(2022, 12, 28, 22, 42, 32, 217, DateTimeKind.Local).AddTicks(5424), new DateTime(2023, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "Creating website", "Front-end" }
                 });
 
             migrationBuilder.InsertData(
@@ -283,6 +317,26 @@ namespace ITProjectmanager.Migrations
                     { 1, 2 },
                     { 2, 3 },
                     { 2, 4 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ManagerTeam",
+                columns: new[] { "ManagersId", "TeamsId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 2, 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "MemberTeam",
+                columns: new[] { "MembersId", "TeamsId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 2, 1 },
+                    { 3, 2 },
+                    { 4, 2 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -330,14 +384,14 @@ namespace ITProjectmanager.Migrations
                 column: "MembersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Members_TeamId",
-                table: "Members",
-                column: "TeamId");
+                name: "IX_ManagerTeam_TeamsId",
+                table: "ManagerTeam",
+                column: "TeamsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Teams_ManagerId",
-                table: "Teams",
-                column: "ManagerId");
+                name: "IX_MemberTeam_TeamsId",
+                table: "MemberTeam",
+                column: "TeamsId");
         }
 
         /// <inheritdoc />
@@ -362,19 +416,25 @@ namespace ITProjectmanager.Migrations
                 name: "ManagerMember");
 
             migrationBuilder.DropTable(
+                name: "ManagerTeam");
+
+            migrationBuilder.DropTable(
+                name: "MemberTeam");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
+                name: "Managers");
+
+            migrationBuilder.DropTable(
                 name: "Members");
 
             migrationBuilder.DropTable(
                 name: "Teams");
-
-            migrationBuilder.DropTable(
-                name: "Managers");
         }
     }
 }

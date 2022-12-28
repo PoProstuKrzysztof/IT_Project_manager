@@ -38,15 +38,9 @@ public class Manager
     public string Telephone { get; set; }
 
     public ISet<Member> Members { get; set; }
-
-    
-    public int? TeamId { get; set; }
     
     public ISet<Team> Teams { get; set; }
-
-
-
-    
+  
 
 
 }
