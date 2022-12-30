@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ITProjectmanager.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221222220422_InitialCreate")]
+    [Migration("20221228214232_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -118,7 +118,8 @@ namespace ITProjectmanager.Migrations
 
                     b.Property<string>("Telephone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)")
                         .HasColumnName("Telephone");
 
                     b.HasKey("Id");
@@ -203,6 +204,51 @@ namespace ITProjectmanager.Migrations
                         });
                 });
 
+            modelBuilder.Entity("IT_Project_manager.Models.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AssigmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DeadlineDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Teams");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AssigmentDate = new DateTime(2022, 12, 28, 22, 42, 32, 217, DateTimeKind.Local).AddTicks(5340),
+                            DeadlineDate = new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Creating connection between database and API",
+                            Name = "Back-end"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AssigmentDate = new DateTime(2022, 12, 28, 22, 42, 32, 217, DateTimeKind.Local).AddTicks(5424),
+                            DeadlineDate = new DateTime(2023, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Creating website",
+                            Name = "Front-end"
+                        });
+                });
+
             modelBuilder.Entity("ManagerMember", b =>
                 {
                     b.Property<int>("ManagersId")
@@ -237,6 +283,70 @@ namespace ITProjectmanager.Migrations
                         {
                             ManagersId = 2,
                             MembersId = 4
+                        });
+                });
+
+            modelBuilder.Entity("ManagerTeam", b =>
+                {
+                    b.Property<int>("ManagersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ManagersId", "TeamsId");
+
+                    b.HasIndex("TeamsId");
+
+                    b.ToTable("ManagerTeam");
+
+                    b.HasData(
+                        new
+                        {
+                            ManagersId = 1,
+                            TeamsId = 1
+                        },
+                        new
+                        {
+                            ManagersId = 2,
+                            TeamsId = 2
+                        });
+                });
+
+            modelBuilder.Entity("MemberTeam", b =>
+                {
+                    b.Property<int>("MembersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MembersId", "TeamsId");
+
+                    b.HasIndex("TeamsId");
+
+                    b.ToTable("MemberTeam");
+
+                    b.HasData(
+                        new
+                        {
+                            MembersId = 1,
+                            TeamsId = 1
+                        },
+                        new
+                        {
+                            MembersId = 2,
+                            TeamsId = 1
+                        },
+                        new
+                        {
+                            MembersId = 3,
+                            TeamsId = 2
+                        },
+                        new
+                        {
+                            MembersId = 4,
+                            TeamsId = 2
                         });
                 });
 
@@ -384,6 +494,36 @@ namespace ITProjectmanager.Migrations
                     b.HasOne("IT_Project_manager.Models.Member", null)
                         .WithMany()
                         .HasForeignKey("MembersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerTeam", b =>
+                {
+                    b.HasOne("IT_Project_manager.Models.Manager", null)
+                        .WithMany()
+                        .HasForeignKey("ManagersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IT_Project_manager.Models.Team", null)
+                        .WithMany()
+                        .HasForeignKey("TeamsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MemberTeam", b =>
+                {
+                    b.HasOne("IT_Project_manager.Models.Member", null)
+                        .WithMany()
+                        .HasForeignKey("MembersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IT_Project_manager.Models.Team", null)
+                        .WithMany()
+                        .HasForeignKey("TeamsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

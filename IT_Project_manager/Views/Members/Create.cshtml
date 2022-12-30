@@ -4,18 +4,13 @@
 @{
     ViewData["Title"] = "Create member";
 }
-<header class="container">
-    <div>
-        <h1>Create</h1>
-    </div>
-    <div>
-        <h4>Members</h4>
-    </div>
-   
-</header>
 
-<hr />
+
+
 <div class="row">
+    <p>
+        Create member
+    </p>
     <div class="col-md-4">
         <form asp-action="Create" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -49,7 +44,7 @@
             </div>
 
             <div id="formDiv" >
-                <label asp-for="ManagersId" >Select your manager</label>
+                <label asp-for="ManagersId" >Select manager</label>
                 <select asp-for="ManagersId" class="form-select" asp-items="@Model.Managers"> </select>
             </div>
 

@@ -7,6 +7,13 @@ namespace IT_Project_manager.Models
     [Table( "Members" )]
     public class Member
     {
+        public Member()
+        {
+           
+            Managers = new HashSet<Manager>();
+            Teams = new HashSet<Team>();    
+        }
+
         [Key]
         [DatabaseGenerated( DatabaseGeneratedOption.Identity )]
         [HiddenInput]
@@ -28,11 +35,17 @@ namespace IT_Project_manager.Models
         [DataType( DataType.Date )]
         public DateTime DateOfBirth { get; set; }
 
-        public ISet<Manager>? Managers { get; set; }
+        public virtual ISet<Manager>? Managers { get; set; }
 
-        public Member()
-        {
-            Managers = new HashSet<Manager>();
-        }
+        public virtual ISet<Team>? Teams { get; set; }
+
+
+
+        
+
+
+
+
+
     }
 }

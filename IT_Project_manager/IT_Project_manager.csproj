@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Team_Member.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Views\Managers\Edit.cshtml~RF56571a8.TMP" />
   </ItemGroup>
 
@@ -42,13 +46,13 @@
 
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <None Include="wwwroot\js\scripts.js" />
+    <None Include="wwwroot\js\site.js" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <None Include="wwwroot\js\scripts.js" />
-    <None Include="wwwroot\js\site.js" />
+    <Folder Include="wwwroot\assets\img\" />
   </ItemGroup>
 
 </Project>

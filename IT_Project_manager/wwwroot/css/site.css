@@ -1,6 +1,4 @@
-html {
-    font-size: 14px;
-}
+
 
 @media (min-width: 768px) {
     html {
@@ -11,6 +9,7 @@ html {
 html {
     position: relative;
     min-height: 100%;
+    font-size: 16px;
 }
 
 body {
@@ -42,10 +41,11 @@ td {
 }
 
 #indexTitle {
-
+    align-self:flex-start;
     font-weight: 700;
 }
 
 #formDiv {
     margin: 10px;
-}
+    font-size: 1.1rem;
+    }
