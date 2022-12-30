@@ -11,6 +11,11 @@ namespace IT_Project_manager.Models;
 [Table( "Teams" )]
 public class Team
 {
+    public Team()
+    {
+        Members = new HashSet<Member>();
+        Managers = new HashSet<Manager>();
+    }
 
     [Key]
     [HiddenInput]

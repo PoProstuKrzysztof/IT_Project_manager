@@ -1,0 +1,61 @@
+﻿@using IT_Project_manager.Models;
+
+@model IEnumerable<Team>
+
+
+@{
+    ViewData["Title"] = "Teams";
+}
+
+
+
+<html>
+
+<header>
+    <h1 id="indexTitle">Teams</h1>
+</header>
+
+<body>
+    <div class="container-fluid my-3">
+        <table class="table table-active shadow rounded-3 ">
+            <tr>
+                <th>Team name</th>
+                <th>Description of team's task'</th>
+                <th>Assigment date</th>
+                <th>Deadline </th>
+                <th>Manager</th>
+                <th>Members</th>
+            </tr>
+
+
+
+            @foreach (var t in Model)
+            {
+                <tr id="tableData">
+                    <td>@t.Name</td>
+                    <td>@t.Description</td>
+                    <td>@t.AssigmentDate.ToString("yyyy-MM-dd")</td>
+                    <td>@t.DeadlineDate.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        @foreach (var m in t.Managers)
+                        {
+                            <span><a asp-action="Details" asp-controller="Managers" asp-route-id="@m.Id">@m.Name @m.Surname</a></span>
+                        }
+                    </td>
+                    <td>
+                        @foreach (var m in t.Members)
+                        {
+                            <span><a asp-action="Details" asp-controller="Members" asp-route-id="@m.Id">@m.Name @m.Surname</a></span>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <a class="btn btn-outline-primary" asp-action="Create">Create</a>
+
+</body>
+</html>
+
+
+

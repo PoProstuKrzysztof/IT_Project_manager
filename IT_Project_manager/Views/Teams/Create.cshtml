@@ -1,0 +1,63 @@
+﻿@using IT_Project_manager;
+@model TeamsViewModel
+
+
+@{
+    ViewData["Title"] = "Create team";
+}
+
+
+<div class="row">
+    <p>
+        <h2><b>Create team</b></h2>
+    </p>
+    <div class="col-md-4">
+        <form method="post" asp-action="Create">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div id="formDiv">
+                <input asp-for="AssigmentDate" type="hidden" />
+                <input asp-for="Managers" type="hidden" />
+                <input asp-for="Members" type="hidden"/>
+            </div>
+
+            <div id="formDiv">
+
+                <label asp-for="Name">Name of team</label>
+                <input class="form-control" asp-for="Name" type="text" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+
+            </div>
+
+            <div id="formDiv">
+                <label asp-for="Description">Description of a task</label>
+                <textarea class="form-control" asp-for="Description">Enter text here...</textarea>
+                <span asp-validation-for="Description"></span>
+            </div>
+
+            <div id="formDiv">
+                <label asp-for="DeadlineDate">Deadline date</label>
+                <input class="form-control" type="date" min="@DateTime.Today" value="@DateTime.Today" asp-for="DeadlineDate" />
+                <span asp-validation-for="DeadlineDate"></span>
+            </div>
+
+            <div id="formDiv">
+                <label asp-for="ManagersId">Select Managers</label>
+                <select asp-for="ManagersId" class="form-control form-select-lg" asp-items="@Model.Managers"></select>
+            </div>
+
+            <div id="formDiv">
+                <label asp-for="MembersId">Select Members</label>
+                <select asp-for="MembersId" class="form-control form-select" asp-items="@Model.Members" multiple></select>
+            </div>
+
+            <div id="formDiv">
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+
+        </form>
+        <div>
+            <br /><a class="btn btn-primary" asp-action="Index">Back to List</a>
+        </div>
+
+    </div>
+</div>

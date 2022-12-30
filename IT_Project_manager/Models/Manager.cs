@@ -37,9 +37,9 @@ public class Manager
     [DataType( DataType.PhoneNumber )]
     public string Telephone { get; set; }
 
-    public ISet<Member> Members { get; set; }
+    public virtual ISet<Member> Members { get; set; }
     
-    public ISet<Team> Teams { get; set; }
+    public virtual ISet<Team> Teams { get; set; }
   
 
 

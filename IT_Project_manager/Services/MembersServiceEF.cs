@@ -98,7 +98,7 @@ public class MembersServiceEF : IMemberService
             .Select( m => new SelectListItem()
             {
                 Value = m.Id.ToString(),
-                Text = $"{m.Name} {m.Surname} {m.Telephone}"
+                Text = $"{m.Name} {m.Surname}"
             } )
             .ToListAsync();
     }

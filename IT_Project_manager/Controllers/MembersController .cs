@@ -71,7 +71,7 @@ namespace IT_Project_manager.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest( ModelState );
+                    return View(member);
                 }
 
                 var newMember = await _memberService.CreateMember( member );

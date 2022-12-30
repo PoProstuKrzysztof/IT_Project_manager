@@ -50,4 +50,9 @@
     <None Include="wwwroot\js\site.js" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\assets\img\" />
+  </ItemGroup>
+
 </Project>
