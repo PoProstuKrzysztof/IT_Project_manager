@@ -12,7 +12,6 @@ public class ManagersServiceEF : IManagerService
         _context = context;
     }
 
-
     //Create new manager instance
     public async Task<Manager?> CreateManager(Manager manager)
     {
@@ -50,7 +49,7 @@ public class ManagersServiceEF : IManagerService
         {
             throw new ArgumentNullException( "Manager not found" );
         }
-        var manager =  _context.Managers.Find( id );
+        var manager = _context.Managers.Find( id );
 
         if (manager is not null)
         {
@@ -62,7 +61,7 @@ public class ManagersServiceEF : IManagerService
     //Managers to list
     public async Task<ICollection<Manager>> GetManagers()
     {
-        return  await _context.Managers.ToListAsync();
+        return await _context.Managers.ToListAsync();
     }
 
     //Save manager in database
@@ -89,7 +88,7 @@ public class ManagersServiceEF : IManagerService
                 findManager.Name = manager.Name;
                 findManager.Surname = manager.Surname;
                 findManager.Telephone = manager.Telephone;
-               await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                 return true;
             }
             return false;

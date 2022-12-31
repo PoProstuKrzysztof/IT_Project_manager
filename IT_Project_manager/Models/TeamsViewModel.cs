@@ -10,14 +10,13 @@ public class TeamsViewModel
     {
         ManagersId = new List<string>();
         MembersId = new List<string>();
-
     }
 
-    [Required(ErrorMessage = "You must set team name!")]
+    [Required( ErrorMessage = "You must set team name!" )]
     [StringLength( 50 )]
     public string? Name { get; set; }
 
-    [Required(ErrorMessage = "You must set description of a task!")]
+    [Required( ErrorMessage = "You must set description of a task!" )]
     [StringLength( 250 )]
     [DataType( DataType.MultilineText )]
     public string? Description { get; set; }
@@ -25,19 +24,18 @@ public class TeamsViewModel
     [Required]
     [DataType( DataType.Date )]
     public DateTime AssigmentDate { get; set; } = DateTime.UtcNow;
-    
-    [Required(ErrorMessage = "You must set deadline date!")]
+
+    [Required( ErrorMessage = "You must set deadline date!" )]
     [DataType( DataType.Date )]
     public DateTime DeadlineDate { get; set; }
 
-
     [ValidateNever]
-    public List<SelectListItem> Members { get; set; } 
+    public List<SelectListItem> Members { get; set; }
+
     public List<string> MembersId { get; set; }
+
     [ValidateNever]
     public List<SelectListItem> Managers { get; set; }
- 
+
     public List<string> ManagersId { get; set; }
-
-
 }

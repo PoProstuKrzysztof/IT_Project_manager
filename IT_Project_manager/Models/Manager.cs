@@ -1,5 +1,4 @@
-﻿using IT_Project_manager.Controllers;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +8,6 @@ namespace IT_Project_manager.Models;
 [Table( "Managers" )]
 public class Manager
 {
-
     public Manager()
     {
         Members = new HashSet<Member>();
@@ -31,16 +29,12 @@ public class Manager
     [StringLength( 30 )]
     public string Surname { get; set; }
 
-
     [Column( "Telephone" )]
-    [StringLength(12,MinimumLength = 9 )]  
+    [StringLength( 12, MinimumLength = 9 )]
     [DataType( DataType.PhoneNumber )]
     public string Telephone { get; set; }
 
     public virtual ISet<Member> Members { get; set; }
-    
+
     public virtual ISet<Team> Teams { get; set; }
-  
-
-
 }

@@ -4,9 +4,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace IT_Project_manager.Areas.Identity.Pages.Account
 {
-
-    
-
     public class AccessDeniedModel : PageModel
     {
         private readonly ILogger<AccessDeniedModel> _Logger;

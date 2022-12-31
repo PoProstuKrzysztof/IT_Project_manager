@@ -1,144 +1,98 @@
 ﻿using IT_Project_manager.Models;
+using IT_Project_manager.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace IT_Project_manager.Controllers;
+
 public class TeamsController : Controller
 {
-    private readonly AppDbContext _context;
+    private readonly ITeamService? _teamService;
 
-    public TeamsController(AppDbContext context)
+    public TeamsController(AppDbContext context, ITeamService service)
     {
-        _context = context;
+        _teamService = service;
     }
 
     [HttpGet]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         try
         {
-            return View( _context.Teams.ToList() );
+            var teams = await _teamService.GetTeams();
+            return View( teams );
         }
         catch (Exception ex)
         {
             Console.WriteLine( ex );
             return StatusCode( 500, ex.Message );
         }
-
     }
 
-    [HttpGet]
+    [HttpGet, Authorize( Roles = "Administrator" )]
     public IActionResult Create()
     {
         try
         {
             TeamsViewModel newTeam = new TeamsViewModel();
-            newTeam.Members = GetMembers();
-            newTeam.Managers= GetManagers();
-            return View( newTeam );
+            return View( _teamService.GetMembersAndManagers( newTeam ) );
         }
         catch (Exception e)
         {
             Console.WriteLine( e );
             return StatusCode( 500, e.Message );
         }
-
     }
 
-    [HttpPost]
-    public IActionResult Create(TeamsViewModel tvm)
+    [HttpPost, Authorize( Roles = "Administrator" )]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(TeamsViewModel tvm)
     {
         try
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                tvm.Managers = GetManagers();
-                tvm.Members= GetMembers();
-                return View(tvm);
+                return View( _teamService.GetMembersAndManagers( tvm ) );
             }
 
+            var newTeam = _teamService.CreateTeam( tvm );
 
-            var newTeam = new Team()
+            if (await _teamService.AddManagerToTeam( tvm, newTeam ) && await _teamService.AddMemberToTeam( tvm, newTeam ))
             {
-                Name = tvm.Name,
-                Description = tvm.Description,
-                AssigmentDate = tvm.AssigmentDate,
-                DeadlineDate = tvm.DeadlineDate
-
-            };
-
-            foreach (var managerId in tvm.ManagersId)
-            {
-                if (int.TryParse( managerId, out int id ))
-                {
-                    var manager = _context.Managers.Find( id );
-                    if(newTeam.Managers.Add( manager ))
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        return View( newTeam );
-                    }
-                }
-                        
+                await _teamService.Save( newTeam );
+                return RedirectToAction( nameof( Index ) );
             }
-
-            foreach (var memberId in tvm.MembersId)
+            else
             {
-                if (int.TryParse( memberId, out int id ))
-                {
-                    var member = _context.Members.Find( id );
-                    if (newTeam.Members.Add( member ))
-                    {
-                        _context.Teams.Add(newTeam);
-                        _context.SaveChanges();
-                        return RedirectToAction(nameof(Index));
-                    }
-                    else
-                    {
-                        return View( newTeam );
-                    }
-                        
-                }
+                return View( _teamService.GetMembersAndManagers( tvm ) );
             }
-            return View( newTeam );
-            
         }
         catch (Exception e)
         {
             Console.WriteLine( e );
             return View( "Index" );
-            //return StatusCode( 500, e.Message );
         }
-
     }
 
-
-    public List<SelectListItem> GetManagers()
+    [Authorize( Roles = "Administrator" )]
+    public async Task<IActionResult> Delete(int? id)
     {
-        return _context.Managers
-            .Select( m => new SelectListItem()
+        try
+        {
+            if (id == null)
             {
-                Value = m.Id.ToString(),
-                Text = $"{m.Name} {m.Surname}"
-            } )
-            .ToList();
-
-    }
-
-
-
-    public List<SelectListItem> GetMembers()
-    {
-        return _context.Members
-            .Select( m => new SelectListItem()
+                return RedirectToAction( "Index" );
+            }
+            if (await _teamService.Delete( id ))
             {
-                Value = m.Id.ToString(),
-                Text = $"{m.Name} {m.Surname}"
-            } )
-            .ToList();
+                return RedirectToAction( "Index" );
+            }
+            return BadRequest( "Trying to delete not existing team" );
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine( e );
+            return StatusCode( 500, e.Message );
+        }
     }
-
 }

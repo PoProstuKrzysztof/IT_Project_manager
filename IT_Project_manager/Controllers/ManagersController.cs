@@ -2,7 +2,6 @@
 using IT_Project_manager.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics.Metrics;
 
 namespace IT_Project_manager.Controllers
 {
@@ -29,7 +28,6 @@ namespace IT_Project_manager.Controllers
                 Console.WriteLine( ex );
                 return StatusCode( 500, ex.Message );
             }
-
         }
 
         //Details [GET]
@@ -40,7 +38,6 @@ namespace IT_Project_manager.Controllers
         {
             try
             {
-
                 if (manager is null)
                 {
                     return BadRequest( ModelState );
@@ -72,9 +69,8 @@ namespace IT_Project_manager.Controllers
                 Console.WriteLine( ex );
                 return StatusCode( 500, ex.Message );
             }
-
-
         }
+
         //Create [POST]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -97,8 +93,6 @@ namespace IT_Project_manager.Controllers
                 Console.WriteLine( ex );
                 return StatusCode( 500, ex.Message );
             }
-
-
         }
 
         //Editing [GET]
@@ -122,7 +116,6 @@ namespace IT_Project_manager.Controllers
                 Console.WriteLine( ex );
                 return StatusCode( 500, ex.Message );
             }
-
         }
 
         //Editing [POST]
@@ -138,10 +131,7 @@ namespace IT_Project_manager.Controllers
 
                     var username = HttpContext.User.Identity.Name;
 
-
                     return RedirectToAction( "Index" );
-
-
                 }
 
                 return View( manager );
@@ -151,8 +141,8 @@ namespace IT_Project_manager.Controllers
                 Console.WriteLine( ex );
                 return StatusCode( 500, ex.Message );
             }
-
         }
+
         //Deleting [GET]
         [Authorize]
         [HttpGet]
@@ -178,8 +168,6 @@ namespace IT_Project_manager.Controllers
                 Console.WriteLine( ex );
                 return StatusCode( 500, ex.Message );
             }
-
         }
-
     }
 }

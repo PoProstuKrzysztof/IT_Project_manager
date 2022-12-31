@@ -25,6 +25,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IMemberService, MembersServiceEF>();
 builder.Services.AddScoped<IManagerService, ManagersServiceEF>();
+builder.Services.AddScoped<ITeamService, TeamsServiceEF>();
 
 builder.Services.Configure<IdentityOptions>( options =>
 {

@@ -9,9 +9,8 @@ namespace IT_Project_manager.Models
     {
         public Member()
         {
-           
             Managers = new HashSet<Manager>();
-            Teams = new HashSet<Team>();    
+            Teams = new HashSet<Team>();
         }
 
         [Key]
@@ -38,14 +37,5 @@ namespace IT_Project_manager.Models
         public virtual ISet<Manager>? Managers { get; set; }
 
         public virtual ISet<Team>? Teams { get; set; }
-
-
-
-        
-
-
-
-
-
     }
 }
