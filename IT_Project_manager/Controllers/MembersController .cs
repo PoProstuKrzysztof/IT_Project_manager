@@ -148,8 +148,7 @@ namespace IT_Project_manager.Controllers
             
         }
 
-        //Deleting [GET]
-        [Authorize]
+        //Deleting [GET]        
         [Authorize( Roles = "Administrator" )]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -157,7 +156,7 @@ namespace IT_Project_manager.Controllers
             {
                 if (id == null)
                 {
-                    return BadRequest( ModelState );
+                    return BadRequest( "Trying to delete not existing member" );
                 }
 
                 if (await _memberService.Delete( id ))
@@ -165,7 +164,7 @@ namespace IT_Project_manager.Controllers
                     return RedirectToAction( "Index" );
                 }
 
-                return Problem( "Trying to delete not existing member" );
+                return BadRequest( "Trying to delete not existing member" );
             }
             catch (Exception ex)
             {
