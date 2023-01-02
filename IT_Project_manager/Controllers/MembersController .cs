@@ -17,7 +17,6 @@ namespace IT_Project_manager.Controllers
             _logger = logger;
         }
 
-
         // List of members
         public async Task<IActionResult> Index(string searchString)
         {
@@ -29,8 +28,11 @@ namespace IT_Project_manager.Controllers
             {
                 m = m.Where( c => c.Name.Contains( searchString ) );
             }
+<<<<<<< Updated upstream
 
             return View(m );
+=======
+>>>>>>> Stashed changes
         }
 
         // Creating [GET]
@@ -40,9 +42,23 @@ namespace IT_Project_manager.Controllers
 
         public async Task<IActionResult> Create()
         {
+<<<<<<< Updated upstream
             MembersViewModel model = new MembersViewModel();
             model.Managers = await _memberService.GetManagers();
             return View( model );
+=======
+            try
+            {
+                MembersViewModel model = new MembersViewModel();
+                model.Managers = await _memberService.GetManagers();
+                return View( model );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine( ex );
+                return StatusCode( 500, ex.Message );
+            }
+>>>>>>> Stashed changes
         }
 
         //Creating [POST]
@@ -52,6 +68,7 @@ namespace IT_Project_manager.Controllers
         {
             if (!ModelState.IsValid)
             {
+<<<<<<< Updated upstream
                 return BadRequest(ModelState);
             }
 
@@ -69,12 +86,39 @@ namespace IT_Project_manager.Controllers
 
         //Editing [GET]
         
+=======
+                if (!ModelState.IsValid)
+                {
+                    return View( member );
+                }
+
+                var newMember = await _memberService.CreateMember( member );
+
+                if (await _memberService.AddManagerToMember( member, newMember ))
+                {
+                    await _memberService.Save( newMember );
+                    return View( "MemberConfirmation", member );
+                }
+
+                member.Managers = await _memberService.GetManagers();
+                return View( member );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine( ex );
+                return StatusCode( 500, ex.Message );
+            }
+        }
+
+        //Editing [GET]
+>>>>>>> Stashed changes
         [HttpGet]
         [Authorize( Roles = "Administrator" )]
         public async Task<IActionResult> Edit([FromRoute] int? id)
         {
             if (id is null)
             {
+<<<<<<< Updated upstream
                 return BadRequest( ModelState );
             }
 
@@ -83,12 +127,27 @@ namespace IT_Project_manager.Controllers
            
 
             return member is null ? NotFound() : View( member );
+=======
+                if (id is null)
+                {
+                    return BadRequest( ModelState );
+                }
+
+                var member = await _memberService.FindBy( id );
+
+                return member is null ? NotFound() : View( member );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine( ex );
+                return StatusCode( 500, ex.Message );
+            }
+>>>>>>> Stashed changes
         }
 
         //Editing [POST]
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public async Task<IActionResult> Edit(Member member)
         {
 
@@ -101,12 +160,23 @@ namespace IT_Project_manager.Controllers
 
                 return RedirectToAction( "Index" );
             }
+<<<<<<< Updated upstream
 
             return View( member );  
         }
 
         //Deleting [GET]
         [Authorize]
+=======
+            catch (Exception ex)
+            {
+                Console.WriteLine( ex );
+                return StatusCode( 500, ex.Message );
+            }
+        }
+
+        //Deleting [GET]
+>>>>>>> Stashed changes
         [Authorize( Roles = "Administrator" )]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -119,9 +189,12 @@ namespace IT_Project_manager.Controllers
             {
                 return RedirectToAction( "Index" );
             }
+<<<<<<< Updated upstream
 
             return Problem( "Trying to delete not existing member" );
 
+=======
+>>>>>>> Stashed changes
         }
 
         //Details [GET]
@@ -135,8 +208,19 @@ namespace IT_Project_manager.Controllers
                 return BadRequest( ModelState );
             }
 
+<<<<<<< Updated upstream
             var found = await _memberService.FindBy( member.Id );
             return found is null ? NotFound() : View( found );
+=======
+                var found = await _memberService.FindBy( member.Id );
+                return found is null ? NotFound() : View( found );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine( ex );
+                return StatusCode( 500, ex.Message );
+            }
+>>>>>>> Stashed changes
         }
     }
 }

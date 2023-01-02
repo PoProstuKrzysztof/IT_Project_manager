@@ -4,7 +4,6 @@ using IT_Project_manager.Models;
 using IT_Project_manager.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using IT_Project_manager.Data;
 
 var builder = WebApplication.CreateBuilder( args );
 var connectionString = builder.Configuration.GetConnectionString( "Default" ) ?? throw new InvalidOperationException( "Connection string 'Default' not found." );
@@ -79,5 +78,5 @@ app.MapRazorPages();
 
 app.Run();
 
-
-public partial class Program { }
+public partial class Program
+{ }
