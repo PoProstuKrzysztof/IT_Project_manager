@@ -18,21 +18,26 @@
             </div>
         </form>
 
-        <table class="table table-active shadow rounded-3">
-            <tr>
-                <th><b>Name</b></th>
-                <th><b>Surname</b></th>
-                <th><b>Managers</b></th>
-                @if (User.IsInRole( "Administrator" ))
-                {
-                    <th><b>Operations</b></th>
-                }
-            </tr>
+        <table class="table align-middle table-bordered shadow table-hover ">
+            
+            <thead>
+                <tr>
+                    <th><b>Name</b></th>
+                    <th><b>Surname</b></th>
+                    <th><b>Managers</b></th>
+                    @if (User.IsInRole( "Administrator" ))
+                    {
+                        <th><b>Operations</b></th>
+                    }
+                </tr>
+            </thead>
+            
 
             @foreach (var member in @Model)
             {
-                <tr id="tableData">
-
+                <tbody>
+                    <tr>
+                   
                     <td>@member.Name</td>
                     <td>@member.Surname</td>
                     <td>
@@ -53,6 +58,8 @@
 
 
                 </tr>
+                </tbody>
+                
             }
         </table>
         @if (User.IsInRole( "Administrator" ))

@@ -6,26 +6,28 @@
 <h1>Edit member </h1>
 <div>
     <form asp-action="Edit" method="post">
+        <div asp-validation-summary="All"></div>
         <div class="mb-3">
             <label asp-for="Name">Edit name</label><br />
-            <input class="form-control " type="text" asp-for="Name" /><br />
+            <input class="form-control " type="text" asp-for="Name" value="@Model.Name" /><br />
             <span asp-validation-for="Name" class="text-danger" ></span>
         </div>
         <div class="mb-3">
             <label asp-for="Surname">Edit surname</label><br />
-            <input class="form-control"type="text" asp-for="Surname" /><br />
+            <input class="form-control"type="text" asp-for="Surname" value="@Model.Surname" /><br />
             <span asp-validation-for="Surname" class="text-danger" ></span>
         </div>
         <div class="mb-3">
             <label asp-for="Email">Edit email</label><br />
-            <input class="form-control" type="email" asp-for="Email"/><br />
+            <input class="form-control" type="email" asp-for="Email" value="@Model.Email"/><br />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="DateOfBirth">Edit birth day</label><br />
-            <input class="form-control" type="date" asp-for="DateOfBirth" /><br />
+            <input class="form-control" type="date" asp-for="DateOfBirth" value="@Model.DateOfBirth" /><br />
             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
         </div>
+
         <div class="form-group">
             <input type="submit" value="Save" class="btn btn-primary" />
         </div>

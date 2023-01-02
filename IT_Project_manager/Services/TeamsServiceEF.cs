@@ -118,9 +118,33 @@ public class TeamsServiceEF : ITeamService
         return entityEntry.Entity.Id;
     }
 
+    //Edit team
     public async Task<bool> Update(Team team)
     {
-        throw new NotImplementedException();
+        if(team == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            var findTeam = await _context.Teams.FindAsync( team.Id );
+            if(findTeam == null)
+            {
+                return false ;
+            }
+
+
+            findTeam.Name = team.Name;
+            findTeam.Description = team.Description;
+            findTeam.DeadlineDate = team.DeadlineDate;
+            return true;
+        }
+        catch(DbUpdateConcurrencyException)
+        {
+            return false;
+        }
+
     }
 
     //Get Managers for list 

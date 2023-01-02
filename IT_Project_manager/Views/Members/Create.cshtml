@@ -37,14 +37,14 @@
 
             </div>
 
-            <div id="formDiv" >
+            <div  id="formDiv" >
                 <label asp-for="DateOfBirth">Enter your birth day</label>
-                <input type="date" max="@DateTime.Today" min="1960-01-01" value="1960-01-01" asp-for="DateOfBirth" />
+                <input type="date" class="form-control" max="@DateTime.Today" min="1960-01-01" value="1960-01-01" asp-for="DateOfBirth" />
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
 
             <div id="formDiv" >
-                <label asp-for="ManagersId" >Select manager</label>
+                <label asp-for="ManagersId" >Select manager:</label>
                 <select asp-for="ManagersId" class="form-select" asp-items="@Model.Managers"> </select>
             </div>
 

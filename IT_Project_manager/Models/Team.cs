@@ -31,7 +31,7 @@ public class Team
 
     [Required]
     [DataType( DataType.Date )]
-    public DateTime DeadlineDate { get; set; }
+    public DateTime DeadlineDate { get; set; } 
 
     public virtual ISet<Manager>? Managers { get; set; }
 

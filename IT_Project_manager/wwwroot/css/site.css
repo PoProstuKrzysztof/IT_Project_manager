@@ -33,7 +33,7 @@ td {
     width: fit-content;
 }
 
-#tableData {
+.tableData {
     text-align: center;
     font-weight: 500;
 }
@@ -44,6 +44,6 @@ td {
 }
 
 #formDiv {
-    margin: 10px;
+    margin: 10px 0 10px 0;
     font-size: 1.1rem;
 }

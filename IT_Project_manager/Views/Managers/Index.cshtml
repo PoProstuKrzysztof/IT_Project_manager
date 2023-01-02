@@ -6,70 +6,72 @@
 
 
 <h1 id="indexTitle">Managers</h1>
-@if (User.IsInRole( "Administrator" ))
-{
-    <a style="margin: 10px" class="btn btn-outline-primary" asp-action="Create">Create new</a>
-}
 
-<body>
-    <div class="container my-3">
-        <div>
-            <table class="table align-middle shadow rounded-3 ">
-                <thead>
-                    <tr>
+
+
+<div class="container my-3">
+    <div>
+        <table class="table align-middle table-bordered shadow table-hover  ">
+            <thead>
+                <tr>
+                    <th>
+                        <b>Name</b>
+                    </th>
+                    <th>
+                        <b>Surname</b>
+                    </th>
+                    <th>
+                        <b>Telephone</b>
+                    </th>
+                    @if (User.IsInRole( "Administrator" ))
+                    {
                         <th>
-                            <b>Name</b>
+                            <b>Operations</b>
                         </th>
-                        <th>
-                            <b>Surname</b>
-                        </th>
-                        <th>
-                            <b>Telephone</b>
-                        </th>
+                    }
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var manager in Model)
+                {
+                    <tr id="tableData">
+                        <td>
+                            @manager.Name
+                            <br>
+                        </td>
+
+                        <td>
+                            @manager.Surname
+                            <br>
+                        </td>
+
+                        <td>
+                            @manager.Telephone
+                            <br>
+                        </td>
                         @if (User.IsInRole( "Administrator" ))
                         {
-                            <th>
-                                <b>Operations</b>
-                            </th>
+                            <td>
+                                <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@manager.Id">Edit</a> |
+                                <a class="btn btn-warning btn-sm" asp-action="Details" asp-route-id="@manager.Id">Details</a> |
+                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@manager.Id">Delete</a>
+                            </td>
                         }
 
-
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var manager in Model)
-                    {
-                        <tr id="tableData">
-                            <td>
-                                @manager.Name
-                                <br>
-                            </td>
-
-                            <td>
-                                @manager.Surname
-                                <br>
-                            </td>
-
-                            <td>
-                                @manager.Telephone
-                                <br>
-                            </td>
-                            @if (User.IsInRole( "Administrator" ))
-                            {
-                                <td>
-                                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@manager.Id">Edit</a> |
-                                    <a class="btn btn-warning btn-sm" asp-action="Details" asp-route-id="@manager.Id">Details</a> |
-                                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@manager.Id">Delete</a>
-                                </td>
-                            }
-
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                }
+            </tbody>
+        </table>
 
     </div>
+    @if (User.IsInRole( "Administrator" ))
+    {
+        <a style="margin: 10px" class="btn btn-outline-primary" asp-action="Create">Create new</a>
+    }
+
+</div>
 
 
-</body>
+

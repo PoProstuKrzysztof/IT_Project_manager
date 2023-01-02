@@ -72,16 +72,20 @@ public class MembersServiceEF : IMemberService
         try
         {
             var findMember = await _context.Members.FindAsync( member.Id );
-            if (member is not null)
+            if (member == null)
             {
-                findMember.Name = member.Name;
-                findMember.Surname = member.Surname;
-                findMember.Email = member.Email;
-                findMember.DateOfBirth = member.DateOfBirth;
-                await _context.SaveChangesAsync();
-                return true;
+                return false;
             }
-            return false;
+
+
+
+            findMember.Name = member.Name;
+            findMember.Surname = member.Surname;
+            findMember.Email = member.Email;
+            findMember.DateOfBirth = member.DateOfBirth;
+            findMember.Managers = member.Managers;
+            await _context.SaveChangesAsync();
+            return true;
         }
         catch (DbUpdateConcurrencyException)
         {

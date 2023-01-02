@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IT_Project_manager.Controllers
 {
+    
     public class ManagersController : Controller
     {
         private readonly IManagerService? _managerService;
-        private readonly ILogger<ManagersController> _logger;
+        
 
         public ManagersController(AppDbContext context, IManagerService? managerService)
         {

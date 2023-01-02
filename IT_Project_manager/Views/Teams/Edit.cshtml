@@ -1,0 +1,33 @@
+﻿@using IT_Project_manager;
+@model Team;
+
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+
+<h1 id="indexTitle">Edit team</h1>
+<div class="container-fluid">
+
+    <form method="post" asp-action="Edit">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <input asp-for="Id" type="hidden" />
+        <div>
+            <label asp-for="Name" class="form-label">Edit name of team</label>
+            <input asp-for="Name" type="text" value="@Model.Name" class="form-control"/>
+        </div>
+        <div>
+            <label asp-for="Description" class="form-label">Edit description</label>
+            <input type="text" value="@Model.Description" asp-for="Description" class="form-control" />
+        </div>
+        <div>
+            <label asp-for="DeadlineDate" class="form-label">Edit deadline</label>
+            <input asp-for="DeadlineDate" class="form-control" value="@Model.DeadlineDate" type="date" />
+        </div>
+        <div>
+            <button class="btn btn-outline-primary" type="submit">Edit</button>
+        </div>
+    </form>
+</div>

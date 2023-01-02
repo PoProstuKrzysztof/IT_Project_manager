@@ -95,4 +95,39 @@ public class TeamsController : Controller
             return StatusCode( 500, e.Message );
         }
     }
+
+    [HttpGet, Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> Edit([FromRoute]int? id)
+    {
+        try
+        {
+            if(id == null)
+            {
+                return BadRequest("Team couldn't be reached");
+            }
+
+            var findTeam = await _teamService.FindBy( id );
+            return View( findTeam );
+
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine( e );
+            return StatusCode(500, e.Message );
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(Team team)
+    {
+        try
+        {
+            return BadRequest();
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine( e );
+            return StatusCode(500, e.Message );
+        }
+    }
 }
