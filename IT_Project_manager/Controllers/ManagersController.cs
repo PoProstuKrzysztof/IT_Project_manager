@@ -2,7 +2,6 @@
 using IT_Project_manager.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics.Metrics;
 
 namespace IT_Project_manager.Controllers
 {
@@ -17,61 +16,106 @@ namespace IT_Project_manager.Controllers
         }
 
         //Managers list
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View( await _managerService.GetManagers() );
+            try
+            {
+                return View( await _managerService.GetManagers() );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine( ex );
+                return StatusCode( 500, ex.Message );
+            }
         }
 
         //Details [GET]
         [Authorize]
+        [HttpGet]
         [Authorize( Roles = "Administrator" )]
         public IActionResult Details(Manager manager)
         {
-            if (manager is null)
+            try
             {
-                return BadRequest( ModelState );
-            }
+                if (manager is null)
+                {
+                    return BadRequest( ModelState );
+                }
 
-            var found = _managerService.FindBy( manager.Id );
-            return found is null ? NotFound() : View( found );
+                var found = _managerService.FindBy( manager.Id );
+                return found is null ? NotFound() : View( found );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine( ex );
+                return StatusCode( 500, ex.Message );
+            }
         }
 
         //Create [GET]
         [Authorize]
+        [HttpGet]
         [Authorize( Roles = "Administrator" )]
         public IActionResult Create()
         {
-            Manager m = new Manager();
-            return View(m);
+            try
+            {
+                Manager m = new Manager();
+                return View( m );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine( ex );
+                return StatusCode( 500, ex.Message );
+            }
         }
+
         //Create [POST]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Manager manager)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest( ModelState );
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest( ModelState );
+                }
+
+                Manager newManager = await _managerService.CreateManager( manager );
+                await _managerService.Save( newManager );
+
+                return RedirectToAction( "Index" );
             }
-
-            Manager newManager = await _managerService.CreateManager( manager );
-            await _managerService.Save( newManager );
-
-            return RedirectToAction("Index" );
+            catch (Exception ex)
+            {
+                Console.WriteLine( ex );
+                return StatusCode( 500, ex.Message );
+            }
         }
 
         //Editing [GET]
         [Authorize]
+        [HttpGet]
         [Authorize( Roles = "Administrator" )]
         public IActionResult Edit(int? id)
         {
-            if (id is null)
+            try
             {
-                return BadRequest( ModelState );
-            }
+                if (id is null)
+                {
+                    return BadRequest( ModelState );
+                }
 
-            var manager = _managerService.FindBy( id );
-            return manager is null ? NotFound() : View( manager );
+                var manager = _managerService.FindBy( id );
+                return manager is null ? NotFound() : View( manager );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine( ex );
+                return StatusCode( 500, ex.Message );
+            }
         }
 
         //Editing [POST]
@@ -79,38 +123,51 @@ namespace IT_Project_manager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Manager manager)
         {
-
-            if (ModelState.IsValid)
+            try
             {
-                 await _managerService.Update( manager );
+                if (ModelState.IsValid)
+                {
+                    await _managerService.Update( manager );
 
-                var username = HttpContext.User.Identity.Name;
-                
+                    var username = HttpContext.User.Identity.Name;
 
-                return RedirectToAction( "Index" );
+                    return RedirectToAction( "Index" );
+                }
 
-                
+                return View( manager );
             }
-
-            return View( manager );
+            catch (Exception ex)
+            {
+                Console.WriteLine( ex );
+                return StatusCode( 500, ex.Message );
+            }
         }
+
         //Deleting [GET]
         [Authorize]
+        [HttpGet]
         [Authorize( Roles = "Administrator" )]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return BadRequest( ModelState );
-            }
+                if (id == null)
+                {
+                    return BadRequest( ModelState );
+                }
 
-            if (await _managerService.Delete( id ))
+                if (await _managerService.Delete( id ))
+                {
+                    return RedirectToAction( "Index" );
+                }
+
+                return StatusCode( 500, "Trying to delete not existing member" );
+            }
+            catch (Exception ex)
             {
-                return RedirectToAction( "Index" );
+                Console.WriteLine( ex );
+                return StatusCode( 500, ex.Message );
             }
-
-            return Problem( "Trying to delete not existing member" );
         }
-
     }
 }

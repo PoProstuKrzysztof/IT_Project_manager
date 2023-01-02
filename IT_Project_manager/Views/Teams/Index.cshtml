@@ -1,0 +1,73 @@
+﻿@using IT_Project_manager.Models;
+@using Microsoft.Identity;
+
+@model IEnumerable<Team>
+
+
+@{
+    ViewData["Title"] = "Teams";
+}
+
+
+
+
+
+<header>
+    <h1 id="indexTitle">Teams</h1>
+</header>
+
+<div class="container-fluid my-3">
+    <table class="table table-active shadow rounded-3 ">
+        <tr>
+            <th>Team name</th>
+            <th>Description of team's task'</th>
+            <th>Assigment date</th>
+            <th>Deadline </th>
+            <th>Manager</th>
+            <th>Members</th>
+            @if (User.IsInRole( "Administrator" ))
+            {
+                <th>Operations</th>
+            }
+            
+        </tr>
+
+
+
+        @foreach (var t in @Model)
+        {
+            <tr id="tableData">
+                <td>@t.Name</td>
+                <td>@t.Description</td>
+                <td>@t.AssigmentDate.ToString("yyyy-MM-dd")</td>
+                <td>@t.DeadlineDate.ToString("yyyy-MM-dd")</td>
+                <td>
+                    @foreach (var manager in t.Managers)
+                    {
+                        <span><a asp-action="Details" asp-controller="Managers" asp-route-id="@manager.Id">@manager.Name @manager.Surname</a></span>
+                    }
+                </td>
+                <td>
+                    @foreach (var member in t.Members)
+                    {
+                        <span><a asp-action="Details" asp-controller="Members" asp-route-id="@member.Id">@member.Name @member.Surname</a></span>
+                    }
+                </td>
+                @if (User.IsInRole( "Administrator" ))
+                {
+                    <td>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@t.Id">Delete</a>
+                    </td>
+                }
+
+            </tr>
+        }
+    </table>
+</div>
+<a class="btn btn-outline-primary" asp-action="Create">Create</a>
+
+
+
+
+
+

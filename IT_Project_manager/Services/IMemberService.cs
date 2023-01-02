@@ -6,6 +6,7 @@ namespace IT_Project_manager.Services;
 public interface IMemberService
 {
     public Task<int> Save(Member member);
+
     public Task<Member?> CreateMember(MembersViewModel member);
 
     public Task<bool> Delete(int? id);
@@ -21,5 +22,4 @@ public interface IMemberService
     public Task<List<SelectListItem>> GetManagers();
 
     public Task<Manager> GetManager(int id);
-    
 }

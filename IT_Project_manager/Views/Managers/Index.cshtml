@@ -12,19 +12,19 @@
 }
 
 <body>
-    <div class="container my-5">
+    <div class="container my-3">
         <div>
-            <table class="table align-middle mb-0 shadow rounded-3 overflow-hidden">
+            <table class="table align-middle shadow rounded-3 ">
                 <thead>
                     <tr>
                         <th>
-                            <b>@Html.DisplayNameFor(model => model.Name)</b>
+                            <b>Name</b>
                         </th>
                         <th>
-                            <b>@Html.DisplayNameFor(model => model.Surname)</b>
+                            <b>Surname</b>
                         </th>
                         <th>
-                            <b>@Html.DisplayNameFor(model => model.Telephone)</b>
+                            <b>Telephone</b>
                         </th>
                         @if (User.IsInRole( "Administrator" ))
                         {
@@ -37,29 +37,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var manager in Model)
                     {
                         <tr id="tableData">
                             <td>
-                                @Html.DisplayFor(modelItem => item.Name)
+                                @manager.Name
                                 <br>
                             </td>
 
                             <td>
-                                @Html.DisplayFor(modelItem => item.Surname)
+                                @manager.Surname
                                 <br>
                             </td>
 
                             <td>
-                                @Html.DisplayFor(modelItem => item.Telephone)
+                                @manager.Telephone
                                 <br>
                             </td>
                             @if (User.IsInRole( "Administrator" ))
                             {
                                 <td>
-                                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                    <a class="btn btn-warning btn-sm" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@manager.Id">Edit</a> |
+                                    <a class="btn btn-warning btn-sm" asp-action="Details" asp-route-id="@manager.Id">Details</a> |
+                                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@manager.Id">Delete</a>
                                 </td>
                             }
 
@@ -68,8 +68,8 @@
                 </tbody>
             </table>
         </div>
-        
+
     </div>
-    
+
 
 </body>
