@@ -18,21 +18,20 @@ namespace IT_Project_manager.Models
         [HiddenInput]
         public int Id { get; set; }
 
-        [Display( Name = "Name" )]
-        
+        [Display( Name = "Name" )]       
         public string? Name { get; set; }
 
-        [Display( Name = "Surname" )]
-        
+        [Display( Name = "Surname" )]       
         public string? Surname { get; set; }
 
-        [Display( Name = "Email adress" )]
-        
+        [Display( Name = "Email adress" )]       
         public string? Email { get; set; }
 
         [Display( Name = "Date of birth" )]
         [DataType( DataType.Date )]
         public DateTime DateOfBirth { get; set; }
+
+
 
         public virtual ISet<Manager>? Managers { get; set; }
 

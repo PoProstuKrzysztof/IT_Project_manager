@@ -1,6 +1,6 @@
 ﻿using IT_Project_manager.Data;
 using IT_Project_manager.Models;
-using IT_Project_manager.Services;
+using IT_Project_manager.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 

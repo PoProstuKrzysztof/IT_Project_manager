@@ -1,4 +1,5 @@
 using IT_Project_manager.Areas.Identity.Data;
+using IT_Project_manager.Areas.Identity.Repository;
 using IT_Project_manager.Controllers;
 using IT_Project_manager.Data;
 using IT_Project_manager.Services;
@@ -26,6 +27,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<IMemberService, MembersServiceEF>();
 builder.Services.AddScoped<IManagerService, ManagersServiceEF>();
 builder.Services.AddScoped<ITeamService, TeamsServiceEF>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 
 builder.Services.Configure<IdentityOptions>( options =>
 {

@@ -1,5 +1,6 @@
 ﻿using IT_Project_manager.Data;
 using IT_Project_manager.Models;
+using IT_Project_manager.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace IT_Project_manager.Services;
