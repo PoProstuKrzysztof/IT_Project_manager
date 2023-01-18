@@ -1,7 +1,8 @@
 using IT_Project_manager.Areas.Identity.Data;
 using IT_Project_manager.Controllers;
-using IT_Project_manager.Models;
+using IT_Project_manager.Data;
 using IT_Project_manager.Services;
+using IT_Project_manager.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

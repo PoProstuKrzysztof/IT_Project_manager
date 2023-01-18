@@ -19,15 +19,15 @@ namespace IT_Project_manager.Models
         public int Id { get; set; }
 
         [Display( Name = "Name" )]
-        [Required( ErrorMessage = "Name is required" )]
+        
         public string? Name { get; set; }
 
         [Display( Name = "Surname" )]
-        [Required( ErrorMessage = "Surname is required" )]
+        
         public string? Surname { get; set; }
 
         [Display( Name = "Email adress" )]
-        [EmailAddress( ErrorMessage = "Enter your email" )]
+        
         public string? Email { get; set; }
 
         [Display( Name = "Date of birth" )]

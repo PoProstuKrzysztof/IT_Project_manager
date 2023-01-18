@@ -1,6 +1,6 @@
 ﻿using IT_Project_manager.Models;
 
-namespace IT_Project_manager.Services;
+namespace IT_Project_manager.Services.Interfaces;
 
 public interface IManagerService
 {

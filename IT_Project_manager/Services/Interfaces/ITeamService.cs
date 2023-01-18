@@ -1,7 +1,7 @@
 ﻿using IT_Project_manager.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace IT_Project_manager.Services;
+namespace IT_Project_manager.Services.Interfaces;
 
 public interface ITeamService
 {
@@ -11,9 +11,9 @@ public interface ITeamService
 
     public Task<bool> Update(Team team);
 
-    public Task<bool> AddManagerToTeam(TeamsViewModel tvm,Team team);
+    public Task<bool> AddManagerToTeam(TeamsViewModel tvm, Team team);
 
-    public Task<bool> AddMemberToTeam(TeamsViewModel tvm,Team team);
+    public Task<bool> AddMemberToTeam(TeamsViewModel tvm, Team team);
 
     public Task<Team> FindBy(int? id);
 

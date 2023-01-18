@@ -1,4 +1,5 @@
-﻿using IT_Project_manager.Models;
+﻿using IT_Project_manager.Data;
+using IT_Project_manager.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace IT_Project_manager.Services;

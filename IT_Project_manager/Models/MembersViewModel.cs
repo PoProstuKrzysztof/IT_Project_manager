@@ -17,15 +17,15 @@ public class MembersViewModel
     [Display( Name = "Managers" )]
     public List<string> ManagersId { get; set; }
 
-    [Required]
+    [Required( ErrorMessage = "Name is required" )]
     [Display( Name = "Name" )]
     public string Name { get; set; }
 
-    [Required]
+    [Required( ErrorMessage = "Surname is required" )]
     [Display( Name = "Surname" )]
     public string Surname { get; set; }
 
-    [Required]
+    [EmailAddress( ErrorMessage = "Enter your email" )]
     [Display( Name = "Email" )]
     [DataType( DataType.EmailAddress )]
     public string? Email { get; set; }
