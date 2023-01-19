@@ -53,6 +53,7 @@
 
 
   <ItemGroup>
+    <Folder Include="Areas\Identity\Controllers\" />
     <Folder Include="wwwroot\assets\img\" />
   </ItemGroup>
 
