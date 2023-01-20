@@ -91,7 +91,9 @@ namespace IT_Project_manager.Areas.Identity.Pages.Account
                 var user = CreateUser();
 
                 user.Name = Input.Name;
+                user.Email= Input.Email;
                 user.Surname = Input.Surname;
+                
 
                 await _userStore.SetUserNameAsync( user, Input.Email, CancellationToken.None );
                 await _emailStore.SetEmailAsync( user, Input.Email, CancellationToken.None );

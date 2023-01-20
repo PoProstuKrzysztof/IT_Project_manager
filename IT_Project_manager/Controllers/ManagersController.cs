@@ -33,9 +33,8 @@ namespace IT_Project_manager.Controllers
         }
 
         //Details [GET]
-        [Authorize]
-        [HttpGet]
-        [Authorize( Roles = "Administrator" )]
+        
+        [HttpGet, Authorize( Roles = "Administrator" )]        
         public IActionResult Details(Manager manager)
         {
             try
@@ -56,9 +55,8 @@ namespace IT_Project_manager.Controllers
         }
 
         //Create [GET]
-        [Authorize]
-        [HttpGet]
-        [Authorize( Roles = "Administrator" )]
+
+        [HttpGet, Authorize( Roles = "Administrator" )]
         public IActionResult Create()
         {
             try
@@ -74,7 +72,7 @@ namespace IT_Project_manager.Controllers
         }
 
         //Create [POST]
-        [HttpPost]
+        [HttpPost, Authorize( Roles = "Administrator" )]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Manager manager)
         {
@@ -85,7 +83,7 @@ namespace IT_Project_manager.Controllers
                     return BadRequest( ModelState );
                 }
 
-                Manager newManager = await _managerService.CreateManager( manager );
+                Manager newManager =  _managerService.CreateManager( manager );
                 await _managerService.Save( newManager );
 
                 return RedirectToAction( "Index" );
@@ -97,10 +95,8 @@ namespace IT_Project_manager.Controllers
             }
         }
 
-        //Editing [GET]
-        [Authorize]
-        [HttpGet]
-        [Authorize( Roles = "Administrator" )]
+        //Editing [GET]        
+        [HttpGet, Authorize( Roles = "Administrator" )]       
         public IActionResult Edit(int? id)
         {
             try
@@ -121,7 +117,7 @@ namespace IT_Project_manager.Controllers
         }
 
         //Editing [POST]
-        [HttpPost]
+        [HttpPost, Authorize( Roles = "Administrator" )]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Manager manager)
         {
@@ -146,9 +142,9 @@ namespace IT_Project_manager.Controllers
         }
 
         //Deleting [GET]
-        [Authorize]
-        [HttpGet]
-        [Authorize( Roles = "Administrator" )]
+        [HttpGet, Authorize( Roles = "Administrator" )]
+        
+        
         public async Task<IActionResult> Delete(int? id)
         {
             try

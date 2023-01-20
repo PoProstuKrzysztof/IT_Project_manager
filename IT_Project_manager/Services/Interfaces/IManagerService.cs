@@ -8,7 +8,7 @@ public interface IManagerService
 
     public Task<bool> Delete(int? id);
 
-    public Task<Manager?> CreateManager(Manager manager);
+    public Manager? CreateManager(Manager manager);
 
     public Task<bool> Update(Manager manager);
 

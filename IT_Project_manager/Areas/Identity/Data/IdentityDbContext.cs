@@ -18,6 +18,8 @@ public class IdentityDbContext : IdentityDbContext<ApplicationUser>
         base.OnModelCreating( builder );
 
         builder.ApplyConfiguration( new ApplicationUserEntityConfiguration() );
+
+      
     }
 
     public class IdentityDbContextFactory : IDesignTimeDbContextFactory<IdentityDbContext>
@@ -36,7 +38,7 @@ public class IdentityDbContext : IdentityDbContext<ApplicationUser>
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
             builder.Property( u => u.UserName ).HasMaxLength( 100 );
-            builder.Property( u => u.Surname ).HasMaxLength( 100 );
+            
         }
     }
 }

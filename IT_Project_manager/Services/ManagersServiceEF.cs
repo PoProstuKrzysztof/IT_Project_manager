@@ -15,7 +15,7 @@ public class ManagersServiceEF : IManagerService
     }
 
     //Create new manager instance
-    public async Task<Manager?> CreateManager(Manager manager)
+    public  Manager? CreateManager(Manager manager)
     {
         Manager m = new Manager()
         {

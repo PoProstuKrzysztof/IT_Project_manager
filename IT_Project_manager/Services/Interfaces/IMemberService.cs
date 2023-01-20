@@ -7,7 +7,7 @@ public interface IMemberService
 {
     public Task<int> Save(Member member);
 
-    public Task<Member?> CreateMember(MembersViewModel member);
+    public Member? CreateMember(MembersViewModel member);
 
     public Task<bool> Delete(int? id);
 
