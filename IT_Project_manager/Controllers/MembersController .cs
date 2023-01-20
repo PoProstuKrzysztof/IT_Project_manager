@@ -45,8 +45,7 @@ namespace IT_Project_manager.Controllers
 
         // Creating [GET]
 
-        [HttpGet]
-        [Authorize( Roles = "Administrator" )]
+        [HttpGet, Authorize( Roles = "Administrator" )]
         public async Task<IActionResult> Create()
         {
             try
@@ -64,7 +63,7 @@ namespace IT_Project_manager.Controllers
         }
 
         //Creating [POST]
-        [HttpPost]
+        [HttpPost, Authorize( Roles = "Administrator" )]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MembersViewModel member)
         {
@@ -75,7 +74,7 @@ namespace IT_Project_manager.Controllers
                     return View( member );
                 }
 
-                var newMember = await _memberService.CreateMember( member );
+                var newMember =  _memberService.CreateMember( member );
 
                 if (await _memberService.AddManagerToMember( member, newMember ))
                 {
@@ -96,8 +95,8 @@ namespace IT_Project_manager.Controllers
 
         //Editing [GET]
 
-        [HttpGet]
-        [Authorize( Roles = "Administrator" )]
+        [HttpGet, Authorize( Roles = "Administrator" )]
+        
         public async Task<IActionResult> Edit([FromRoute] int? id)
         {
             try
@@ -121,7 +120,7 @@ namespace IT_Project_manager.Controllers
         }
 
         //Editing [POST]
-        [HttpPost]
+        [HttpPost, Authorize( Roles = "Administrator" )]
         [ValidateAntiForgeryToken]
 
         public async Task<IActionResult> Edit(Member member)
@@ -148,8 +147,8 @@ namespace IT_Project_manager.Controllers
 
         }
 
-        //Deleting [GET]        
-        [Authorize( Roles = "Administrator" )]
+        //Deleting [GET]
+        [HttpGet, Authorize( Roles = "Administrator" )]
         public async Task<IActionResult> Delete(int? id)
         {
             try
@@ -176,9 +175,7 @@ namespace IT_Project_manager.Controllers
         }
 
         //Details [GET]
-        [Authorize]
-        [HttpGet]
-        [Authorize( Roles = "Administrator " )]
+        [HttpGet, Authorize( Roles = "Administrator " )]        
         public async Task<IActionResult> Details(Member member)
         {
             try

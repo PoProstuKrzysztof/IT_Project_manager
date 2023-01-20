@@ -6,13 +6,11 @@
 }
 
 
-
+<h1>Create member</h1>
 <div class="row">
-    <p>
-        Create member
-    </p>
+    
     <div class="col-md-4">
-        <form asp-action="Create" method="post">
+        <form asp-action="Create" asp-antiforgery="true" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div id="formDiv" >
                 <span asp-validation-for="Name" class="text-danger"></span>

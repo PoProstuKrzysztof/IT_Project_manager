@@ -21,6 +21,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>( options => options.
     .AddRoles<IdentityRole>()
     .AddDefaultTokenProviders();
 
+
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IMemberService, MembersServiceEF>();

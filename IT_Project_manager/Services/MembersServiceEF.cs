@@ -135,7 +135,7 @@ public class MembersServiceEF : IMemberService
     }
 
     //Create member
-    public async Task<Member?> CreateMember(MembersViewModel member)
+    public  Member CreateMember(MembersViewModel member)
     {
         Member newMember = new Member()
         {
