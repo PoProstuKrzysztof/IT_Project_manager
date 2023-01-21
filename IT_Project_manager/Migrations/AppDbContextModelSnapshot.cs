@@ -35,6 +35,7 @@ namespace ITProjectmanager.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -71,6 +72,7 @@ namespace ITProjectmanager.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
+                        .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -91,6 +93,24 @@ namespace ITProjectmanager.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "61b21241-0168-4734-be21-61552fa8c64a",
+                            Email = "maciej.krasko@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            Name = "Maciej",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGecYgEx2R0R4YMF6LOb7wmYCys+jd5OThWQZll/inb6JAR6N2mDEY9Ep1MH3fq8Aw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "46d39016-3ab1-45c3-bf8c-fd8b713ba2d1",
+                            Surname = "Krasko",
+                            TwoFactorEnabled = false,
+                            UserName = "maciej.krasko@gmail.com"
+                        });
                 });
 
             modelBuilder.Entity("IT_Project_manager.Models.Manager", b =>
@@ -155,11 +175,9 @@ namespace ITProjectmanager.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -231,7 +249,7 @@ namespace ITProjectmanager.Migrations
                         new
                         {
                             Id = 1,
-                            AssigmentDate = new DateTime(2022, 12, 28, 22, 42, 32, 217, DateTimeKind.Local).AddTicks(5340),
+                            AssigmentDate = new DateTime(2023, 1, 21, 23, 12, 40, 461, DateTimeKind.Local).AddTicks(2673),
                             DeadlineDate = new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Creating connection between database and API",
                             Name = "Back-end"
@@ -239,7 +257,7 @@ namespace ITProjectmanager.Migrations
                         new
                         {
                             Id = 2,
-                            AssigmentDate = new DateTime(2022, 12, 28, 22, 42, 32, 217, DateTimeKind.Local).AddTicks(5424),
+                            AssigmentDate = new DateTime(2023, 1, 21, 23, 12, 40, 461, DateTimeKind.Local).AddTicks(2749),
                             DeadlineDate = new DateTime(2023, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Creating website",
                             Name = "Front-end"
@@ -372,6 +390,15 @@ namespace ITProjectmanager.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
+                            ConcurrencyStamp = "1",
+                            Name = "Administrator",
+                            NormalizedName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -459,6 +486,13 @@ namespace ITProjectmanager.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "8e445865-a24d-4543-a6c6-9443d048cdb9",
+                            RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7210"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

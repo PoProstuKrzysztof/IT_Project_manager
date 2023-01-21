@@ -8,7 +8,7 @@ public class RoleModification
 
     public string Id { get; set; }
     
-    public string Name { get; set; }
+    public string RoleName { get; set; }
 
     public string[]? AddIds { get; set; }
     public string[]? DeleteIds { get; set; }

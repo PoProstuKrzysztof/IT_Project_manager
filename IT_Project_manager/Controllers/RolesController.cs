@@ -146,7 +146,7 @@ public class RolesController : Controller
                     ApplicationUser user = await _userManager.FindByIdAsync( userId );
                     if(user != null)
                     {
-                        result = await _userManager.AddToRoleAsync( user, model.Name );
+                        result = await _userManager.AddToRoleAsync( user, model.RoleName );
                         if(!result.Succeeded)
                         {
                             Errors( result );
@@ -155,10 +155,10 @@ public class RolesController : Controller
                 }
                 foreach (string userId in model.DeleteIds ?? new string[] {})
                 {
-                    ApplicationUser user = ( ApplicationUser )await _userManager.FindByIdAsync( userId );
+                    ApplicationUser user = await _userManager.FindByIdAsync( userId );
                     if(user != null )
                     {
-                        result = await _userManager.RemoveFromRoleAsync(user, model.Name);
+                        result = await _userManager.RemoveFromRoleAsync(user, model.RoleName );
                     }
                 }
             }
