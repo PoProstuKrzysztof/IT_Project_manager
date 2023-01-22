@@ -5,3 +5,8 @@ It's using ASP.NET MVC architecture along with SQL and entity framework core. Fo
 
 Data should seed automatically by writing commands in Package Manager Add-Migration "name" > Update-database. Use -context AppDbContext.
 
+To access administrator privilages, log in using these credentials:
+
+login: maciej.krasko@gmail.com
+password: Test!1
+
