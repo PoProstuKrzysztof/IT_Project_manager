@@ -53,7 +53,7 @@
 
 
   <ItemGroup>
-    <Folder Include="wwwroot\assets\img\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

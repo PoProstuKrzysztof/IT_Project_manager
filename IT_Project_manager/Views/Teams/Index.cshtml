@@ -13,10 +13,64 @@
 
 
 <header>
-    <h1 id="indexTitle">Teams</h1>
+    <h1 id="indexTitle" class="text-center my-4">Teams</h1>
 </header>
 
-<div class="container-fluid my-3">
+@if (User.IsInRole( "Administrator" ))
+{
+    <div>
+        <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
+    </div>
+}
+
+<div class="row">
+    @foreach (var team in @Model)
+    {
+        <div class="col-6">
+            <div class="card border-secondary shadow ">
+                <div class="card-body text-center">
+
+                    <h2 class="card-title text-center">@team.Name</h2>
+
+                    <h5 class="card-text text-muted "> @team.Description</h5>
+                    <hr />
+                    <h6><b>Manager</b></h6>
+                    @foreach (var manager in team.Managers)
+                    {
+                        <a asp-controller="Managers" asp-action="Details" asp-route-id="@manager.Id">@manager.Name @manager.Surname</a>
+                    }
+                    <hr />
+                    <h6><b>Members</b></h6>
+                    @foreach (var member in team.Members)
+                    {
+                        <a asp-controller="Members" asp-action="Details" asp-route-id="@member.Id">@member.Name @member.Surname<br /></a>
+                    }
+                </div>
+                <div class="card-footer text-muted">
+                    Assigment: @team.AssigmentDate.ToString("yyyy-MM-dd") <span class="text-danger">@team.DeadlineDate.Subtract(team.AssigmentDate).Days days left</span>
+                    @if (User.IsInRole( "Administrator" ))
+                    {
+                        <div class="m-md-2 ">
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@team.Id">Delete</a>
+                            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@team.Id">Edit</a>
+
+                        </div>
+
+                    }
+
+                </div>
+            </div>
+
+        </div>
+
+    }
+
+</div>
+
+
+
+
+@*<div class="container-fluid my-3">
     <table class="table align-middle  table-bordered shadow table-hover">
         <tr>
             <th>Team name</th>
@@ -29,19 +83,19 @@
             {
                 <th>Operations</th>
             }
-            
+
         </tr>
 
 
 
         @foreach (var t in @Model)
         {
-            <tr >
+            <tr>
                 <td>@t.Name</td>
-                <td>@t.Description</td>
+                <td><b>@t.Description</b></td>
                 <td>@t.AssigmentDate.ToString("yyyy-MM-dd")</td>
                 <td>@t.DeadlineDate.ToString("yyyy-MM-dd")</td>
-                
+
                 <td>
                     @foreach (var manager in t.Managers)
                     {
@@ -65,14 +119,16 @@
             </tr>
         }
     </table>
-</div>
-@if(User.IsInRole("Administrator"))
-{
-    <div>
-        <a class="btn btn-outline-primary" asp-action="Create">Create</a>
-    </div>
-}
 
+    @if (User.IsInRole( "Administrator" ))
+    {
+        <div>
+            <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
+        </div>
+    }
+</div>
+
+*@
 
 
 

@@ -1,5 +1,6 @@
 ﻿using IT_Project_manager.Areas.Identity.Data;
 using IT_Project_manager.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,8 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Manager> Managers { get; set; }
 
     public DbSet<Team> Teams { get; set; }
+
+    
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -78,5 +81,38 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
                 new { MembersId = 3, TeamsId = 2 },
                 new { MembersId = 4, TeamsId = 2 }
                 ));
+
+        modelBuilder.Entity<IdentityRole>().HasData
+            (
+            new IdentityRole() { Id = "2c5e174e-3b0e-446f-86af-483d56fd7210", 
+                Name = "Administrator", 
+                ConcurrencyStamp = "1", 
+                NormalizedName = "ADMINISTRATOR"
+                 }
+            ) ;
+
+
+        var hasher = new PasswordHasher<ApplicationUser>();
+
+
+        modelBuilder.Entity<ApplicationUser>().HasData
+            (
+            new ApplicationUser() { Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
+                Name = "Maciej", 
+                Surname = "Krasko",
+                EmailConfirmed = true, 
+                Email = "maciej.krasko@gmail.com", 
+                UserName = "maciej.krasko@gmail.com", 
+                PasswordHash = hasher.HashPassword(null,"Test!1")}
+            );
+
+        modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+            new IdentityUserRole<string>
+            {
+                RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7210",
+                UserId = "8e445865-a24d-4543-a6c6-9443d048cdb9"
+            }
+            );
+        
     }
 }

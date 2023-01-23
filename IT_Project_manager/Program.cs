@@ -57,6 +57,7 @@ builder.Services.ConfigureApplicationCookie( options =>
 
     options.LoginPath = "/Account/Login";
     options.SlidingExpiration = true;
+    
 } );
 
 var app = builder.Build();

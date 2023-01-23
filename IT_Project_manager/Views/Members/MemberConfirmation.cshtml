@@ -11,21 +11,22 @@
     <h1 style="color:green" class="p-3 mb-2">Sucess!</h1>
 </header>
 
+<hr />
+<div>
+    <h3>Creation details</h3>
+    <ul>
+        <li><b>Name:</b> @Model.Name</li>
+        <li><b>Surname:</b> @Model.Surname</li>
+        <li><b>Email::</b> @Model.Email</li>
+        <li><b>Date of birth:</b> @Model.DateOfBirth.ToString("yyyy-MM-dd")</li>
+    </ul>
+</div>
+<hr />
 
-    <div>
-        <h3>Creation details</h3>
-        <ul>
-            <li>Name: @Model.Name</li>
-            <li>Surname: @Model.Surname</li>
-            <li>Email: @Model.Email</li>
-            <li>Date of birth: @Model.DateOfBirth.ToString("yyyy-MM-dd")</li>
-        </ul>
-    </div>
-
-    <div>
-       <a class="btn btn-primary" asp-action="MemberForm" asp-controller="Members">Create another</a>
-       <a class="btn btn-secondary" asp-action="Index" asp-controller="Members">Members</a>
-    </div>
+<div>
+    <a class="btn btn-outline-primary" asp-action="MemberForm" asp-controller="Members">Create another</a>
+    <a class="btn btn-outline-secondary" asp-action="Index" asp-controller="Members">Members</a>
+</div>
 
 
 

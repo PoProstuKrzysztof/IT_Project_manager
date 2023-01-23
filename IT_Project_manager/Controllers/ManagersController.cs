@@ -3,6 +3,7 @@ using IT_Project_manager.Models;
 using IT_Project_manager.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IT_Project_manager.Controllers
 {
@@ -19,11 +20,19 @@ namespace IT_Project_manager.Controllers
 
         //Managers list
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
             try
             {
-                return View( await _managerService.GetManagers() );
+                ViewData["CurrentFilter"] = search;
+                var managers = from c in await _managerService.GetManagers() 
+                               select c;
+                if(!search.IsNullOrEmpty())
+                {
+                    managers = managers.Where(managers => managers.Name == search);
+                }
+
+                return View( managers );
             }
             catch (Exception ex)
             {

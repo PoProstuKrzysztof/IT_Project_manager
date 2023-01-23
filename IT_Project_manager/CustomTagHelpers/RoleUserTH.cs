@@ -27,7 +27,7 @@ namespace IT_Project_manager.CustomTagHelpers
             {
                 foreach (var user in userManager.Users)
                 {
-                    if (user != null && await userManager.IsInRoleAsync( user, role.Name ))
+                    if (user != null && await userManager.IsInRoleAsync( user, role.Name))
                         names.Add( user.UserName );
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -32,9 +33,9 @@ namespace IT_Project_manager.Models
         public DateTime DateOfBirth { get; set; }
 
 
-
+        [JsonIgnore]
         public virtual ISet<Manager>? Managers { get; set; }
-
+        [JsonIgnore]
         public virtual ISet<Team>? Teams { get; set; }
     }
 }

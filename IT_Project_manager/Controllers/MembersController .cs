@@ -10,30 +10,31 @@ namespace IT_Project_manager.Controllers
     public class MembersController : Controller
     {
         private readonly IMemberService? _memberService;
-        private readonly ILogger<MembersController> _logger;
+        
 
-        public MembersController(AppDbContext context, ILogger<MembersController> logger, IMemberService memberService)
+        public MembersController( IMemberService memberService)
         {
             _memberService = memberService;
-            _logger = logger;
+            
         }
 
 
         // List of members
-        public async Task<IActionResult> Index(string searchString)
+        [HttpGet]
+        public async Task<IActionResult> Index(string search)
         {
             try
             {
-                @ViewData["CurrentFilter"] = searchString;
-                var m = from c in await _memberService.GetMembers()
+                @ViewData["CurrentFilter"] = search;
+                var members = from c in await _memberService.GetMembers()
                         select c;
 
-                if (!string.IsNullOrEmpty( searchString ))
+                if (!string.IsNullOrEmpty( search ))
                 {
-                    m = m.Where( c => c.Name.Contains( searchString ) );
+                    members = members.Where( c => c.Name.Contains( search ) );
                 }
 
-                return View( m );
+                return View( members );
             }
             catch (Exception ex)
             {
@@ -132,7 +133,6 @@ namespace IT_Project_manager.Controllers
                     await _memberService.Update( member );
 
                     var username = HttpContext.User.Identity.Name;
-                    _logger.LogWarning( ( EventId )400, $"{member.Id} edited by {username} on {DateTime.Now}" );
 
                     return RedirectToAction( "Index" );
                 }

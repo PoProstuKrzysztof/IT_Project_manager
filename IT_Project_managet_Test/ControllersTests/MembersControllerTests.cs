@@ -1,26 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿
+using FakeItEasy;
+using IT_Project_manager.Controllers;
+using IT_Project_manager.Data;
+using IT_Project_manager.Models;
+using IT_Project_manager.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
+using Moq;
+using NSubstitute;
 
 namespace IT_Project_managet_Test.ControllersTests;
-//public class MembersControllerTests : Controller
-//{
-//    private readonly IMemberService? _memberService;
-//    private readonly ILogger<MembersController> _logger;
-//    private readonly AppDbContext _appDbContext;
-//    [Fact]
-//    public void Test_Index_Returns_MembersCount()
-//    {
-//        //Arrange
-//        string searchString = null;
-//        var controller = new MembersController( _appDbContext , _logger, _memberService );
-//        var result = controller.Index( searchString ) as IActionResult;
-//        //Act
-//        var membersList = ( List<Member>? )result;
-//        //Assert
-//        Assert.Equal( 4, membersList.Count);
-//    }
-//    [Fact]
-//    public
-//}
+
+
+
 
 public class MembersControllerTests : IClassFixture<WebApplicationFactory<Program>>
 {
@@ -51,7 +44,7 @@ public class MembersControllerTests : IClassFixture<WebApplicationFactory<Progra
 
     [Theory]
     [InlineData( "Krzysztof", "Palonek" )]
-    public async Task Test_For_Members(string name, string surname)
+    public async Task MembersController_GetMemberByName_ReturnsKrzysztofPalonek(string name, string surname)
     {
         //Arrange
 
@@ -62,4 +55,25 @@ public class MembersControllerTests : IClassFixture<WebApplicationFactory<Progra
         //Assert
         Assert.Contains( name, contentString );
     }
+
+
+    [Fact]
+    public void CreateMember_ReturnsMember_OnSuccess()
+    {
+        // Arrange
+        var memberModel = new MembersViewModel { Name = "John", Surname = "Doe", Email = "johndoe@email.com", DateOfBirth = new DateTime( 2000, 01, 01 ) };
+        var service = new MembersServiceEF( null );
+
+        // Act
+        var result = service.CreateMember( memberModel );
+
+        // Assert
+        Assert.IsType<Member>( result );
+        Assert.Equal( "John", result.Name );
+        Assert.Equal( "Doe", result.Surname );
+        Assert.Equal( "johndoe@email.com", result.Email );
+        Assert.Equal( new DateTime( 2000, 01, 01 ), result.DateOfBirth );
+    }
+
+
 }
