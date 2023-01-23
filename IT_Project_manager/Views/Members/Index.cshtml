@@ -4,15 +4,13 @@
     ViewData["Title"] = "Members";
 }
 
-
+<h1 id="indexTitle">Members</h1>
 <div class="container-fluid my-3">
     <div>
-        <p>
-            <h1 id="indexTitle">Members</h1>
-        </p>
+
         <form asp-action="Index" method="get">
-            <div class="form-group col-2 my-2">
-                <label for="SearchString">Search by name:</label>
+            <div class=" col-2 my-2">
+                <label for="search">Search by name:</label>
                 <input type="text" class="form-control" name="SearchString" value="@ViewData["CurrentFilter"]" />
                 <input type="submit" value="Search" class="btn btn-primary my-1" />
             </div>

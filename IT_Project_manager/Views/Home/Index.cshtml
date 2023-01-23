@@ -2,15 +2,48 @@
     ViewData["Title"] = "Home Page";
 }
 
-    <div class="text-center">
-        <h1 style="text-align: center;">Welcome!</h1>
-        <h2>This is a application for managing team members.</h2>
+<div class="text-center">
+    <h1 style="text-align: center;">Welcome!</h1>
+    <h3 style="text-align: center;">This is a application for managing team members.</h3>
+    <p class="text-bg-secondary text-white">
+        Use cards below to navigate to specific function.
+    </p>
+</div>
+
+<div class="card-group card-im">
+    <div class="col-sm-4">
+        <div class="card text-center  ">
+            <img src="~/assets/img/pexels-fauxels-3183190.jpg "class="card-img-top" />
+            <div class="card-body">
+                <h5 class="card-title text-black">Managers</h5>
+                <p class="card-text">Check managers of our company</p>
+                <a asp-action="Index" asp-controller="Managers" class="btn btn-outline-primary">Enter</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-sm-4">
+        <div class="card text-center">
+            <img src="~/assets/img/pexels-fauxels-3184395.jpg" class="card-img-top " />
+            <div class="card-body">
+                <h5 class="card-title text-black">Members</h5>
+                <p class="card-text">Check members of our company</p>
+                <a asp-action="Index" asp-controller="Members" class="btn btn-outline-primary">Enter</a>
+            </div>
+        </div>
     </div>
 
-    <div>
-        <h3>Future functions:</h3>
-        <ul style="list-style-type: disc">
-            <li>Adding team, with managers in it</li>
-            <li>Showing the deadline of team's work</li>
-        </ul>
+    <div class="col-sm-4 ">
+        <div class="card text-center  ">
+            <img src="~/assets/img/pexels-fauxels-3184634.jpg" class="card-img-top " />
+            <div class="card-body">
+                <h5 class="card-title text-black">Teams</h5>
+                <p class="card-text ">Check teams and their projects</p>
+                <a asp-action="Index" asp-controller="Teams" class="btn btn-outline-primary">Enter</a>
+            </div>
+        </div>
     </div>
+
+</div>
+
+
