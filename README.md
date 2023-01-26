@@ -3,7 +3,7 @@ Corporate team management application. With the help of this application, the or
 
 It's using ASP.NET MVC architecture along with SQL and entity framework core. For logginig, it's using identity. 
 
-Data should seed automatically by writing commands in Package Manager Add-Migration "name" > Update-database. Use -context AppDbContext.
+Data should seed automatically by writing commands in Package Manager Add-Migration "name" > Update-database.
 
 To access administrator privilages, log in using these credentials:
 
