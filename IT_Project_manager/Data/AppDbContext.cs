@@ -103,6 +103,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
                 EmailConfirmed = true, 
                 Email = "maciej.krasko@gmail.com", 
                 UserName = "maciej.krasko@gmail.com", 
+                NormalizedUserName = "MACIEJ.KRASKO@gmail.com",
                 PasswordHash = hasher.HashPassword(null,"Test!1")}
             );
 

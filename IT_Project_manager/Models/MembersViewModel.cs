@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
 namespace IT_Project_manager.Models;
@@ -12,6 +13,7 @@ public class MembersViewModel
     }
 
     [ValidateNever]
+    [JsonIgnore]
     public List<SelectListItem> Managers { get; set; }
 
     [Display( Name = "Managers" )]
